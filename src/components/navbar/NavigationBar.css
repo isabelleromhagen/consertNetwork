@@ -1,0 +1,16 @@
+.navWrapper {
+    
+}
+
+.topOfWrapper {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    background-color: burlywood;
+}
+
+.tabs {
+    display: grid;
+    /* margin-top: 400px; */
+    grid-template-columns: repeat(10, 1fr);
+    background-color: blue;
+}
