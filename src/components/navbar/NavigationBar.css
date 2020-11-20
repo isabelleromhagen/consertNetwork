@@ -8,9 +8,26 @@
     background-color: burlywood;
 }
 
+.musicIcon {
+    width: 100px;
+}
+
+.signin {
+    grid-column: 9/10;
+    align-self: center;
+}
+
+.profile {
+    grid-column: 8/10;
+}
+
+
+.musicIcon, .signin {
+    cursor: pointer;
+}
+
 .tabs {
     display: grid;
-    /* margin-top: 400px; */
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(10, 2fr);
     background-color: blue;
 }
