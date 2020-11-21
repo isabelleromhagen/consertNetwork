@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Frantic Amber",
+        "pictureUrl": "./images/band1.jpg",
+        "genre": "Melodic Death Metal"
+    },
+    {
+        "name": "Metallica",
+        "pictureUrl": "https://sv.wikipedia.org/wiki/Metallica#/media/Fil:Metallica_at_The_O2_Arena_London_2008.jpg",
+        "genre": "Thrash Metal"
+    },
+    {
+        "name": "Ghongha",
+        "pictureUrl": "./images/band1.jpg",
+        "genre": "Post Rock"
+    }
+]
