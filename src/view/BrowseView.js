@@ -65,6 +65,7 @@ export const BrowseView = () => {
         <button onClick={() => fetchData()}>Find band</button>
         <div className="contentDiv">{displayData()}</div>
       </div>
+      <LatestAdded/>
     </div>
   );
 };

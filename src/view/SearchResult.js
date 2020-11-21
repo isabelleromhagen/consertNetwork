@@ -1,12 +1,22 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import RoutingPath from "../routes/RoutingPath";
 import { Result } from "../components/result/Result.js";
 import bandData from "../shared/bands.json";
 import BandService from '../shared/api/service/BandService'
-import "./BrowseView.css";
+import "./SearchResult.css";
 
 export const SearchResult = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState()
+  const history = useHistory();
+
+   const addToWanted = () => {
+     console.log("add to wanted");
+   };
+   const addToSeen = () => {
+     console.log("add to seen");
+   };
 
   const fetchData = () => {
       BandService.searchForBand(search)
@@ -34,7 +44,12 @@ const displayData = () => {
                      <span>{result.genre}</span>
                    </td>
                    <td>
-                     <button>Seen</button>
+                     <div className="statusWrapper">
+                       <span onClick={() => addToWanted()}>Want to see</span>
+                       <div className="dropDown">
+                         <span onClick={() => addToSeen()}>Seen</span>
+                       </div>
+                     </div>
                    </td>
                  </tr>
                );

@@ -1,0 +1,23 @@
+.signinWrapper {
+    text-align: center;
+    margin-top: 20vh;
+}
+
+.logInButton {
+    background-color:rgb(118, 163, 118);
+    border: none;
+    padding: 2vh;
+    margin: 5vh;
+    border-radius: 8px;
+    color: aliceblue;
+}
+
+.clickToSignUp {
+    margin: 10vh;
+    padding: 2vh;
+}
+
+.noAccount {
+    margin-bottom: 10vh;
+    color: rgb(82, 21, 21);
+}

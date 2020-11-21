@@ -8,6 +8,12 @@ import "./BrowseView.css";
 export const LatestAdded = () => {
   const history = useHistory();
   const [search, setSearch] = useState();
+   const addToWanted = () => {
+     console.log("add to wanted");
+   };
+   const addToSeen = () => {
+     console.log("add to seen");
+   };
   // const [result, setResult] = useState()
   // const results = [Result, Result, Result];
   // const mappedResults = bandData.map((band) => (
@@ -42,7 +48,12 @@ export const LatestAdded = () => {
                   <span>{result.genre}</span>
                 </td>
                 <td>
-                  <button>Seen</button>
+                  <div className="statusWrapper">
+                    <span onClick={() => addToWanted()}>Want to see</span>
+                    <div className="dropDown">
+                      <span onClick={() => addToSeen()}>Seen</span>
+                    </div>
+                  </div>
                 </td>
               </tr>
             );

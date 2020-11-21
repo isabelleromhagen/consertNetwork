@@ -4,6 +4,7 @@ const bandView = "/band" //this should be name of specific band later
 const browseView = "/browse"
 const communityView = "/community"
 const settingsView = "/settings"
+const signUpView = "/signup"
 
 export default {
     signInView,
@@ -11,5 +12,6 @@ export default {
     bandView,
     browseView,
     communityView,
-    settingsView
+    settingsView,
+    signUpView
 }

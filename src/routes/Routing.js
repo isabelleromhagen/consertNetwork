@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import RoutingPath from './RoutingPath'
 import {ProfileView} from '../view/ProfileView'
 import {SignInView} from '../view/SignInView'
+import {SignUpView} from '../view/SignUpView'
 import {SettingsView} from '../view/SettingsView'
 import {BrowseView} from '../view/BrowseView'
 import {BandView} from '../view/BandView'
@@ -39,6 +40,7 @@ export const Routing = (props) => {
                 <Route exact path={RoutingPath.bandView} component={BandView}/>
                 <Route exact path={RoutingPath.communityView} component={CommunityView}/>
                 <Route exact path={RoutingPath.signInView} component={blockIfAuth(SignInView)}/>
+                <Route exact path={RoutingPath.signUpView} component={blockIfAuth(SignUpView)}/>
                 <Route component={BrowseView}/>
             </Switch>
         </Router>

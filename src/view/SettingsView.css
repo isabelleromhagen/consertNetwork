@@ -1,0 +1,26 @@
+.settingsWrapper {
+    /* text-align: center; */
+}
+
+h3 {
+    text-align: center;
+}
+
+span {
+    padding: 1vh;
+}
+
+input {
+    margin: 1vh;
+}
+
+.updateWrapper {
+    margin-right: 40vw;
+    text-align: end;
+}
+
+.deleteWrapper {
+    margin-right: 40vw;
+    margin-left: 45vw;
+    text-align: center;
+}
