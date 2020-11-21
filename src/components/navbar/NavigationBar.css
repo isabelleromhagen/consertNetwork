@@ -1,33 +1,33 @@
-.navWrapper {
-    
-}
-
-.topOfWrapper {
+.topOfNav {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    background-color: burlywood;
+    background-color: rgb(218, 209, 199);
 }
 
 .musicIcon {
-    width: 100px;
+    display: inline;
+    width: 80px;
 }
 
 .signin {
+    display: inline;
     grid-column: 9/10;
     align-self: center;
 }
-
-.profile {
-    grid-column: 8/10;
-}
-
 
 .musicIcon, .signin {
     cursor: pointer;
 }
 
+.profile {
+    display: inline;
+    grid-column: 9/10;
+    grid-row: 1/5;
+}
+
+
 .tabs {
     display: grid;
     grid-template-columns: repeat(10, 2fr);
-    background-color: blue;
+    background-color: rgb(190, 190, 204);
 }

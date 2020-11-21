@@ -2,12 +2,12 @@
     display: grid;
     grid-template-columns: repeat(10,1fr);
     width: 100%;
-    padding: 13px;
+    /* padding: 13px; */
 }
 
 .userIcon {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     grid-column: 1/5;
 }
 

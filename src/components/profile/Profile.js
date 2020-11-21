@@ -11,6 +11,7 @@ export const Profile = () => {
 
     const logout = () => {
         localStorage.removeItem("username")
+        localStorage.removeItem("profilePic")
         setAuthenticatedUser(false)
         history.push('/signInView')
     }

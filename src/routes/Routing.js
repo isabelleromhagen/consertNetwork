@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react'
 import {UserContext} from '../shared/global/provider/UserProvider'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import RoutingPath from './RoutingPath'
 import {ProfileView} from '../view/ProfileView'
 import {SignInView} from '../view/SignInView'

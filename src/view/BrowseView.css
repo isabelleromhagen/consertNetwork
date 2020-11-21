@@ -1,0 +1,12 @@
+.browseViewWrapper {
+    border: 1px solid red;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 5vh;
+    height: 50vh;
+}
+
+.searchDiv {
+    border: 1px solid blue;
+    text-align: center;
+}
