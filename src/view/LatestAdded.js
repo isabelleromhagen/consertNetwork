@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import RoutingPath from "../routes/RoutingPath";
 import { Result } from "../components/result/Result.js";
 import bandData from "../shared/bands.json";
 import "./BrowseView.css";
 
 export const LatestAdded = () => {
+  const history = useHistory();
   const [search, setSearch] = useState();
   // const [result, setResult] = useState()
   // const results = [Result, Result, Result];
@@ -25,7 +28,10 @@ export const LatestAdded = () => {
         <tbody>
           {bandData.map((result, index) => {
             return (
-              <tr key={result.name}>
+              <tr
+                onClick={() => history.push(RoutingPath.bandView)}
+                key={result.name}
+              >
                 <td>
                   <span>{result.name}</span>
                 </td>

@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import RoutingPath from "../routes/RoutingPath";
 // import { Result } from "../components/result/Result.js";
 // import bandData from "../shared/bands.json";
 import BandService from "../shared/api/service/BandService";
 // import { SearchResult } from "./SearchResult";
 import { LatestAdded } from "./LatestAdded";
+import {BandForm} from "./BandForm";
 import "./BrowseView.css";
 
 export const BrowseView = () => {
+    const history = useHistory();
   const [data, setData] = useState();
   const [search, setSearch] = useState("");
 
@@ -28,7 +32,7 @@ export const BrowseView = () => {
             </tr>
           </thead>
           <tbody>
-            <tr key={data.artist}>
+            <tr key={data.artist} onClick={() => history.push(RoutingPath.bandView)}>
               <td>
                 <span>{data.artist.name}</span>
               </td>
@@ -61,14 +65,17 @@ export const BrowseView = () => {
         <button onClick={() => fetchData()}>Find band</button>
         <div className="contentDiv">{displayData()}</div>
       </div>
-      <LatestAdded />
     </div>
   );
 };
 
 /*should show latest added/most popular/some other list as default. 
 if the user enters something in the search bar and hits enter, header should be replaced by result + show the bands that came up in the search.
-if the search returns no results, show form for entering new band into database */
+if the search returns no results, show form for entering new band into database 
+
+ else {
+        return <BandForm/>
+    }*/
 
 
     //  {
