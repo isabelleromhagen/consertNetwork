@@ -27,21 +27,21 @@ const displayData = () => {
     if(data) {
         return(
            <tbody>
-             {bandData.map((result, index) => {
+             {bandData.map((data, index) => {
                return (
-                 <tr key={result.name}>
+                 <tr key={data}>
                    <td>
-                     <span>{result.name}</span>
+                     <span>{data}</span>
                    </td>
                    <td>
                      <img
-                       src={result.pictureUrl}
-                       alt={result.name}
-                       key={result}
+                       src={data.image[0].text}
+                       alt={data.name}
+                       key={data}
                      />
                    </td>
                    <td>
-                     <span>{result.genre}</span>
+                     <span>{data.listeners}</span>
                    </td>
                    <td>
                      <div className="statusWrapper">
