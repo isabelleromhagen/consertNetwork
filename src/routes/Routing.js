@@ -34,24 +34,12 @@ export const Routing = (props) => {
       <Router>
         {props.children}
         <Switch>
-          <Route exact path="/" component={BrowseView} />
-          <Route
-            exact
-            path={RoutingPath.profileView}
-            component={blockIfNotAuth(ProfileView)}
-          />
-          <Route
-            exact
-            path={RoutingPath.settingsView}
-            component={blockIfNotAuth(SettingsView)}
-          />
-          <Route exact path={RoutingPath.browseView} component={BrowseView} />
-          <Route exact path={RoutingPath.bandProfile} component={BandProfile} />
           <Route
             exact
             path={RoutingPath.communityView}
             component={CommunityView}
           />
+          <Route exact path={RoutingPath.profileView} component={ProfileView} />
           <Route
             exact
             path={RoutingPath.signInView}
@@ -62,7 +50,19 @@ export const Routing = (props) => {
             path={RoutingPath.signUpView}
             component={blockIfAuth(SignUpView)}
           />
+          <Route exact path={RoutingPath.bandView} component={BandProfile} />
+          <Route component={BrowseView} />
         </Switch>
       </Router>
     );
 }
+
+
+//           <Route exact path={RoutingPath.profileView} component={blockIfNotAuth(ProfileView)}/>
+//           <Route exact path={RoutingPath.settingsView} component={blockIfNotAuth(SettingsView)}/>
+//           <Route exact path={RoutingPath.browseView} component={BrowseView} />
+//           <Route exact path={RoutingPath.bandProfile} component={BandProfile} />
+//           <Route exact path={RoutingPath.communityView} component={CommunityView}/>
+//           <Route exact path={RoutingPath.signInView} component={blockIfAuth(SignInView)}/>
+//           <Route exact path={RoutingPath.signUpView} component={blockIfAuth(SignUpView)}/>
+//           <Route component={BrowseView} />

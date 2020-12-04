@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import '../browse/BrowseView.css'
 
 export const BandPreview = ({ id, name, genre }) => {
   const history = useHistory();
@@ -7,11 +8,23 @@ export const BandPreview = ({ id, name, genre }) => {
   const viewBand = (id) => {
     history.push(`/band/${id}`);
   };
+
+    const addToWanted = () => {
+      console.log("add to wanted");
+    };
+    const addToSeen = () => {
+      console.log("add to seen");
+    };
   return (
-    <div>
-      <span>{name}</span>
-      <span>{genre}</span>
-      <button onClick={() => viewBand(id)}>View band</button>
+    <div className="bandPreviewWrapper">
+      <span onClick={() => viewBand(id)}>{name}</span>
+      <span onClick={() => viewBand(id)}>{genre}</span>
+      <div className="statusWrapper">
+        <span onClick={() => addToWanted()}>Want to see</span>
+        <div className="dropDown">
+          <span onClick={() => addToSeen()}>Seen</span>
+        </div>
+      </div>
     </div>
   );
 };

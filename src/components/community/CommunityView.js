@@ -71,7 +71,7 @@ export const CommunityView = () => {
         <h1>Current users</h1>
         <div>
           {users.map((user) => (
-            <ProfilePreview key={user.id} name={user.name} id={user.id} />
+            <ProfilePreview key={user.userid} name={user.name} id={user.userid} />
           ))}
         </div>
       </div>

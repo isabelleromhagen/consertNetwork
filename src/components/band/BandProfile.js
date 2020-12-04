@@ -7,22 +7,21 @@ import Bands from "../../shared/data/Bands";
 
 export const BandProfile = (props) => {
 
-     const { id } = props.match.params;
-
+     const { bandid } = props.match.params;
+     console.log(props.match.params);
 
      const [bandData, setBandData] = useState(Bands.getBands());
      const [band, setBand] = useState({});
 
     useEffect(() => {
-        setBand(bandData.find((band) => band.id.toString() === id));
+        setBand(bandData.find((band) => band.bandid.toString() === bandid));
         console.log(bandData);
-        console.log(band);
     }, []);
 
     return (
-      <div>
-      bandpage
-      
+      <div className="bandViewWrapper">
+        <span className="bandname">{band.name}</span>
+        <span className="genre">{band.genre}</span>
       </div>
     );
 }

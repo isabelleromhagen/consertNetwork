@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { WantContext } from "../../shared/global/provider/WantContext";
 import { SeenContext } from "../../shared/global/provider/SeenContext";
 import Users from '../../shared/data/Users'
+import Bands from "../../shared/data/Bands";
 import "./Profile.css";
 import ProfilePic from "../../shared/images/profilePic.jpg";
 import RoutingPath from "../../routes/RoutingPath";
@@ -14,23 +15,24 @@ export const ProfileView = (props) => {
   const wantContext = useContext(WantContext);
   const seenContext = useContext(SeenContext);
 
-  const { id } = props.match.params;
+  const { userid } = props.match.params;
+  console.log(props.match.params);
 
   const [userData, setUserData] = useState(Users.getUsers());
-  const [bandData, setBandData] = useState(Users.getBands());
+  const [bandData, setBandData] = useState(Bands.getBands());
   const [user, setUser] = useState({});
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
   const history = useHistory();
 
    useEffect(() => {
-     setUser(userData.find((user) => user.id.toString() === id));
-    
+     setUser(userData.find((user) => user.userid.toString() === userid));
+    console.log(userData);
    }, []);
 
   return (
     <div className="profileViewWrapper">
-      <span className="username">{user.name}</span>
+      { user && <span className="username">{user.name}</span>} 
       <img
         src={ProfilePic}
         alt="profile pic"
@@ -40,29 +42,33 @@ export const ProfileView = (props) => {
 
       <div className="listWrapper" id="wantWrapper">
         <span className="subHeading">Want to see</span>
-        <div>
-          {wantContext.want
-            .slice()
-            .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
-            .map((band) => (
-              <div key={band.id}>
-                <p style={{ paddingRight: "10px" }}>{band.name}</p>
-              </div>
-            ))}
-        </div>
+        {wantContext && (
+          <div>
+            {wantContext.want
+              .slice()
+              .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
+              .map((band) => (
+                <div key={band.id}>
+                  <p style={{ paddingRight: "10px" }}>{band.name}</p>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
       <div className="listWrapper" id="seenWrapper">
         <span className="subHeading">Seen</span>
-        <div>
-          {seenContext.seen
-            .slice()
-            .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
-            .map((band) => (
-              <div key={band.id}>
-                <p style={{ paddingRight: "10px" }}>{band.name}</p>
-              </div>
-            ))}
-        </div>
+        {seenContext &&
+          <div>
+            {seenContext.seen
+              .slice()
+              .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
+              .map((band) => (
+                <div key={band.id}>
+                  <p style={{ paddingRight: "10px" }}>{band.name}</p>
+                </div>
+              ))}
+          </div>
+        }
       </div>
     </div>
   );
