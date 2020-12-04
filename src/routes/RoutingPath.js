@@ -1,6 +1,6 @@
 const signInView = "/signin"
-const profileView = "/profile"
-const bandView = "/band" //this should be name of specific band later
+const profileView = "/profile/:id"
+const bandView = "/band/:id" 
 const browseView = "/browse"
 const communityView = "/community"
 const settingsView = "/settings"

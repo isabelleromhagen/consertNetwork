@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/global/provider/UserProvider";
-import { Profile } from "../profile/Profile";
+import { ProfileOptions } from "../profile/ProfileOptions";
 import RoutingPath from "../../routes/RoutingPath";
 import Icon from "../../shared/images/music.svg";
 import "./NavigationBar.css";
@@ -12,7 +12,7 @@ export const NavigationBar = () => {
 
   const displayUserIfAuthenticated = () => {
     return (authenticatedUser) ? 
-      <div className="profile"><Profile /></div>
+      <div className="profile"><ProfileOptions /></div>
      : 
       <span onClick={() => history.push(RoutingPath.signInView)} className="signin">Sign in</span>
   };

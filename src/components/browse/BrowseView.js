@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import RoutingPath from "../routes/RoutingPath";
+import RoutingPath from "../../routes/RoutingPath";
 // import { Result } from "../components/result/Result.js";
 // import bandData from "../shared/bands.json";
 // import {BandService} from "../shared/api/service/BandService";
-  import Axios from "axios";
+import Axios from "axios";
 // import { SearchResult } from "./SearchResult";
-import { LatestAdded } from "./LatestAdded";
-import {BandForm} from "./BandForm";
+import { LatestAdded } from "./defaultView/LatestAdded";
+import { BandForm } from "../forms/BandForm";
 import "./BrowseView.css";
 
 export const BrowseView = () => {
-    const history = useHistory();
+  const history = useHistory();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("Cher");
 
@@ -24,15 +24,13 @@ export const BrowseView = () => {
 
   const fetchData = () => {
     if (search) {
-        searchForBand(search)
+      searchForBand(search)
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
     }
   };
 
-
   const displayData = () => {
-  
     if (data && data.artist !== undefined) {
       // console.log("name: ", data.artist.tags.tag[0].name);
       return (
@@ -73,7 +71,7 @@ export const BrowseView = () => {
         </div>
       );
     } else {
-      return <BandForm/>
+      return <BandForm />;
     }
   };
 

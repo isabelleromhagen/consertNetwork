@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import RoutingPath from "../routes/RoutingPath";
-import "./BrowseView.css";
+import RoutingPath from "../../routes/RoutingPath";
+import "../browse/BrowseView.css";
+import { ProfilePreview } from "../profile/ProfilePreview";
+import Users from "../../shared/data/Users";
 
 export const CommunityView = () => {
   const history = useHistory();
   const [data, setData] = useState();
   const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    setUsers(Users.getUsers());
+  }, []);
+
+  console.log(users);
   const fetchData = () => {
     //search database for users
   };
@@ -58,6 +66,14 @@ export const CommunityView = () => {
         <br />
         <button onClick={() => fetchData()}>Find user</button>
         <div className="contentDiv">{displayData()}</div>
+      </div>
+      <div>
+        <h1>Current users</h1>
+        <div>
+          {users.map((user) => (
+            <ProfilePreview key={user.id} name={user.name} id={user.id} />
+          ))}
+        </div>
       </div>
     </div>
   );

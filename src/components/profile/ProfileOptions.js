@@ -5,7 +5,7 @@ import RoutingPath from '../../routes/RoutingPath'
 import UserIcon from "../../shared/images/user.svg";
 import "./Profile.css"
 
-export const Profile = () => {
+export const ProfileOptions = () => {
     const history = useHistory()
     const [authenticatedUser, setAuthenticatedUser] = useContext(UserContext)
 

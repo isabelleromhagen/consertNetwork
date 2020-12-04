@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import RoutingPath from "../routes/RoutingPath";
-import { Result } from "../components/result/Result.js";
-import bandData from "../shared/bands.json";
-import "./BrowseView.css";
+import RoutingPath from "../../../routes/RoutingPath";
+// import { Result } from "../components/result/Result.js";
+import Bands from "../../../shared/data/Bands";
+import {BandPreview} from '../../band/BandPreview';
+import "../BrowseView.css";
 
 export const LatestAdded = () => {
   const history = useHistory();
   const [search, setSearch] = useState();
-   const addToWanted = () => {
-     console.log("add to wanted");
-   };
-   const addToSeen = () => {
-     console.log("add to seen");
-   };
+  const [bands, setBands] = useState([]);
+
+    useEffect(() => {
+      setBands(Bands.getBands());
+    }, []);
+
+  const addToWanted = () => {
+    console.log("add to wanted");
+  };
+  const addToSeen = () => {
+    console.log("add to seen");
+  };
   // const [result, setResult] = useState()
   // const results = [Result, Result, Result];
   // const mappedResults = bandData.map((band) => (
@@ -22,17 +29,21 @@ export const LatestAdded = () => {
   return (
     <div className="contentDiv">
       <span>Latest added</span>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Picture</th>
-            <th>Genre</th>
-            <th>Seen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bandData.map((result, index) => {
+        <div>
+          {bands.map((band) => (
+            <BandPreview
+              key={band.id}
+              name={band.name}
+              id={band.id}
+              genre={band.genre}
+            />
+          ))}
+        </div>
+    </div>
+  );
+};
+
+/**    {bandData.map((result, index) => {
             return (
               <tr
                 onClick={() => history.push(RoutingPath.bandView)}
@@ -57,9 +68,4 @@ export const LatestAdded = () => {
                 </td>
               </tr>
             );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+          })} */
