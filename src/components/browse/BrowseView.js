@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import RoutingPath from "../../routes/RoutingPath";
-// import { Result } from "../components/result/Result.js";
-// import bandData from "../shared/bands.json";
-// import {BandService} from "../shared/api/service/BandService";
 import Axios from "axios";
-// import { SearchResult } from "./SearchResult";
 import { LatestAdded } from "./defaultView/LatestAdded";
+import {BandPreview} from '../band/BandPreview'
 import { BandForm } from "../forms/BandForm";
+import Bands from "../../shared/data/Bands";
 import "./BrowseView.css";
 
 export const BrowseView = () => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("Cher");
+  const [bands, setBands] = useState([]);
+
+    useEffect(() => {
+      setBands(Bands.getBands());
+    }, []);
 
   const searchForBand = (search) => {
     const BandAPI = Axios.create({
@@ -32,49 +35,22 @@ export const BrowseView = () => {
 
   const displayData = () => {
     if (data && data.artist !== undefined) {
-      // console.log("name: ", data.artist.tags.tag[0].name);
       return (
         <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Picture</th>
-                <th>Genre</th>
-                <th>Seen</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
+          <div className="latestAddedContainer">
+              <BandPreview
                 key={data.artist}
-                onClick={() => history.push(RoutingPath.bandView)}
-              >
-                <td>
-                  <span>{data.artist.name}</span>
-                </td>
-                <td>
-                  <img
-                    src={data.artist.image[0]["#text"]}
-                    alt={data.artist.name}
-                    key={data}
-                  />
-                </td>
-                <td>
-                  <span>{data.artist.tags.tag[0].name}</span>
-                </td>
-                <td>
-                  <button>Seen</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                name={data.artist.name}
+                id={data.artist.mbid}
+                genre={data.artist.tags.tag[0].name}
+              />
+          </div>
         </div>
       );
     } else {
       return <BandForm />;
     }
   };
-
   return (
     <div className="browseViewWrapper">
       <div className="searchDiv">
@@ -87,7 +63,5 @@ export const BrowseView = () => {
     </div>
   );
 };
-
-/*should show latest added/most popular/some other list as default. 
-if the user enters something in the search bar and hits enter, header should be replaced by result + show the bands that came up in the search.
+/*
 if the search returns no results, show form for entering new band into database */
