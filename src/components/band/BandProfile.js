@@ -43,6 +43,7 @@ export const BandProfile = (props) => {
    };
 
    const displayData = () => {
+     console.log(data.artist.bio.summary);
      if (data && data.artist !== undefined) {
        return (
          <div>
@@ -62,7 +63,7 @@ export const BandProfile = (props) => {
                </div>
              </div>
              <div className="description">
-               <span>{description}</span>
+               <span>{data.artist.bio.summary}</span>
                <br />
              </div>
            </div>
