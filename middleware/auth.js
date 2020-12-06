@@ -5,7 +5,7 @@ module.exports = function (req, res, next) {
   const token = req.header("x-auth-token");
 
   if (!token) {
-    return res.status(401).json({ msg: "No token, authorisation denied!" });
+    return res.status(401).json({ msg: "No token, auth denied!" });
   }
 
   try {
@@ -18,7 +18,7 @@ module.exports = function (req, res, next) {
       }
     });
   } catch (err) {
-    console.error("Something went wrong with the authorisation middleware");
+    console.error("Something went wrong with the auth middleware");
     res.status(500).json({ msg: "Server Error" });
   }
 };

@@ -14,9 +14,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-  },
   date: {
     type: Date,
     default: Date.now,
@@ -25,13 +22,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   want: {
-    type: [mongoose.Schema.Types.ObjectId)],
+    type: [mongoose.Schema.Types.ObjectId],
     ref: "band"
   },
   seen: {
-    type: [mongoose.Schema.Types.ObjectId)],
+    type: [mongoose.Schema.Types.ObjectId],
     ref: "band"
   },
 });
 
-module.exports = mongoose.model("user", UserSchema);
+module.exports = mongoose.model("userModel", UserSchema);
