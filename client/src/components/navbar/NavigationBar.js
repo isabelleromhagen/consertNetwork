@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../../shared/global/provider/UserProvider";
+import { UserContext } from "../../shared/global/provider/UserContext";
 import { ProfileOptions } from "../profile/ProfileOptions";
 import RoutingPath from "../../routes/RoutingPath";
 import Icon from "../../shared/images/music.svg";
@@ -8,13 +8,18 @@ import "./NavigationBar.css";
 
 export const NavigationBar = () => {
   const history = useHistory();
-  const [authenticatedUser, setAuthenticatedUser] = useContext(UserContext);
+  const currentUser = useContext(UserContext);
 
-  const displayUserIfAuthenticated = () => {
-    return (authenticatedUser) ? 
-      <div className="profile"><ProfileOptions /></div>
-     : 
-      <span onClick={() => history.push(RoutingPath.signInView)} className="signin">Sign in</span>
+  const displayIfAuth = () => {
+    return (
+        <div className="authOptions">
+          {currentUser.isAuthenticated
+            ? 
+           <div className="profile"><ProfileOptions /></div>
+            : 
+          <span onClick={() => history.push(RoutingPath.signInView)} className="signin">Sign in</span>}
+        </div>
+    );
   };
   return (
     <div className="navWrapper">
@@ -25,7 +30,7 @@ export const NavigationBar = () => {
           alt="music icon"
           className="musicIcon"
         />
-        {displayUserIfAuthenticated()}
+        {displayIfAuth()}
       </div>
 
       <div className="tabs">

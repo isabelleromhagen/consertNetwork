@@ -31,6 +31,12 @@
     padding: 10px;
 }
 
+.authOptions {
+    /* border: 1px solid red; */
+    display: flex;
+    grid-column: 9/10
+}
+
 .profileViewWrapper {
     /* border: 1px solid red; */
     margin-left: 10vw;

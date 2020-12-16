@@ -3,11 +3,11 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import { WantContext } from "../../shared/global/provider/WantContext";
 import { SeenContext } from "../../shared/global/provider/SeenContext";
-import Users from "../../shared/data/Users";
+import BandService from '../../shared/api/service/BandService';
 import img from '../../shared/images/music.svg'
 import './Band.css'
 
-export const BandProfile = (props) => {
+const BandProfile = (props) => {
 
   const bandname = props.match.params;
   const [search, setSearch] = useState(bandname.bandid);
@@ -22,8 +22,22 @@ export const BandProfile = (props) => {
     console.log("add to seen");
   };
 
+  // const contactBandService = async () => {
+  //   try {
+  //     console.log("search: ", search);
+  //     // const result = await BandService.fetchData(search);
+  //     const result = await BandService.BandAPI(search);
+  //     console.log('result: ', result);
+  //     setData(result);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+    
+  // }
+
   useEffect(() => {
-    fetchData();
+    // contactBandService()
+    fetchData()
   }, []);
 
 
@@ -83,6 +97,8 @@ export const BandProfile = (props) => {
     </div>
   );
 }
+
+export default BandProfile;
 
 //const [description, setDescription] = useState(
 //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum!"

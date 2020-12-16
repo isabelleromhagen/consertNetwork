@@ -12,22 +12,27 @@ const User = require("../models/User");
 // @route    GET /users/me
 // @desc     Get current users profile
 // @access   Private
-router.get("/me", auth, async (req, res) => {
-  try {
+// router.get("/me", auth, async (req, res) => {
+  router.post("/me", auth, async (req, res) => {
+    try {
       if (mongoose.isValidObjectId(req.user.id)) {
-        const currentUser = await User.findById(req.user.id).populate("user", ["username"]);
+        const currentUser = await User.findById(req.user.id).populate("user", [
+          "username",
+        ]);
 
         if (!currentUser) {
-          return res.status(400).json({ msg: "Could not find current user..." });
+          return res
+            .status(400)
+            .json({ msg: "Could not find current user..." });
         }
 
         res.json(currentUser);
       }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
 
 // @route    POST /users
 // @desc     Register user
@@ -48,7 +53,9 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { 
+      username,
+     email, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -93,8 +100,8 @@ router.post(
   }
 );
 
-// @route    GET /profile
-// @desc     Get all profiles
+// @route    GET /users
+// @desc     Get all users
 // @access   Public
 router.get("/", async (req, res) => {
   try {
@@ -165,18 +172,5 @@ router.delete("/", auth, async (req, res) => {
     return res.status(500).json({msg: "Server error"});
   }
 });
-
-
-// --------------------------------
-
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.id).select("-password");
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
 
 module.exports = router;

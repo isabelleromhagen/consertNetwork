@@ -8,7 +8,7 @@ import { BandForm } from "../forms/BandForm";
 import Bands from "../../shared/data/Bands";
 import "./BrowseView.css";
 
-export const BrowseView = () => {
+const BrowseView = () => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("Cher");
@@ -63,5 +63,7 @@ export const BrowseView = () => {
     </div>
   );
 };
+
+export default BrowseView;
 /*
 if the search returns no results, show form for entering new band into database */

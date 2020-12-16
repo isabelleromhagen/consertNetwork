@@ -1,38 +1,44 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import {UserContext} from '../../shared/global/provider/UserContext';
 import { WantContext } from "../../shared/global/provider/WantContext";
 import { SeenContext } from "../../shared/global/provider/SeenContext";
-import Users from '../../shared/data/Users'
 import Bands from "../../shared/data/Bands";
 import "./Profile.css";
 import ProfilePic from "../../shared/images/profilePic.jpg";
 import RoutingPath from "../../routes/RoutingPath";
-import band1 from "../../shared/images/band1.jpg";
-import band2 from "../../shared/images/band2.jpg";
-import band3 from "../../shared/images/band3.jpg";
 
-export const ProfileView = (props) => {
+const ProfileView = (props) => {
+  const currentUser = useContext(UserContext);
   const wantContext = useContext(WantContext);
   const seenContext = useContext(SeenContext);
 
-  const { userid } = props.match.params;
-  console.log(props.match.params);
-
-  const [userData, setUserData] = useState(Users.getUsers());
   const [bandData, setBandData] = useState(Bands.getBands());
-  const [user, setUser] = useState({});
-  const [want, setWant] = useState([]);
-  const [seen, setSeen] = useState([]);
+  const [profile, setProfile] = useState({});
   const history = useHistory();
 
+
+  //TODO: handle images. can they be saved in mongo?
+
    useEffect(() => {
-     setUser(userData.find((user) => user.userid.toString() === userid));
-    console.log(userData);
+    console.log("in profile");
+    //if an id has been given, fetch that user from db. else show current user. if there's none, go to login.
+    if(props.match.params.userid !== "" && props.match.params.userid !== ":userid") {
+      console.log("visiting user: ", props.match.params.userid);
+      
+    } else if(currentUser.isAuthenticated) {
+          console.log("current user: ", currentUser.user.username);
+          setProfile(currentUser);
+    } else {
+      console.log('no id or auth user, heading to sign in');
+      history.push(RoutingPath.signInView);
+    }
+    
    }, []);
 
   return (
     <div className="profileViewWrapper">
-      { user && <span className="username">{user.name}</span>} 
+      {profile.user && <span className="username">{profile.user.username}</span>}
       <img
         src={ProfilePic}
         alt="profile pic"
@@ -57,7 +63,7 @@ export const ProfileView = (props) => {
       </div>
       <div className="listWrapper" id="seenWrapper">
         <span className="subHeading">Seen</span>
-        {seenContext &&
+        {seenContext && (
           <div>
             {seenContext.seen
               .slice()
@@ -68,11 +74,13 @@ export const ProfileView = (props) => {
                 </div>
               ))}
           </div>
-        }
+        )}
       </div>
     </div>
   );
 };
+
+export default ProfileView;
 
 
 //   const [authenticatedUser, setAuthenticatedUser] = useContext(UserContext);

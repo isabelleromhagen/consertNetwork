@@ -14,3 +14,5 @@ app.use("/auth", require("./routes/auth"));
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+//starta front + back med npm run dev!

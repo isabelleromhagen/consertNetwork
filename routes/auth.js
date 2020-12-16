@@ -9,7 +9,7 @@ const normalize = require("normalize-url");
 
 const User = require("../models/User");
 
-// @route    GET api/auth
+// @route    GET /auth
 // @desc     Get user by token
 // @access   Private
 router.get("/", auth, async (req, res) => {
@@ -22,7 +22,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route    POST api/auth
+// @route    POST /auth
 // @desc     Authenticate user & get token
 // @access   Public
 router.post(
@@ -68,7 +68,7 @@ router.post(
         { expiresIn: 368888 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, user });
         }
       );
     } catch (err) {

@@ -1,13 +1,15 @@
 import React from 'react'
 import '../Profile.css'
 
-export const SettingsView = () => {
+const SettingsView = () => {
     return (
         <div>
             SettingsView
         </div>
     )
 }
+
+export default SettingsView;
 
 // import React from "react";
 // import "./SettingsView.css";

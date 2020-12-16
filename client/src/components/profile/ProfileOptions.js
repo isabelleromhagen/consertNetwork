@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 import {useHistory} from "react-router-dom"
-import {UserContext} from "../../shared/global/provider/UserProvider"
+import {UserContext} from "../../shared/global/provider/UserContext"
 import RoutingPath from '../../routes/RoutingPath'
 import UserIcon from "../../shared/images/user.svg";
 import "./Profile.css"
 
 export const ProfileOptions = () => {
     const history = useHistory()
-    const [authenticatedUser, setAuthenticatedUser] = useContext(UserContext)
+    const currentUser = useContext(UserContext);
 
     const logout = () => {
-        localStorage.removeItem("username")
-        localStorage.removeItem("profilePic")
-        setAuthenticatedUser(false)
-        history.push('/signInView')
+        currentUser.setUser(null)
+        currentUser.setIsAuthenticated(false)
+        currentUser.setToken(null)
+        history.push(RoutingPath.signInView)
     }
 
     return (
@@ -25,7 +25,7 @@ export const ProfileOptions = () => {
           className="userIcon"
         />
         <div className="dropDown">
-            <span>{authenticatedUser}</span>
+            {currentUser && currentUser.user.username !== "" && <span>{currentUser.user.username}</span>}
             <a onClick={()=> history.push(RoutingPath.settingsView)}>Settings</a>
             <a onClick={()=> history.push(RoutingPath.profileView)}>Profile</a>
             <hr/>
