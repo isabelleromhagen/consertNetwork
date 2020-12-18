@@ -1,42 +1,83 @@
 import React, {useContext, useState, useEffect} from 'react'
 import Axios from "axios";
+import { UserContext } from "../../shared/global/provider/UserContext";
+import UserService from "../../shared/api/service/UserService";
 import { useHistory } from "react-router-dom";
-import { WantContext } from "../../shared/global/provider/WantContext";
-import { SeenContext } from "../../shared/global/provider/SeenContext";
-import BandService from '../../shared/api/service/BandService';
 import img from '../../shared/images/music.svg'
 import './Band.css'
 
 const BandProfile = (props) => {
-
+  const currentUser = useContext(UserContext);
   const bandname = props.match.params;
   const [search, setSearch] = useState(bandname.bandid);
   const [data, setData] = useState([]);
   const [description, setDescription] = useState(
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum!"
   );
-  const addToWanted = () => {
-    console.log("add to wanted");
-  };
-  const addToSeen = () => {
-    console.log("add to seen");
-  };
+    const handleWanted = (band) => {
+      console.log('band to handle ', band);
+      if (!currentUser.want) {
+        currentUser.want = [];
+      }
+      console.log("in handle wanted: ", currentUser.want);
+      if (currentUser.want.includes(band)) {
+        currentUser.want = currentUser.want.filter((item) => item !== band);
+        console.log("in if incl, updated: ", currentUser.want);
+      } else {
+        //if band is on seen list, remove and update seen
+        if (currentUser.seen.includes(band)) {
+          currentUser.seen = currentUser.seen.filter((item) => item !== band);
+          console.log("in if incl, updated: ", currentUser.seen);
+          UserService.updateCurrentUser(
+            currentUser.token,
+            currentUser.seen
+          ).then((data) => {
+            console.log("got from us", data);
+          });
+        }
+        currentUser.want.push(band);
+        console.log("in else, updated: ", currentUser.want);
+      }
+      console.log("array going into db:", currentUser.want);
+      UserService.updateCurrentUser(currentUser.token, currentUser.want).then(
+        (data) => {
+          console.log("got from us", data);
+        }
+      );
+    };
 
-  // const contactBandService = async () => {
-  //   try {
-  //     console.log("search: ", search);
-  //     // const result = await BandService.fetchData(search);
-  //     const result = await BandService.BandAPI(search);
-  //     console.log('result: ', result);
-  //     setData(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-    
-  // }
+   const handleSeen = (band) => {
+     if (!currentUser.seen) {
+       currentUser.seen = [];
+     }
+     console.log("in handle seen: ", currentUser.seen);
+     if (currentUser.seen.includes(band)) {
+       currentUser.seen = currentUser.seen.filter((item) => item !== band);
+       console.log("in if incl, updated: ", currentUser.seen);
+     } else {
+       //if band is on want list, remove and update want
+        if (currentUser.want.includes(band)) {
+          currentUser.want = currentUser.want.filter((item) => item !== band);
+          console.log("in if incl, updated: ", currentUser.seen);
+           UserService.updateCurrentUser(
+             currentUser.token,
+             currentUser.want
+           ).then((data) => {
+             console.log("got from us", data);
+           });
+        }
+        //add to seen
+       currentUser.seen.push(band);
+       console.log("in else, updated: ", currentUser.seen);
+     }
+     UserService.updateCurrentUser(currentUser.token, currentUser.seen).then(
+       (data) => {
+         console.log("got from us", data);
+       }
+     );
+   };
 
   useEffect(() => {
-    // contactBandService()
     fetchData()
   }, []);
 
@@ -71,9 +112,9 @@ const BandProfile = (props) => {
              />
              <span className="genre">{data.artist.tags.tag[0].name}</span>
              <div className="statusWrapper">
-               <span onClick={() => addToWanted()}>Want to see</span>
+               <span onClick={() => handleWanted(data.artist.name)}>Want to see</span>
                <div className="dropDown">
-                 <span onClick={() => addToSeen()}>Seen</span>
+                 <span onClick={() => handleSeen(data.artist.name)}>Seen</span>
                </div>
              </div>
              <div className="description">
@@ -99,28 +140,3 @@ const BandProfile = (props) => {
 }
 
 export default BandProfile;
-
-//const [description, setDescription] = useState(
-//     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum!"
-//   );
-//   const addToWanted = () => {
-//     console.log("add to wanted");
-//   };
-//   const addToSeen = () => {
-//     console.log("add to seen");
-//   };
-//    <div className="bandViewWrapper">
-//      <span className="bandname">{bandname}</span>
-//      <img src={band2} alt="profile pic" className="profilePic" width="200px" />
-//      <div className="statusWrapper">
-//        <span onClick={() => addToWanted()}>Want to see</span>
-//        <div className="dropDown">
-//          <span onClick={() => addToSeen()}>Seen</span>
-//        </div>
-//      </div>
-//      <div className="description">
-//        <span>{description}</span>
-//        <br />
-//      </div>
-//      <span className="genre">{genre}</span>
-//    </div>;

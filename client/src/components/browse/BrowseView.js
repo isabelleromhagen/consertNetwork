@@ -14,6 +14,7 @@ const BrowseView = () => {
   const [search, setSearch] = useState("Cher");
   const [bands, setBands] = useState([]);
 
+//todo: show random/newly added to db/newly added to someones lists/most popular bands instead of hard coded json
     useEffect(() => {
       setBands(Bands.getBands());
     }, []);

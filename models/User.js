@@ -22,13 +22,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   want: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "band"
+    type: [String],
   },
   seen: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "band"
+    type: [String],
   },
+  // want: {
+  //   type: [mongoose.Schema.Types.ObjectId],
+  //   ref: "band"
+  // },
+  // seen: {
+  //   type: [mongoose.Schema.Types.ObjectId],
+  //   ref: "band"
+  // },
 });
 
 module.exports = mongoose.model("userModel", UserSchema);

@@ -139,13 +139,17 @@ router.put("/", auth, async (req, res) => {
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-        const { username, bio } = req.body;
+        const { username, bio, want, seen } = req.body;
+        const wantArr = Array.isArray(want) ? want : want.split(",").map((want) => " " + want.trim());
+        const seenArr = Array.isArray(seen)
+          ? seen
+          : seen.split(",").map((seen) => " " + seen.trim());
 
         try {
             if(mongoose.isValidObjectId(req.user.id)) {
                 const profile = await User.findByIdAndUpdate(
                 {_id: req.user.id},
-                {$set: {username: username, bio: bio}},
+                {$set: {username: username, bio: bio, want: want, seen: seen}},
                 {new: true, upsert: true, setDefaultsOnInsert: true}
         );
         return res.json(profile);
