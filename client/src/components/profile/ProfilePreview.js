@@ -1,6 +1,13 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 import UserService from '../../shared/api/service/UserService'
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+} from "@material-ui/core";
 
 export const ProfilePreview = ({id, name, user}) => {
     const history = useHistory();
@@ -13,7 +20,7 @@ export const ProfilePreview = ({id, name, user}) => {
     return (
         <div>
             {name}
-            <button onClick={()=> viewProfile(id)}>View profile</button>
+            <Button onClick={()=> viewProfile(id)}>View profile</Button>
         </div>
     )
 }

@@ -12,7 +12,6 @@ const User = require("../models/User");
 // @route    GET /users/me
 // @desc     Get current users profile
 // @access   Private
-// router.get("/me", auth, async (req, res) => {
   router.post("/me", auth, async (req, res) => {
     try {
       if (mongoose.isValidObjectId(req.user.id)) {
@@ -131,29 +130,41 @@ router.get("/:user_id", async ({ params: { user_id } }, res) => {
   }
 );
 
-// @route    PUT /users
+
+// @route    POST /users/update
 // @desc     Update user profile
 // @access   Private
-router.put("/", auth, async (req, res) => {
+router.post("/update", async (req, res) => {
+
         const errors = validationResult(req);
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-        const { username, bio, want, seen } = req.body;
-        const wantArr = Array.isArray(want) ? want : want.split(",").map((want) => " " + want.trim());
-        const seenArr = Array.isArray(seen)
-          ? seen
-          : seen.split(",").map((seen) => " " + seen.trim());
+
+        const {
+          username, password, bio, want, seen, ...rest
+        } = req.body;
+
+        console.log('contains: ', req.body);
+        console.log('want is array in users.js: ', Array.isArray(want));
+        console.log('id: ', req.body._id);
+
+        const fields = {
+          username: username,
+          bio: bio,
+          want: Array.isArray(want) ? want : want.split(",").map((wanted) => " " + wanted.trim()),
+          seen: Array.isArray(seen) ? seen : seen.split(",").map((seen) => " " + seen.trim()),
+          _id: req.body._id,
+          ...rest,
+        };
 
         try {
-            if(mongoose.isValidObjectId(req.user.id)) {
                 const profile = await User.findByIdAndUpdate(
-                {_id: req.user.id},
-                {$set: {username: username, bio: bio, want: want, seen: seen}},
+                {_id: req.body._id},
+                {$set: fields },
                 {new: true, upsert: true, setDefaultsOnInsert: true}
-        );
-        return res.json(profile);
-            }
+            );
+            return res.json(profile);
         } catch (error) {
             console.error(error.message);
             return res.status(500).send("Server error")

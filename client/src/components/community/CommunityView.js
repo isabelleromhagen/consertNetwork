@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import UserService from '../../shared/api/service/UserService';
 import RoutingPath from "../../routes/RoutingPath";
-import "../browse/BrowseView.css";
+// import "../browse/BrowseView.css";
 import { ProfilePreview } from "../profile/ProfilePreview";
-// import Users from "../../shared/data/Users";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Container, 
+  Typography
+} from "@material-ui/core";
 
 const CommunityView = () => {
   const history = useHistory();
@@ -26,6 +33,7 @@ const CommunityView = () => {
   const displayData = () => {
     if (data) {
       return (
+        <Card>
         <table>
           <thead>
             <tr>
@@ -58,27 +66,38 @@ const CommunityView = () => {
             </tr>
           </tbody>
         </table>
+        </Card>
       );
     }
   };
 
   return (
     <div className="browseViewWrapper">
-      <div className="searchDiv">
-        <span>Search: </span>
-        <input onChange={(event) => setSearch(event.target.value)} />
-        <br />
-        <button onClick={() => fetchData()}>Find user</button>
-        <div className="contentDiv">{displayData()}</div>
-      </div>
-      <div>
-        <h1>Current users</h1>
-        <div>
-          {users.map((user) => (
-            <ProfilePreview key={user._id} name={user.username} id={user._id} user={user} />
-          ))}
-        </div>
-      </div>
+      <Container>
+        <CardContent className="searchDiv">
+          <span>Search: </span>
+          <input onChange={(event) => setSearch(event.target.value)} />
+          <CardActions>
+            <Button onClick={() => fetchData()}>Find user</Button>
+          </CardActions>
+          <div className="contentDiv">{displayData()}</div>
+        </CardContent>
+        <Card>
+          <CardContent>
+            <Typography variant="h5">Current users</Typography>
+            <div>
+              {users.map((user) => (
+                <ProfilePreview
+                  key={user._id}
+                  name={user.username}
+                  id={user._id}
+                  user={user}
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </Container>
     </div>
   );
 };

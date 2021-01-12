@@ -11,9 +11,7 @@ const BandProfile = (props) => {
   const bandname = props.match.params;
   const [search, setSearch] = useState(bandname.bandid);
   const [data, setData] = useState([]);
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis dolorum, excepturi animi itaque libero soluta eveniet minus? Atque perferendis officia repellendus! Excepturi possimus quibusdam, minus repellendus velit consequuntur? Autem, earum!"
-  );
+ 
     const handleWanted = (band) => {
       console.log('band to handle ', band);
       if (!currentUser.want) {
@@ -38,7 +36,7 @@ const BandProfile = (props) => {
         currentUser.want.push(band);
         console.log("in else, updated: ", currentUser.want);
       }
-      console.log("array going into db:", currentUser.want);
+      console.log("token and array going into db:", currentUser.token, ' ', currentUser.want);
       UserService.updateCurrentUser(currentUser.token, currentUser.want).then(
         (data) => {
           console.log("got from us", data);
@@ -98,7 +96,6 @@ const BandProfile = (props) => {
    };
 
    const displayData = () => {
-     console.log(data.artist.bio.summary);
      if (data && data.artist !== undefined) {
        return (
          <div>

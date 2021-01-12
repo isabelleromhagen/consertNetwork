@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = require('mongodb').ObjectID;
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -21,12 +22,27 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
-  want: {
+   want: {
     type: [String],
   },
   seen: {
     type: [String],
   },
+  _id: {
+    type: ObjectId,
+  }
+  // seen: {
+  //   $type: [String] }
+  }
+  // { typeKey: '$type' }
+);
+  // want: {
+  //   type: {type: [String]},
+  // },
+  // seen: {
+  //   type: {type: [String]},
+  // },
+  
   // want: {
   //   type: [mongoose.Schema.Types.ObjectId],
   //   ref: "band"
@@ -35,6 +51,8 @@ const UserSchema = new mongoose.Schema({
   //   type: [mongoose.Schema.Types.ObjectId],
   //   ref: "band"
   // },
-});
+// }
+// );
+// "seen": [{"bandname":"Amon Amarth"}, {"bandname":"Behemoth"}, {"bandname":"Craft"}]
 
 module.exports = mongoose.model("userModel", UserSchema);

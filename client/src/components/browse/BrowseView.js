@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import RoutingPath from "../../routes/RoutingPath";
+// import { useHistory } from "react-router-dom";
+// import RoutingPath from "../../routes/RoutingPath";
 import Axios from "axios";
 import { LatestAdded } from "./defaultView/LatestAdded";
 import {BandPreview} from '../band/BandPreview'
 import { BandForm } from "../forms/BandForm";
-import Bands from "../../shared/data/Bands";
-import "./BrowseView.css";
+import {Card, CardContent, CardActions, Container} from '@material-ui/core';
+// import "./BrowseView.css";
 
 const BrowseView = () => {
-  const history = useHistory();
+  // const history = useHistory();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("Cher");
   const [bands, setBands] = useState([]);
 
 //todo: show random/newly added to db/newly added to someones lists/most popular bands instead of hard coded json
     useEffect(() => {
-      setBands(Bands.getBands());
+      // setBands(Bands.getBands());
     }, []);
 
   const searchForBand = (search) => {
@@ -54,13 +54,20 @@ const BrowseView = () => {
   };
   return (
     <div className="browseViewWrapper">
-      <div className="searchDiv">
-        <span>Search: </span>
-        <input onChange={(event) => setSearch(event.target.value)} />
-        <br />
-        <button onClick={() => fetchData()}>Find artist</button>
-        {data.artist !== undefined ? displayData() : <LatestAdded />}
-      </div>
+      <Container>
+        <Card>
+        <CardContent className="searchDiv">
+          <span>Search: </span>
+          <input onChange={(event) => setSearch(event.target.value)} />
+          <CardActions>
+            <button onClick={() => fetchData()}>Find artist</button>
+          </CardActions>
+        </CardContent>
+        <CardContent>
+          {data.artist !== undefined ? displayData() : <LatestAdded />}
+        </CardContent>
+        </Card>
+      </Container>
     </div>
   );
 };

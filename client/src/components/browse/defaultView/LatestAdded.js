@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import RoutingPath from "../../../routes/RoutingPath";
 // import { Result } from "../components/result/Result.js";
-import Bands from "../../../shared/data/Bands";
+// import Bands from "../../../shared/data/Bands";
 import {BandPreview} from '../../band/BandPreview';
+// import { Card, CardContent, CardActions, Button, Typography } from "@material-ui/core";
 import "../BrowseView.css";
 
 export const LatestAdded = () => {
@@ -12,12 +13,12 @@ export const LatestAdded = () => {
   const [bands, setBands] = useState([]);
 
     useEffect(() => {
-      setBands(Bands.getBands());
+      // setBands(Bands.getBands());
     }, []);
 
   return (
     <div className="contentDiv">
-      <span>Latest added</span>
+      <h1>Latest added</h1>
       <div className="latestAddedContainer">
         {bands.map((band) => (
           <BandPreview

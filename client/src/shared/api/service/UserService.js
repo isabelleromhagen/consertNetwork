@@ -9,13 +9,20 @@ export default {
           return res.json().then((data) => data);
         });
     },
-    updateCurrentUser: (token, data) => {
-        return fetch("http://localhost:8080/users/me", {
-          method: "post",
+    updateCurrentUser: (data) => {
+        console.log('in service, data: ', data, 'want is array: ', Array.isArray(data.want));
+        return fetch("http://localhost:8080/users/update", {
+          method: "POST",
           body: JSON.stringify(data),
-          headers: { "x-auth-token": token, "Content-Type":"x-auth-token"},
+          headers: { "Content-Type":"application/json"},
         });
     }
+    // updateCurrentUser: (token, data) => {
+    //     console.log('in service, data: ', data, 'want is array: ', Array.isArray(data.want));
+    //     return fetch("http://localhost:8080/users/update", {
+    //       method: "POST",
+    //       body: JSON.stringify(data),
+    //       headers: { "x-auth-token": token, "Content-Type":"x-auth-token"},
+    //     });
+    // }
 }
-//TODO: lägg till band i lista genom att trycka på knapp! 
-

@@ -2,6 +2,13 @@ import React, {useContext} from "react";
 import { useHistory } from "react-router-dom";
 import {UserContext} from '../../shared/global/provider/UserContext'
 import UserService from '../../shared/api/service/UserService'
+// import {
+//   Card,
+//   CardContent,
+//   CardActions,
+//   Button,
+//   Typography,
+// } from "@material-ui/core";
 import '../browse/BrowseView.css'
 
 export const BandPreview = ({ id, name, genre }) => {
@@ -21,6 +28,19 @@ export const BandPreview = ({ id, name, genre }) => {
       currentUser.want = currentUser.want.filter(item => item !== band)
       console.log("in if incl, updated: ", currentUser.want);
     } else {
+      //if band is on seen list, remove and update seen
+      if (!currentUser.seen) {
+        currentUser.seen = [];
+      }
+      if (currentUser.seen.includes(band)) {
+        currentUser.seen = currentUser.seen.filter((item) => item !== band);
+        console.log("in if incl, updated: ", currentUser.seen);
+        UserService.updateCurrentUser(currentUser.token, currentUser.seen).then(
+          (data) => {
+            console.log("got from us", data);
+          }
+        );
+      }
       currentUser.want.push(band);
       console.log("in else, updated: ", currentUser.want);
     }
@@ -39,6 +59,17 @@ export const BandPreview = ({ id, name, genre }) => {
        currentUser.seen = currentUser.seen.filter((item) => item !== band);
        console.log("in if incl, updated: ", currentUser.seen);
      } else {
+       //if band is on want list, remove and update want
+       if (currentUser.want.includes(band)) {
+         currentUser.want = currentUser.want.filter((item) => item !== band);
+         console.log("in if incl, updated: ", currentUser.seen);
+         UserService.updateCurrentUser(
+           currentUser.token,
+           currentUser.want
+         ).then((data) => {
+           console.log("got from us", data);
+         });
+       }
        currentUser.seen.push(band);
        console.log("in else, updated: ", currentUser.seen);
      }
