@@ -16,6 +16,13 @@ export default {
           body: JSON.stringify(data),
           headers: { "Content-Type":"application/json"},
         });
+    },
+    deleteUser: (data) => {
+        return fetch(`http://localhost:8080/users/${data._id}`, {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {"Content-Type":"application/json"},
+        });
     }
     // updateCurrentUser: (token, data) => {
     //     console.log('in service, data: ', data, 'want is array: ', Array.isArray(data.want));

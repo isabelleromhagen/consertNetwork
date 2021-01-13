@@ -6,10 +6,9 @@ import '../Profile.css'
 const SettingsView = () => {
   const currentUser = useContext(UserContext);
   const [want, setWant] = useState([]);
-    const [seen, setSeen] = useState([]);
-  const [info, setInfo] = useState({username: currentUser.username, pictureUrl: "", bio: "", password: "", password2: "", want: want, seen: seen, token: "", _id: ""});
-  // const [info, setInfo] = useState({username: currentUser ? currentUser.user.username : "dummy", pictureUrl: "", bio: currentUser ? currentUser.user.bio : "dummy", password: "", password2: ""});
-    // const [info, setInfo] = useState({username: "Kannan", email: "karin@test.com", password: "123456", date: Date.now, bio: "blablabla", want: ["Behemoth"], seen: ["Lamb of God"] })
+  const [seen, setSeen] = useState([]);
+  const [info, setInfo] = useState({username: currentUser.user.username, pictureUrl: "", bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: ""});
+  const [passwordToDelete, setPasswordToDelete] = useState("");
     
 
    const onChange = (e) => {
@@ -18,12 +17,17 @@ const SettingsView = () => {
 
   const update = (e) => {
     e.preventDefault();
-      console.log('want in update: ', want, ' info want: ', info.want);
-      console.log('currentUser token in update : ', currentUser.token, ' info token: ', info.token);
       UserService.updateCurrentUser(info).then(data => {
-          //submit added info, if empty: submit old info to prevent losing data.
-        console.log('info updated! data: ', data);
+          currentUser.setUser(info);
       })
+  }
+
+  const deleteUser = (e) => {
+    e.preventDefault();
+    console.log('from delete password field: ', passwordToDelete);
+    let data = ({_id:info._id, password: passwordToDelete})
+    console.log("data: ", data);
+    UserService.deleteUser(data)
   }
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const SettingsView = () => {
         console.log('id: ', currentUser.user._id);
         // setWant(wantArr);
         // setSeen(seenArr);
-        setInfo({username: currentUser.username, bio: currentUser.bio, want: wantArr, seen: seenArr, token: currentUser.token, _id: currentUser.user._id});
+        setInfo({username: currentUser.user.username, bio: currentUser.user.bio, want: wantArr, seen: seenArr, token: currentUser.token, _id: currentUser.user._id});
        
       }
      
@@ -77,8 +81,8 @@ const SettingsView = () => {
         <div className="deleteWrapper">
           <h4>Delete account</h4>
           <span>Enter password</span> <br />
-          <input type="password" /> <br />
-          <button>Delete</button>
+          <input type="password" onChange={e => setPasswordToDelete(e.target.value)} value={passwordToDelete} /> <br />
+          <button onClick={deleteUser}>Delete</button>
         </div>
       </div>
     );
