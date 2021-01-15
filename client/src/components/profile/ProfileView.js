@@ -48,20 +48,22 @@ const ProfileView = (props) => {
     <div className="profileViewWrapper">
     <Container>
     <Card>
-      <CardContent>
+      <div className="personalData">
+      <div className="profileText">
       {profile.user && (
         <span className="username">{profile.user.username}</span>
       )}
       {profile.user && (
-        <span className="">{profile.user.bio}</span>
+        <span className="profileBio">{profile.user.bio}</span>
       )}
+      </div>
       <img
         src={ProfilePic}
         alt="profile pic"
         className="profilePic"
         width="200px"
       />
-      </CardContent>
+      </div>
       <div className="listWrapper" id="wantWrapper">
         <span className="subHeading">Want to see:</span>
         {want && (

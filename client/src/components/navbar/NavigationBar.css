@@ -1,33 +1,89 @@
-.topOfNav {
+.navWrapper {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    background-color: rgb(218, 209, 199);
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    /* background-color: rgb(133, 108, 139); */
+    background-color: #4C594F;
 }
 
 .musicIcon {
-    display: inline;
+    display: grid;
+    padding-left: 3vw;
     width: 8vh;
+}
+
+.musicIcon, .signin, .profile {
+    cursor: pointer;
+}
+
+.tabs {
+    display: grid;
+    grid-column: 3/5;
+    grid-template-columns: repeat(3, 1fr);
+    /* background-color: rgb(67, 67, 121); */
+    background-color: #35403A;
+    color: rgb(247, 247, 247);
+    cursor: pointer;
+}
+
+.navTab {
+    padding: 2vw;
+    
+}
+
+.navTab:hover {
+    background-color: black;
+}
+
+.authOptions {
+    display: flex;
+    grid-column: 9/10;
+    padding-left: 2vw;
+    padding-right: 15vw;
 }
 
 .signin {
     display: inline;
-    grid-column: 9/10;
+    grid-column: 4/5;
     align-self: center;
-}
 
-.musicIcon, .signin {
-    cursor: pointer;
+    
 }
 
 .profile {
-    display: inline;
-    grid-column: 9/10;
-    grid-row: 1/5;
-}
-
-
-.tabs {
     display: grid;
-    grid-template-columns: repeat(10, 2fr);
-    background-color: rgb(190, 190, 204);
+    grid-column: 9/10;
+    width: 8vh;
+    /* padding-top: 3vh; */
+    /* grid-row: 1/5; */
 }
+
+.userIcon {
+    /* width: 10vw; */
+    height: 8vh;
+    /* grid-column: 1/5; */
+}
+
+.dropDownProfile {
+    display: none;
+    position: absolute;
+    border-radius: 5px;
+    min-width: 150px;
+    padding: 12px 10px;
+    background-color: rgb(67, 67, 121);
+    color: rgb(247, 247, 247);
+    z-index: 10;
+    margin-top: 0vh;
+}
+
+.profileWrapper:hover .dropDownProfile {
+    display: block;
+}
+
+.dropDownProfile a {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+}
+

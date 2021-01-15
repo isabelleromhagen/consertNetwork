@@ -7,10 +7,7 @@ import { ProfilePreview } from "../profile/ProfilePreview";
 import {
   Card,
   CardContent,
-  CardActions,
-  Button,
   Container, 
-  Typography
 } from "@material-ui/core";
 
 const CommunityView = () => {
@@ -72,20 +69,18 @@ const CommunityView = () => {
   };
 
   return (
-    <div className="browseViewWrapper">
+    <div className="wrapper">
       <Container>
-        <CardContent className="searchDiv">
-          <span>Search: </span>
-          <input onChange={(event) => setSearch(event.target.value)} />
-          <CardActions>
-            <Button onClick={() => fetchData()}>Find user</Button>
-          </CardActions>
-          <div className="contentDiv">{displayData()}</div>
-        </CardContent>
-        <Card>
-          <CardContent>
-            <Typography variant="h5">Current users</Typography>
-            <div>
+      <Card>
+          <div className="searchDiv">
+            <span>Search: </span>
+            <input onChange={(event) => setSearch(event.target.value)} />
+              <button onClick={() => fetchData()}>Find user</button>
+            <div className="contentDiv">{displayData()}</div>
+          </div>
+          <div className="contentDiv">
+            <h1>Current users</h1>
+            <div className="itemsContainer">
               {users.map((user) => (
                 <ProfilePreview
                   key={user._id}
@@ -95,7 +90,7 @@ const CommunityView = () => {
                 />
               ))}
             </div>
-          </CardContent>
+          </div>
         </Card>
       </Container>
     </div>

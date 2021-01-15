@@ -172,7 +172,62 @@ router.post("/update", async (req, res) => {
     }
 );
 
+// @route    POST /users/updatePassword
+// @desc     Update password
+// @access   Private
 
+router.post("/updatePassword", async (req, res) => {
+      const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+
+        const {
+          _id, currentPassword, newPassword1, newPassword2
+        } = req.body;
+
+        console.log('haul from client: ', _id, currentPassword, newPassword1, newPassword2);
+
+        try {
+
+            const user = await User.findOne({_id});
+
+            if (!user) {
+              return res
+                .status(400)
+                .json({ errors: [{ msg: "Could not find current user" }] });
+            }
+
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+            if (!isMatch) {
+              return res
+                .status(400)
+                .json({ errors: [{ msg: "The entered password is wrong" }] });
+            }
+            if (newPassword1 !== newPassword2) {
+              return res
+                .status(400)
+                .json({ errors: [{msg: "New password 1 and 2 must match!"}]})
+            }
+
+            const salt = await bcrypt.genSalt(10);
+
+            user.password = await bcrypt.hash(newPassword1, salt);
+
+            const result = await User.updateOne(
+              { _id: _id },
+              { $set: { password: user.password } },
+              {new: true, upsert: true, setDefaultsOnInsert: true}
+            );
+
+            return res.json(result);
+        } catch (error) {
+        console.error(error);
+        return res.status(500).json({msg: "Server error"});
+      }
+       
+})
 
 // @route    DELETE /users/:user_id
 // @desc     Delete account
@@ -186,8 +241,7 @@ router.delete("/:user_id", async (req, res) => {
   const { _id, password } = req.body;
 
   try {
-    // await User.findOneAndRemove(req.user.id);
-
+    
     let user = await User.findOne({_id });
 
       if (!user) {

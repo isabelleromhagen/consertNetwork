@@ -1,9 +1,29 @@
-.browseViewWrapper {
-    /* border: 1px solid red; */
+span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* color: rgb(27, 29, 29); */
+    color: #252626;
+    font-weight: 450;
+}
+
+h1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+button {
+    margin: 1vh;
+    padding: 1vh;
+    background-color: rgb(71, 85, 80);
+    color: rgb(217, 224, 205);
+    border-radius: 8px;
+    border: none;
+}
+
+.wrapper {
     margin-left: 10vw;
     margin-right: 10vw;
     margin-top: 5vh;
     height: 50vh;
+    /* padding: 2vh; */
 }
 
 .searchDiv {
@@ -11,8 +31,6 @@
     padding: 10px;
     text-align: center;
 }
-
-
 
 .contentDiv {
     /* border: 1px solid green; */
@@ -29,11 +47,15 @@
 }
 
 .bandPreviewWrapper {
-    display: flex;
-    padding: 2vw;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    padding-left: 10vw;
+    width: 80vw;
 }
 
-.dropDown {
+.statusDropDown {
     display: none;
     position: absolute;
     background-color: antiquewhite;
@@ -54,12 +76,20 @@
     cursor: pointer;
 }
 
-.statusWrapper:hover .dropDown {
+.statusWrapper:hover .statusDropDown {
     display: block;
 }
 
-.dropDown span {
+.statusDropDown span {
     display: block;
     cursor: pointer;
     padding: 5px;
+}
+
+.itemsContainer {
+    padding-bottom: 20vh;
+}
+
+.previewContainer {
+    margin:3vh;
 }

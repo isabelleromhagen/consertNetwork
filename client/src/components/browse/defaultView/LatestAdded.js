@@ -19,7 +19,7 @@ export const LatestAdded = () => {
   return (
     <div className="contentDiv">
       <h1>Latest added</h1>
-      <div className="latestAddedContainer">
+      <div className="itemsContainer">
         {bands.map((band) => (
           <BandPreview
             key={band.bandid}

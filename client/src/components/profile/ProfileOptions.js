@@ -3,7 +3,8 @@ import {useHistory} from "react-router-dom"
 import {UserContext} from "../../shared/global/provider/UserContext"
 import RoutingPath from '../../routes/RoutingPath'
 import UserIcon from "../../shared/images/user.svg";
-import "./Profile.css"
+// import "./Profile.css"
+import "../navbar/NavigationBar.css"
 
 export const ProfileOptions = () => {
     const history = useHistory()
@@ -24,7 +25,7 @@ export const ProfileOptions = () => {
           alt="user icon"
           className="userIcon"
         />
-        <div className="dropDown">
+        <div className="dropDownProfile">
             {currentUser && currentUser.user.username !== "" && <span>{currentUser.user.username}</span>}
             <a onClick={()=> history.push(RoutingPath.settingsView)}>Settings</a>
             <a onClick={()=> history.push(RoutingPath.profileView)}>Profile</a>

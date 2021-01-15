@@ -1,41 +1,4 @@
-.profileWrapper {
-    display: grid;
-    grid-template-columns: repeat(10,1fr);
-    width: 100%;
-    /* padding: 13px; */
-}
 
-.userIcon {
-    width: 40px;
-    height: 40px;
-    grid-column: 1/5;
-}
-
-.dropDown {
-    display: none;
-    position: absolute;
-    background-color: antiquewhite;
-    min-width: 200px;
-    padding: 12px 16px;
-    z-index: 10;
-    margin-top: 70;
-}
-
-.profileWrapper:hover .dropDown {
-    display: block;
-}
-
-.dropDown a {
-    display: block;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.authOptions {
-    /* border: 1px solid red; */
-    display: flex;
-    grid-column: 9/10
-}
 
 .profileViewWrapper {
     /* border: 1px solid red; */
@@ -49,13 +12,33 @@
     color: rgb(85, 71, 61);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: x-large;
-    margin-top: 15vh;
-    margin-left: 5vw;
+    /* margin-top: 15vh;
+    margin-left: 5vw; */
+    margin-bottom: 15vh;
+    grid-column: 2/10;
+}
+
+.personalData {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 5vh;
+}
+
+.profileText {
     
 }
 
+.profileBio {
+    display: block;
+    margin-top: 5vh;
+    width: 20vw;
+}
+
 .profilePic {
-    float: right;
+    /* float: right; */
+    grid-column: 4/10;
     border-radius: 5px;
 }
 

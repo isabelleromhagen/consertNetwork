@@ -17,6 +17,13 @@ export default {
           headers: { "Content-Type":"application/json"},
         });
     },
+    updatePassword: (data) => {
+        return fetch("http://localhost:8080/users/updatePassword", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: { "Content-Type":"application/json"}, 
+        })
+    },
     deleteUser: (data) => {
         return fetch(`http://localhost:8080/users/${data._id}`, {
             method: "DELETE",

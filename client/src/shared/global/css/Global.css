@@ -2,16 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(243, 241, 239);
-}
-
-Container {
-    margin-top: 15vh;
-}
-
-Card {
-    margin: 10vh;
-    padding: 10vh;
-    border: 1px solid red;
-    background-color: aqua;
+    /* background-color: rgb(243, 241, 239); */
+    background-color: #BFBFB8;
+    /* background-color: #A4A69C; */
 }

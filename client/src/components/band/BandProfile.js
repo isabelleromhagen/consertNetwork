@@ -4,6 +4,7 @@ import { UserContext } from "../../shared/global/provider/UserContext";
 import UserService from "../../shared/api/service/UserService";
 import { useHistory } from "react-router-dom";
 import img from '../../shared/images/music.svg'
+import {checkStatus} from "../../utils/BandStatus";
 import './Band.css'
 
 const BandProfile = (props) => {
@@ -11,71 +12,128 @@ const BandProfile = (props) => {
   const bandname = props.match.params;
   const [search, setSearch] = useState(bandname.bandid);
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
+  const [statusText, setStatusText] = useState("");
  
     const handleWanted = (band) => {
       console.log('band to handle ', band);
-      if (!currentUser.want) {
-        currentUser.want = [];
+      console.log('current user: ', currentUser);
+      if (!currentUser.user.want) {
+        currentUser.user.want = [];
+        console.log('no want list, created one');
       }
-      console.log("in handle wanted: ", currentUser.want);
-      if (currentUser.want.includes(band)) {
-        currentUser.want = currentUser.want.filter((item) => item !== band);
-        console.log("in if incl, updated: ", currentUser.want);
+      if (!currentUser.user.seen) {
+        currentUser.user.seen = [];
+        console.log('no seen list, created one');
+      }
+      console.log("in handle wanted, current lists: ", currentUser.user.want, currentUser.user.seen);
+      //check is already marked as want, if true remove from want in currentUser
+      if (currentUser.user.want.includes(band)) {
+        currentUser.user.want = currentUser.user.want.filter((item) => item !== band);
+        console.log("in if incl want, updated: ", currentUser.user.want);
       } else {
-        //if band is on seen list, remove and update seen
-        if (currentUser.seen.includes(band)) {
-          currentUser.seen = currentUser.seen.filter((item) => item !== band);
-          console.log("in if incl, updated: ", currentUser.seen);
-          UserService.updateCurrentUser(
-            currentUser.token,
-            currentUser.seen
-          ).then((data) => {
-            console.log("got from us", data);
-          });
+        //if band is on seen list, remove from seen in currentUser
+        if (currentUser.user.seen.includes(band)) {
+          currentUser.user.seen = currentUser.user.seen.filter((item) => item !== band);
+          console.log("in if incl seen, updated: ", currentUser.user.seen);
         }
-        currentUser.want.push(band);
-        console.log("in else, updated: ", currentUser.want);
+        //add band to want in currentUser
+        currentUser.user.want.push(band);
+        console.log("in else, updated: ", currentUser.user.want);
       }
-      console.log("token and array going into db:", currentUser.token, ' ', currentUser.want);
-      UserService.updateCurrentUser(currentUser.token, currentUser.want).then(
-        (data) => {
+      //update db with currentUser lists updated above
+      console.log("arrays going into db:", currentUser.user.want, ' seen:', currentUser.user.seen);
+      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
+      UserService.updateCurrentUser(data).then(data => {
+          // checkStatus(band, currentUser)
+        //   let stat = checkStatus(bandname.bandid, currentUser)
+        //  console.log('band: ', bandname.bandid, 'sta: ', stat)
+        let stat = checkStatus(bandname.bandid, currentUser)
+         setStatus(stat[0])
+         setStatusText(stat[1])
+
           console.log("got from us", data);
-        }
-      );
+        });
     };
 
-   const handleSeen = (band) => {
-     if (!currentUser.seen) {
-       currentUser.seen = [];
-     }
-     console.log("in handle seen: ", currentUser.seen);
-     if (currentUser.seen.includes(band)) {
-       currentUser.seen = currentUser.seen.filter((item) => item !== band);
-       console.log("in if incl, updated: ", currentUser.seen);
-     } else {
-       //if band is on want list, remove and update want
-        if (currentUser.want.includes(band)) {
-          currentUser.want = currentUser.want.filter((item) => item !== band);
-          console.log("in if incl, updated: ", currentUser.seen);
-           UserService.updateCurrentUser(
-             currentUser.token,
-             currentUser.want
-           ).then((data) => {
-             console.log("got from us", data);
-           });
+    const handleSeen = (band) => {
+      console.log('band to handle ', band);
+      console.log('current user: ', currentUser);
+      if (!currentUser.user.seen) {
+        currentUser.user.seen = [];
+        console.log('no seen list, created one');
+      }
+      if (!currentUser.user.want) {
+        currentUser.user.want = [];
+        console.log('no want list, created one');
+      }
+      console.log("in handle seen, current lists: ", currentUser.user.want, currentUser.user.seen);
+      //check is already marked as seen, if true remove from seen in currentUser
+      if (currentUser.user.seen.includes(band)) {
+        currentUser.user.seen = currentUser.user.seen.filter((item) => item !== band);
+        console.log("in if incl want, updated: ", currentUser.user.seen);
+      } else {
+        //if band is on want list, remove from seen in currentUser
+        if (currentUser.user.want.includes(band)) {
+          currentUser.user.want = currentUser.user.want.filter((item) => item !== band);
+          console.log("in if incl want, updated: ", currentUser.user.want);
         }
-        //add to seen
-       currentUser.seen.push(band);
-       console.log("in else, updated: ", currentUser.seen);
-     }
-     UserService.updateCurrentUser(currentUser.token, currentUser.seen).then(
-       (data) => {
-         console.log("got from us", data);
-       }
-     );
-   };
+        //add band to seen in currentUser
+        currentUser.user.seen.push(band);
+        console.log("in else, updated: ", currentUser.user.seen);
+      }
+      //update db with currentUser lists updated above
+      console.log("arrays going into db:", currentUser.user.want, ' seen:', currentUser.user.seen);
+      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
+      UserService.updateCurrentUser(data).then(data => {
+          console.log("got from us", data);
+          let stat = checkStatus(bandname.bandid, currentUser)
+         setStatus(stat[0])
+         setStatusText(stat[1])
+        });
+    };
+
+    // const checkStatus = (band) => {
+    //     console.log('in check status, currentUser: ', currentUser, " status: ", status);
+    //     console.log('band: ', band);
+    //     if(!currentUser || !currentUser.user) {
+    //       setStatus("none")
+    //       setStatusText("Not listed")
+    //       console.log('no user, set to none');
+         
+    //     } else {
+    //         if(currentUser.user.want.includes(band)) {
+    //         setStatus("want")
+    //         setStatusText("Want to see")
+    //         console.log('set to want');
+    //         }
+    //         else if (currentUser.user.seen.includes(band)) {
+    //           setStatus("seen")
+    //           setStatusText("Seen")
+    //           console.log('set to seen');
+    //         } else {
+    //           setStatus("none")
+    //           setStatusText("Not listed")
+    //           console.log('band not found on any list, set to none');
+    //         }
+    //     }
+        
+    // }
 
   useEffect(() => {
+    
+    if (!currentUser.user.want) {
+        currentUser.user.want = [];
+        console.log('no want list, created one');
+      }
+      if (!currentUser.user.seen) {
+        currentUser.user.seen = [];
+        console.log('no seen list, created one');
+      }
+         let stat = checkStatus(bandname.bandid, currentUser)
+         console.log('band: ', bandname.bandid, 'sta: ', stat)
+         setStatus(stat[0])
+         setStatusText(stat[1])
     fetchData()
   }, []);
 
@@ -108,11 +166,12 @@ const BandProfile = (props) => {
                width="200px"
              />
              <span className="genre">{data.artist.tags.tag[0].name}</span>
-             <div className="statusWrapper">
-               <span onClick={() => handleWanted(data.artist.name)}>Want to see</span>
+             <div className={status}>
+               <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</span>
                <div className="dropDown">
-                 <span onClick={() => handleSeen(data.artist.name)}>Seen</span>
-               </div>
+                 <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</span>
+                 <span onClick={() => handleSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</span>
+               </div>           
              </div>
              <div className="description">
                <span>{data.artist.bio.summary}</span>
@@ -127,7 +186,7 @@ const BandProfile = (props) => {
    };
   return (
     <div className="bandViewWrapper">
-      {data && data.artist !== undefined ? (
+      {data && data.artist !== undefined  ? (
         displayData()
       ) : (
         <div>oops, something went wrong...</div>
