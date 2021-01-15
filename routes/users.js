@@ -8,6 +8,7 @@ const config = require("config");
 const { check, validationResult } = require("express-validator");
 const normalize = require("normalize-url");
 const User = require("../models/User");
+const ObjectID = require('mongodb').ObjectID;
 
 // @route    GET /users/me
 // @desc     Get current users profile
@@ -65,15 +66,22 @@ router.post(
           .json({ errors: [{ msg: "User already exists" }] });
       }
 
+      const _id = new ObjectID();
+
+      console.log('generated id: ', _id);
+
       user = new User({
         username,
         email,
         password,
+        _id
       });
 
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
+
+      
 
       await user.save();
 
@@ -250,6 +258,8 @@ router.delete("/:user_id", async (req, res) => {
           .json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
+      console.log('backend, user to delete: ', user);
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -257,7 +267,9 @@ router.delete("/:user_id", async (req, res) => {
         .status(400)
         .json({ errors: [{ msg: "Invalid Credentials" }] });
     }
-    await User.findOneAndRemove(_id);
+    const deletedUser = await User.findByIdAndRemove(_id);
+
+    console.log('deleted user: ', deletedUser);
 
     res.json({msg: "User deleted"});
   } catch (error) {

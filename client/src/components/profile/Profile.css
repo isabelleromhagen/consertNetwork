@@ -76,24 +76,41 @@
 /* settings */
 
 .settingsWrapper {
-    /* text-align: center; */
+    display: block;
+    margin-top: 10vh;
+    margin-left: 30vw;
+    margin-right: auto;
+    align-content: center;
 }
 
 h3 {
     text-align: center;
 }
 
-span {
-    padding: 1vh;
+.authHeader {
+    display: block;
+    margin-left: 5vw;
+    margin-right: auto;
+    width: 10vw;
 }
 
-input {
-    margin: 1vh;
+.inputSpan {
+    padding: 1vh;
+    display: block
+}
+
+.inputField {
+    display: block;
+}
+
+.formButton {
+    margin-bottom: 10vh;
+    display: block;
 }
 
 .updateWrapper {
     margin-right: 40vw;
-    text-align: end;
+    /* text-align: end; */
 }
 
 .deleteWrapper {

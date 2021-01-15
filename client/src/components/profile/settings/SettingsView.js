@@ -10,7 +10,7 @@ const SettingsView = () => {
   const currentUser = useContext(UserContext);
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
-  const [info, setInfo] = useState({username: currentUser.user.username, pictureUrl: "", bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: ""});
+  const [info, setInfo] = useState({username: currentUser.user.username, pictureUrl: "", bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
   const [passwordToDelete, setPasswordToDelete] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword1, setNewPassword1] = useState("");
@@ -36,6 +36,7 @@ const SettingsView = () => {
 
   const deleteUser = (e) => {
     e.preventDefault();
+    console.log('deleting user: ', info);
     let data = ({_id:info._id, password: passwordToDelete})
     UserService.deleteUser(data)
         currentUser.setUser(null)

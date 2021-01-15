@@ -3,7 +3,8 @@ import {useHistory} from 'react-router-dom';
 import {UserContext} from '../../../shared/global/provider/UserContext';
 import RoutingPath from "../../../routes/RoutingPath";
 import AuthService from "../../../shared/api/service/AuthService";
-import "../../forms/Forms.css";
+// import "../../forms/Forms.css";
+import "../../profile/Profile.css";
 
 const SignUpView = () => {
   const history = useHistory();
@@ -37,8 +38,8 @@ const SignUpView = () => {
   };
   return (
     <div className="settingsWrapper">
-      <h3>Sign up</h3>
-      <div className="updateWrapper">
+      <h3 className="authHeader">Sign up</h3>
+
         <form onSubmit={onSubmit}>
           <input
             name="email"
@@ -46,6 +47,7 @@ const SignUpView = () => {
             onChange={onChange}
             required
             placeholder="Email"
+            className="inputField"
           />
           <input
             name="username"
@@ -53,6 +55,7 @@ const SignUpView = () => {
             onChange={onChange}
             required
             placeholder="Username"
+            className="inputField"
           />
           <input
             name="password"
@@ -61,6 +64,7 @@ const SignUpView = () => {
             required
             placeholder="Password"
             type="password"
+            className="inputField"
           />
           <input
             name="password"
@@ -69,10 +73,11 @@ const SignUpView = () => {
             required
             placeholder="Repeat password"
             type="password"
+            className="inputField"
           />
           <button type="submit">Register</button>
         </form>
-      </div>
+ 
     </div>
   );
 };

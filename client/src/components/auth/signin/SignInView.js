@@ -4,22 +4,12 @@ import { useHistory } from "react-router-dom";
 import {UserContext} from '../../../shared/global/provider/UserContext';
 import AuthService from '../../../shared/api/service/AuthService';
 import RoutingPath from "../../../routes/RoutingPath";
-// import {
-//   Card,
-//   CardContent,
-//   CardActions,
-//   Button,
-//   Container,
-// } from "@material-ui/core";
-import "../../forms/Forms.css";
+import "../../profile/Profile.css";
 
 const SignInView = () => {
   const currentUser = useContext(UserContext);
   const history = useHistory();
   const [user, setUser] = useState({email: "", password: ""});
-
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [token, setToken] = useState(null);
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value});
@@ -30,28 +20,21 @@ const SignInView = () => {
     AuthService.login(user).then(data => {
       const {token, user} = data;
       if(token) {
-        // currentUser.handleAuthData(token);
         currentUser.setUser(user);
         currentUser.setIsAuthenticated(true);
         currentUser.setToken(token);
-
-
-        // setIsLoggedIn(true);
-        // setToken(token);
-
-
         history.push(RoutingPath.browseView);
       }
     })
   }
 
   return (
-    <div className="signinWrapper">
+    <div className="settingsWrapper">
     <form onSubmit={login}>
-      <span>Email </span>
+      <span className="inputSpan">Email </span>
       <input name="email" onChange={onChange} value={user.email}/>
       <br />
-      <span>Password </span>
+      <span className="inputSpan">Password </span>
       <input
       name="password"
         type="password"
@@ -59,7 +42,7 @@ const SignInView = () => {
         value={user.password}
       />
       <br />
-      <button type="submit" className="logInButton">
+      <button type="submit" className="formButton">
         Log in
       </button>
       <br />
@@ -67,7 +50,7 @@ const SignInView = () => {
       <div className="clickToSignUp">
         <span className="noAccount">No account?</span> <br />
         <button
-          className="logInButton"
+          className="formButton"
           onClick={() => history.push(RoutingPath.signUpView)}
         >
           Sign up
