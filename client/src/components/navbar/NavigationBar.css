@@ -5,6 +5,7 @@
     grid-template-columns: repeat(5, 1fr);
     /* background-color: rgb(133, 108, 139); */
     background-color: #4C594F;
+    border-radius: 5px;
 }
 
 .musicIcon {
@@ -21,6 +22,7 @@
     display: grid;
     grid-column: 3/5;
     grid-template-columns: repeat(3, 1fr);
+    width: 70vh;
     /* background-color: rgb(67, 67, 121); */
     background-color: #35403A;
     color: rgb(247, 247, 247);
@@ -29,7 +31,7 @@
 
 .navTab {
     padding: 2vw;
-    
+    padding-right: 4vw;
 }
 
 .navTab:hover {
@@ -38,9 +40,9 @@
 
 .authOptions {
     display: flex;
-    grid-column: 9/10;
+    grid-column: 6/10;
     padding-left: 2vw;
-    padding-right: 15vw;
+    padding-right: 5vw;
 }
 
 .signin {

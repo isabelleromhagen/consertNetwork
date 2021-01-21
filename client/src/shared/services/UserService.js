@@ -9,8 +9,12 @@ export default {
           return res.json().then((data) => data);
         });
     },
+    getUserByUsername: (username) => {
+        return fetch(`http://localhost:8080/users/user/${username}`).then((res) => {
+            return res.json().then((data) => data);
+        })
+    },
     updateCurrentUser: (data) => {
-        console.log('in service, data: ', data, 'want is array: ', Array.isArray(data.want));
         return fetch("http://localhost:8080/users/update", {
           method: "POST",
           body: JSON.stringify(data),

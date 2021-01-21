@@ -31,28 +31,7 @@ const UserSchema = new mongoose.Schema({
   _id: {
     type: ObjectId,
   }
-  // seen: {
-  //   $type: [String] }
   }
-  // { typeKey: '$type' }
 );
-  // want: {
-  //   type: {type: [String]},
-  // },
-  // seen: {
-  //   type: {type: [String]},
-  // },
-  
-  // want: {
-  //   type: [mongoose.Schema.Types.ObjectId],
-  //   ref: "band"
-  // },
-  // seen: {
-  //   type: [mongoose.Schema.Types.ObjectId],
-  //   ref: "band"
-  // },
-// }
-// );
-// "seen": [{"bandname":"Amon Amarth"}, {"bandname":"Behemoth"}, {"bandname":"Craft"}]
 
 module.exports = mongoose.model("userModel", UserSchema);

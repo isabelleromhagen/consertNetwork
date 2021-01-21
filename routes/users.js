@@ -139,6 +139,25 @@ router.get("/:user_id", async ({ params: { user_id } }, res) => {
 );
 
 
+// @route    GET /users/:username
+// @desc     Get profile by user ID
+// @access   Public
+  router.get("/user/:username", async ( { params: { username } }, res) => {
+    try {
+      console.log('in get by un, usernem:', username);
+        // if(mongoose.isValidObjectId(user_id)) {
+            const user = await User.findOne({"username":username}).populate("user", ["username"]);
+            console.log('user found: ', user);
+            if (!user) return res.status(400).json({ msg: "User not found" });
+            return res.json(user);
+        // }
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).json({ msg: "Server error" });
+    }
+  }
+);
+
 // @route    POST /users/update
 // @desc     Update user profile
 // @access   Private

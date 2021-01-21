@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {UserContext} from '../../shared/global/provider/UserContext';
-import UserService from '../../shared/api/service/UserService';
+import {UserContext} from '../../shared/UserContext';
+import UserService from '../../shared/services/UserService';
 import "./Profile.css";
 import ProfilePic from "../../shared/images/profilePic.jpg";
 import RoutingPath from "../../routes/RoutingPath";
-import { Card, CardContent, CardActions, Button, Container } from "@material-ui/core";
-import "../../shared/global/css/Global.css";
+import { Card, Typography, Grid, CardContent, CardHeader } from "@material-ui/core";
+// import "../../shared/global/css/Global.css";
 
 const ProfileView = (props) => {
   const currentUser = useContext(UserContext);
@@ -28,13 +28,16 @@ const ProfileView = (props) => {
         console.log('back from service, data: ', data, ' want: ', data.want);
         if(data) {
           setProfile(data);
+          setWant(data.want);
+          setSeen(data.seen);
         }
         console.log('want: ',profile.want);
         
       })
     } else if (currentUser.isAuthenticated) {
           console.log("current user: ", typeof currentUser.user.username, currentUser.user._id, currentUser.user.want);
-          setProfile(currentUser);
+          console.log("current user.user: ", currentUser.user);
+          setProfile(currentUser.user);
           setWant(Array.from(currentUser.user.want));
           setSeen(Array.from(currentUser.user.seen));
           console.log('want: ', typeof currentUser.user.want, currentUser.user.want);
@@ -46,50 +49,69 @@ const ProfileView = (props) => {
 
   return (
     <div className="profileViewWrapper">
-    <Container>
-    <Card>
-      <div className="personalData">
-      <div className="profileText">
-      {profile.user && (
-        <span className="username">{profile.user.username}</span>
+    <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+      >
+    <Card style={{ padding:'10vh' }}>
+      <CardContent>
+   
+   
+      {profile && (
+     
+        <CardHeader title={profile.username} style={{ marginLeft: "4vw"}}/>
       )}
-      {profile.user && (
-        <span className="profileBio">{profile.user.bio}</span>
+      {profile && (
+        <Typography style={{ marginLeft: "1vw"}}>{profile.bio}</Typography>
       )}
-      </div>
+  
       <img
         src={ProfilePic}
         alt="profile pic"
         className="profilePic"
         width="200px"
+        style={{
+                display:"block",
+                fontSize: 14, //customize in px
+                marginBottom: "5vh",
+                marginTop: "5vh",
+                marginLeft: "auto",
+                marginRight: "auto",
+                borderRadius: "5px"
+          }}
       />
-      </div>
+    
       <div className="listWrapper" id="wantWrapper">
-        <span className="subHeading">Want to see:</span>
+        <Typography className="subHeading">Want to see:</Typography>
         {want && (
           <div>
             {want.map((band) => (
-              <span key={band} onClick={() => goToArtist(band.trim())}>
+              <Typography key={band} onClick={() => goToArtist(band.trim())}>
                 {band}
-              </span>
+              </Typography>
             ))}
           </div>
         )}
       </div>      
       <div className="listWrapper" id="seenWrapper">
-        <span className="subHeading">Seen</span>
+        <Typography className="subHeading">Seen</Typography>
         {seen && (
           <div>
               {seen.map((band) => (
-                <span key={band} onClick={() => goToArtist(band.trim())}>
+                <Typography key={band} onClick={() => goToArtist(band.trim())}>
               {band}
-              </span>
+              </Typography>
             ))}
           </div>
         )}
       </div>
+      </CardContent>
     </Card>
-    </Container>
+    </Grid>
     </div>
   );
 };

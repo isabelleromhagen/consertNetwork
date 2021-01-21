@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UserProvider from './shared/global/provider/UserContext';
+import UserProvider from './shared/UserContext';
 import App from './App';
 import "fontsource-roboto";
 

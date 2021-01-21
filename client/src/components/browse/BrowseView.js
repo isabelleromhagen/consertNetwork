@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-import { LatestAdded } from "./defaultView/LatestAdded";
-import { BandForm } from "../forms/BandForm";
-import {Card, Container} from '@material-ui/core';
+import { LatestAdded } from "./LatestAdded";
 import {checkStatus} from "../../utils/BandStatus";
-import { UserContext } from "../../shared/global/provider/UserContext";
-import UserService from '../../shared/api/service/UserService'
-// import "./BrowseView.css";
+import { UserContext } from "../../shared/UserContext";
+import UserService from '../../shared/services/UserService';
+import FeedService from '../../shared/services/FeedService';
+import {Button, TextField, Typography, Grid,
+Card, CardContent, CardHeader} from '@material-ui/core';
+import "./BrowseView.css";
 
 
 const BrowseView = () => {
@@ -20,7 +21,7 @@ const BrowseView = () => {
 
 
     useEffect(() => {
-      if(currentUser) {
+      if(currentUser && currentUser.user) {
            if (!currentUser.user.want) {
         currentUser.user.want = [];
       }
@@ -69,6 +70,12 @@ const BrowseView = () => {
          setStatus(stat[0])
          setStatusText(stat[1])
         });
+
+        const update = ({username:currentUser.user.username, bandStatus:"wants to see", bandname:band});
+        console.log('update: ', update);
+        FeedService.addToFeed(update).then(data => {
+
+        })
     };
 
     const handleSeen = (band) => {
@@ -97,6 +104,12 @@ const BrowseView = () => {
          setStatus(stat[0])
          setStatusText(stat[1])
         });
+
+      const update = ({username:currentUser.user.username, bandStatus:"has seen", bandname:band});
+        console.log('update: ', update);
+        FeedService.addToFeed(update).then(data => {
+
+        })
     };
 
   const searchForBand = (search) => {
@@ -117,38 +130,81 @@ const BrowseView = () => {
   const displayData = () => {
     if (data && data.artist !== undefined) {
       return (
-        <div>
           <div className="latestAddedContainer">
+          <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <Card style={{ padding:'10vh' }}>
+          <CardContent>
               <div className="bandPreviewWrapper">
-                  <span onClick={() => viewBand(data.artist.name)} className="preview">{data.artist.name}</span>
-                  <span onClick={() => viewBand(data.artist.name)}>{data.artist.tags.tag[0].name}</span>
+                  <Typography onClick={() => viewBand(data.artist.name)} className="preview">{data.artist.name}</Typography>
+                  {data.artist.tags.tag[0] &&<Typography onClick={() => viewBand(data.artist.name)}>{data.artist.tags.tag[0].name}</Typography>}
                   <div className={status}>
-                      <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</span>
+                      <Typography onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</Typography>
                       <div className="dropDown">
-                          <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</span>
-                          <span onClick={() => handleSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</span>
+                          <Typography onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</Typography>
+                          <Typography onClick={() => handleSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</Typography>
                       </div>           
+                  </div>
                 </div>
-              </div>
-          </div>
+            </CardContent>
+          </Card>
+        </Grid>
         </div>
       );
     } else {
-      return <BandForm />;
+      return <div>No results </div>;
     }
   };
   return (
     <div className="wrapper">
-      <Container>
-        <Card>
-        <div className="searchDiv">
-          <span>Search: </span>
-          <input onChange={(event) => setSearch(event.target.value)} />
-            <button onClick={() => fetchData()}>Find artist</button>
-        </div>
+    <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <Card style={{ padding:'10vh' }}>
+        <CardContent>
+      
+          <CardHeader title="Search: "/>
+          <TextField
+              variant="outlined"
+              color="secondary"
+              style={{
+                    display:"block",
+                      fontSize: 14, //customize in px
+                      marginBottom: "5vh",
+                      marginTop: "5vh",
+                      
+
+                    }}
+              onChange={(event) => setSearch(event.target.value)}
+                />
+            <Button 
+            size="large" 
+            style={{
+              fontSize: 14, //customize in px
+              marginBottom: "5vh",
+              marginTop: "2vh",
+              marginLeft: "3vw"
+            }}
+            color="primary"
+            variant="contained"
+            onClick={() => fetchData()}>Find artist</Button>
+      
           {data.artist !== undefined ? displayData() : <LatestAdded />}   
+          </CardContent>
         </Card>
-      </Container>
+        
+        </Grid>
     </div>
   );
 };

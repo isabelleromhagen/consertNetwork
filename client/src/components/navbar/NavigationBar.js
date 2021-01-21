@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../../shared/global/provider/UserContext";
+import { UserContext } from "../../shared/UserContext";
 import { ProfileOptions } from "../profile/ProfileOptions";
 import RoutingPath from "../../routes/RoutingPath";
 import Icon from "../../shared/images/music.svg";
+import {Typography} from '@material-ui/core';
 import "./NavigationBar.css";
 
 export const NavigationBar = () => {
@@ -17,7 +18,7 @@ export const NavigationBar = () => {
             ? 
            <div className="profile"><ProfileOptions /></div>
             : 
-          <span onClick={() => history.push(RoutingPath.signInView)} className="signin">Sign in</span>}
+          <Typography onClick={() => history.push(RoutingPath.signInView)} className="signin">Sign in</Typography>}
         </div>
     );
   };
@@ -30,25 +31,25 @@ export const NavigationBar = () => {
             className="musicIcon"
           />
           <div className="tabs">
-              <div
+              <Typography
                 onClick={() => history.push(RoutingPath.profileView)}
                 value="Profile"
                 className="navTab"
                 >
                 Profile
-              </div>
-              <div
+              </Typography>
+              <Typography
                 onClick={() => history.push(RoutingPath.browseView)}
                 className="navTab"
                 >
                 Browse
-              </div>
-              <div
+              </Typography>
+              <Typography
                 onClick={() => history.push(RoutingPath.communityView)}
                 className="navTab"
                 >
                 Community
-              </div>
+              </Typography>
           </div>
           {displayIfAuth()}
     </div>

@@ -12,6 +12,7 @@ app.get('/', (req, res) => res.send('API running!'));
 
 app.use("/users", require("./routes/users"));
 app.use("/auth", require("./routes/auth"));
+app.use("/feed", require("./routes/feed"));
 
 const PORT = process.env.PORT || 8080;
 

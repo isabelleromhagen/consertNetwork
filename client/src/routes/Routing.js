@@ -1,14 +1,14 @@
 import React, {useContext} from 'react'
-import {UserContext} from '../shared/global/provider/UserContext'
+import {UserContext} from '../shared/UserContext'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import RoutingPath from './RoutingPath'
 import ProfileView from '../components/profile/ProfileView'
-import SignInView from '../components/auth/signin/SignInView'
-import SignUpView from "../components/auth/signup/SignUpView";
-import SettingsView from '../components/profile/settings/SettingsView'
+import SignInView from '../components/auth/SignInView'
+import SignUpView from "../components/auth/SignUpView";
+import SettingsView from '../components/profile/SettingsView'
 import BrowseView from '../components/browse/BrowseView'
 import BandProfile from '../components/band/BandProfile'
-import CommunityView from '../components/community/CommunityView'
+import CommunityView from '../components/browse/CommunityView'
 
 export const Routing = (props) => {
     const currentUser = useContext(UserContext);

@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import {useHistory} from "react-router-dom"
-import {UserContext} from "../../shared/global/provider/UserContext"
+import {UserContext} from "../../shared/UserContext"
 import RoutingPath from '../../routes/RoutingPath'
 import UserIcon from "../../shared/images/user.svg";
+import {Typography} from '@material-ui/core';
 // import "./Profile.css"
-import "../navbar/NavigationBar.css"
+// import "../navbar/NavigationBar.css"
 
 export const ProfileOptions = () => {
     const history = useHistory()
@@ -26,11 +27,11 @@ export const ProfileOptions = () => {
           className="userIcon"
         />
         <div className="dropDownProfile">
-            {currentUser && currentUser.user.username !== "" && <span>{currentUser.user.username}</span>}
-            <a onClick={()=> history.push(RoutingPath.settingsView)}>Settings</a>
-            <a onClick={()=> history.push(RoutingPath.profileView)}>Profile</a>
+            {currentUser && currentUser.user.username !== "" && <Typography>{currentUser.user.username}</Typography>}
+            <Typography onClick={()=> history.push(RoutingPath.settingsView)}>Settings</Typography>
+            <Typography onClick={()=> history.push(RoutingPath.profileView)}>Profile</Typography>
             <hr/>
-            <a onClick={()=>logout()}>Log out</a>
+            <Typography onClick={()=>logout()}>Log out</Typography>
         </div>
       </div>
     );

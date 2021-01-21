@@ -1,10 +1,11 @@
 import React, {useContext, useState, useEffect} from 'react'
 import Axios from "axios";
-import { UserContext } from "../../shared/global/provider/UserContext";
-import UserService from "../../shared/api/service/UserService";
-import { useHistory } from "react-router-dom";
+import { UserContext } from "../../shared/UserContext";
+import UserService from "../../shared/services/UserService";
 import img from '../../shared/images/music.svg'
 import {checkStatus} from "../../utils/BandStatus";
+import {Button, TextField, Typography, Grid,
+Card, CardContent, CardHeader} from '@material-ui/core';
 import './Band.css'
 
 const BandProfile = (props) => {
@@ -15,7 +16,7 @@ const BandProfile = (props) => {
   const [status, setStatus] = useState("");
   const [statusText, setStatusText] = useState("");
  
-    const handleWanted = (band) => {
+  const handleWanted = (band) => {
       console.log('band to handle ', band);
       console.log('current user: ', currentUser);
       if (!currentUser.user.want) {
@@ -45,9 +46,6 @@ const BandProfile = (props) => {
       console.log("arrays going into db:", currentUser.user.want, ' seen:', currentUser.user.seen);
       let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
       UserService.updateCurrentUser(data).then(data => {
-          // checkStatus(band, currentUser)
-        //   let stat = checkStatus(bandname.bandid, currentUser)
-        //  console.log('band: ', bandname.bandid, 'sta: ', stat)
         let stat = checkStatus(bandname.bandid, currentUser)
          setStatus(stat[0])
          setStatusText(stat[1])
@@ -56,7 +54,7 @@ const BandProfile = (props) => {
         });
     };
 
-    const handleSeen = (band) => {
+  const handleSeen = (band) => {
       console.log('band to handle ', band);
       console.log('current user: ', currentUser);
       if (!currentUser.user.seen) {
@@ -93,33 +91,6 @@ const BandProfile = (props) => {
         });
     };
 
-    // const checkStatus = (band) => {
-    //     console.log('in check status, currentUser: ', currentUser, " status: ", status);
-    //     console.log('band: ', band);
-    //     if(!currentUser || !currentUser.user) {
-    //       setStatus("none")
-    //       setStatusText("Not listed")
-    //       console.log('no user, set to none');
-         
-    //     } else {
-    //         if(currentUser.user.want.includes(band)) {
-    //         setStatus("want")
-    //         setStatusText("Want to see")
-    //         console.log('set to want');
-    //         }
-    //         else if (currentUser.user.seen.includes(band)) {
-    //           setStatus("seen")
-    //           setStatusText("Seen")
-    //           console.log('set to seen');
-    //         } else {
-    //           setStatus("none")
-    //           setStatusText("Not listed")
-    //           console.log('band not found on any list, set to none');
-    //         }
-    //     }
-        
-    // }
-
   useEffect(() => {
     
     if (!currentUser.user.want) {
@@ -138,14 +109,14 @@ const BandProfile = (props) => {
   }, []);
 
 
-   const searchForBand = (search) => {
+  const searchForBand = (search) => {
      const BandAPI = Axios.create({
        baseURL: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=ffb559cf8f997faea46f5ea67c7d98de&format=json`,
      });
      return BandAPI.get();
    };
 
-   const fetchData = () => {
+  const fetchData = () => {
      if (search) {
        searchForBand(search)
          .then((response) => setData(response.data))
@@ -153,31 +124,43 @@ const BandProfile = (props) => {
      }
    };
 
-   const displayData = () => {
+  const displayData = () => {
      if (data && data.artist !== undefined) {
        return (
-         <div>
            <div className="bandViewWrapper">
-             <span className="bandname">{data.artist.name}</span>
-             <img
+           <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: '100vh' }}
+            >
+        <Card style={{ padding:'10vh' }}>
+          <CardContent>
+          <CardHeader title={data.artist.name} />
+             
+             {data.artist.tags.tag[0] && <Typography className="genre">{data.artist.tags.tag[0].name}</Typography>}
+              <img
                src={img}
                alt="profile pic"
                className="profilePic"
                width="200px"
              />
-             <span className="genre">{data.artist.tags.tag[0].name}</span>
              <div className={status}>
-               <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</span>
+               <Typography onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</Typography>
                <div className="dropDown">
-                 <span onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</span>
-                 <span onClick={() => handleSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</span>
+                 <Typography onClick={() => handleWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</Typography>
+                 <Typography onClick={() => handleSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</Typography>
                </div>           
              </div>
              <div className="description">
-               <span>{data.artist.bio.summary}</span>
+               <Typography>{data.artist.bio.summary}</Typography>
                <br />
              </div>
-           </div>
+            </CardContent>
+          </Card>
+        </Grid>
          </div>
        );
      } else {

@@ -1,19 +1,18 @@
 .bandViewWrapper {
-    /* border: 1px solid red; */
     margin-left: 8vw;
     margin-right: 10vw;
-    margin-top: 5vh;
+    margin-top: 10vh;
     height: 50vh;
 }
 
-.bandname {
+/* .bandname {
     color: rgb(85, 71, 61);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: x-large;
     margin-top: 15vh;
     margin-left: 5vw;
     
-}
+} */
 
 .bandPic {
     float: right;
@@ -92,14 +91,14 @@
     background-color: rgb(69, 43, 134);
 }
 
-.description {
+/* .description {
     margin: 10vh;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: medium;
-}
+} */
 
-.genre {
+/* .genre {
     margin-left: 10vh;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
-}
+} */

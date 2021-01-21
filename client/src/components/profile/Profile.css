@@ -2,10 +2,14 @@
 
 .profileViewWrapper {
     /* border: 1px solid red; */
-    margin-left: 10vw;
+    /* margin-left: 10vw;
     margin-right: 10vw;
     margin-top: 5vh;
-    height: 50vh;
+    height: 50vh; */
+    display: block;
+    margin-top: 10vh;
+    margin-right: auto;
+    align-content: center;
 }
 
 .username {
@@ -38,8 +42,8 @@
 
 .profilePic {
     /* float: right; */
-    grid-column: 4/10;
-    border-radius: 5px;
+    /* grid-column: 4/10;
+    border-radius: 5px; */
 }
 
 .listWrapper {
@@ -78,7 +82,6 @@
 .settingsWrapper {
     display: block;
     margin-top: 10vh;
-    margin-left: 30vw;
     margin-right: auto;
     align-content: center;
 }
@@ -104,6 +107,7 @@ h3 {
 }
 
 .formButton {
+    margin-bottom: 5vh;
     margin-bottom: 10vh;
     display: block;
 }
@@ -117,4 +121,15 @@ h3 {
     margin-right: 40vw;
     margin-left: 45vw;
     text-align: center;
+}
+
+
+/* Sign in */
+.signinCard {
+
+}
+
+.signinForm {
+    /* margin-left: 20vw;
+    margin-right: auto; */
 }

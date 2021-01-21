@@ -1,6 +1,7 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import "../browse/BrowseView.css"
+import {Typography, Button} from '@material-ui/core'
+// import "../browse/BrowseView.css"
 
 
 export const ProfilePreview = ({id, name, user}) => {
@@ -12,8 +13,24 @@ export const ProfilePreview = ({id, name, user}) => {
     }
     return (
         <div className="previewContainer">
-            <span>{name}</span>
-            <button onClick={()=> viewProfile(id)}>View profile</button>
+            <Typography style={{
+                    display:"block",
+                   
+                      marginBottom: "5vh",
+                      marginTop: "2vh",
+                      marginLeft: "5vw"
+                    }}>{name}</Typography>
+            <Button
+                color="primary"
+                variant="contained" 
+                style={{
+                    display:"block",
+                      fontSize: 14, //customize in px
+                      marginBottom: "5vh",
+                      marginTop: "2vh",
+                      marginLeft: "2vw"
+                    }}
+                onClick={()=> viewProfile(id)}>View profile</Button>
         </div>
     )
 }
