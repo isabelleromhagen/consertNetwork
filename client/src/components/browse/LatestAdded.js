@@ -154,7 +154,7 @@ const viewBand = (name) => {
                   {<Typography onClick={() => viewProfile(username)} className="preview">{username}</Typography>}
                   {<Typography>{bandStatus}</Typography>}
                   {<Typography onClick={() => viewBand(bandname)} className="preview">{bandname}</Typography>}
-                  <div className={status}>
+                  <div className={checkStatus(bandname, currentUser)[0]}>
                       <Typography onClick={() => handleWanted(bandname)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</Typography>
                       <div className="dropDown">
                           <Typography onClick={() => handleWanted(bandname)} style={{color:"rgb(217, 224, 205)"}}>Want to see</Typography>
