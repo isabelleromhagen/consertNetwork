@@ -1,7 +1,7 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 import {Typography, Button} from '@material-ui/core'
-// import "../browse/BrowseView.css"
+import "../browse/BrowseView.css"
 
 
 export const ProfilePreview = ({id, name, user}) => {
@@ -12,10 +12,9 @@ export const ProfilePreview = ({id, name, user}) => {
         history.push(`/profile/${id}`);
     }
     return (
-        <div className="previewContainer">
+        <div className="bandPreviewWrapper">
             <Typography style={{
                     display:"block",
-                   
                       marginBottom: "5vh",
                       marginTop: "2vh",
                       marginLeft: "5vw"

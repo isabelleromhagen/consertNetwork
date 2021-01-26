@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent, Typography, TextField, Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
-import {checkStatus} from "../../utils/BandStatus";
+import {checkStatus, handleWanted, handleSeen} from "../../utils/BandStatus";
 import FeedService from '../../shared/services/FeedService';
 import UserService from '../../shared/services/UserService'
-// import "../BrowseView.css";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./BrowseView.css";
 
 export const LatestAdded = () => {
   const history = useHistory();
@@ -14,6 +15,8 @@ export const LatestAdded = () => {
   const [feed, setFeed] = useState([]);
   const [status, setStatus] = useState("none");
   const [statusText, setStatusText] = useState("Not listed");
+  const [newComment, setNewComment] = useState({text: "", _id:""});
+  const [post, setPost] = useState({comments: [], _id:""});
 
 const viewProfile = (id) => {
         history.push(`/profile/${id}`);
@@ -22,101 +25,10 @@ const viewBand = (name) => {
     history.push(`/band/${name}`);
   };
 
-
-  const handleWanted = (band) => {
-      console.log('band to handle ', band);
-      console.log('current user: ', currentUser);
-      if (!currentUser.user.want) {
-        currentUser.user.want = [];
-        console.log('no want list, created one');
-      }
-      if (!currentUser.user.seen) {
-        currentUser.user.seen = [];
-        console.log('no seen list, created one');
-      }
-      console.log("in handle wanted, current lists: ", currentUser.user.want, currentUser.user.seen);
-      //check is already marked as want, if true remove from want in currentUser
-      if (currentUser.user.want.includes(band)) {
-        currentUser.user.want = currentUser.user.want.filter((item) => item !== band);
-        console.log("in if incl want, updated: ", currentUser.user.want);
-      } else {
-        //if band is on seen list, remove from seen in currentUser
-        if (currentUser.user.seen.includes(band)) {
-          currentUser.user.seen = currentUser.user.seen.filter((item) => item !== band);
-          console.log("in if incl seen, updated: ", currentUser.user.seen);
-        }
-        //add band to want in currentUser
-        currentUser.user.want.push(band);
-        console.log("in else, updated: ", currentUser.user.want);
-      }
-      //update db with currentUser lists updated above
-      console.log("arrays going into db:", currentUser.user.want, ' seen:', currentUser.user.seen);
-      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
-      UserService.updateCurrentUser(data).then(data => {
-        let stat = checkStatus(feed[0].bandname, currentUser)
-         setStatus(stat[0])
-         setStatusText(stat[1])
-
-          console.log("got from us", data);
-        });
-
-        const update = ({username:currentUser.user.username, bandStatus:"wants to see", bandname:band});
-        console.log('update: ', update);
-        FeedService.addToFeed(update).then(data => {
-
-        })
-    };
-
-  const handleSeen = (band) => {
-      console.log('band to handle ', band);
-      console.log('current user: ', currentUser);
-      if (!currentUser.user.seen) {
-        currentUser.user.seen = [];
-        console.log('no seen list, created one');
-      }
-      if (!currentUser.user.want) {
-        currentUser.user.want = [];
-        console.log('no want list, created one');
-      }
-      console.log("in handle seen, current lists: ", currentUser.user.want, currentUser.user.seen);
-      //check is already marked as seen, if true remove from seen in currentUser
-      if (currentUser.user.seen.includes(band)) {
-        currentUser.user.seen = currentUser.user.seen.filter((item) => item !== band);
-        console.log("in if incl want, updated: ", currentUser.user.seen);
-      } else {
-        //if band is on want list, remove from seen in currentUser
-        if (currentUser.user.want.includes(band)) {
-          currentUser.user.want = currentUser.user.want.filter((item) => item !== band);
-          console.log("in if incl want, updated: ", currentUser.user.want);
-        }
-        //add band to seen in currentUser
-        currentUser.user.seen.push(band);
-        console.log("in else, updated: ", currentUser.user.seen);
-      }
-      //update db with currentUser lists updated above
-      console.log("arrays going into db:", currentUser.user.want, ' seen:', currentUser.user.seen);
-      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
-      UserService.updateCurrentUser(data).then(data => {
-          console.log("got from us", data);
-          let stat = checkStatus(feed[0].bandname, currentUser)
-         setStatus(stat[0])
-         setStatusText(stat[1])
-        });
-
-        const update = ({username:currentUser.user.username, bandStatus:"has seen", bandname:band});
-        console.log('update: ', update);
-        FeedService.addToFeed(update).then(data => {
-
-        })
-    };
-
-
-  useEffect(() => {
+useEffect(() => {
     FeedService.getFeed().then(data => {
       setFeed(data);
-      console.log('data: ', data);
     })
-    // if(currentUser && currentUser.user) {
     if (currentUser && currentUser.user && !currentUser.user.want) {
         currentUser.user.want = [];
       }
@@ -124,69 +36,133 @@ const viewBand = (name) => {
         currentUser.user.seen = [];
       }
     if (feed && feed[0]) {
-        console.log('in if', );
         let stat = checkStatus(feed[0].bandname, currentUser)
-          console.log('band: ', feed[0].bandname, 'sta: ', stat)
           setStatus(stat[0])
           setStatusText(stat[1])
-      }
-      // }
-      // if(feed && feed[0]) {
-      // if(currentUser !== undefined && feed[0] !== undefined) {
-        
+      }  
   }, []);
 
-  useEffect(() => {
-        if (feed && feed[0] !== undefined && currentUser && currentUser !== undefined && currentUser.user) {
-          
-            let stat = checkStatus(feed[0].bandname, currentUser)
-            console.log('useeffect update, checkstatus: ', stat);
-            setStatus(stat[0])
-            setStatusText(stat[1])
-    }
-  }, [status, feed]);
-
-  const displayFeed = ({username, bandStatus, bandname}) => {
-    // console.log('feed, ', feed[0], 'currentUser status, ', currentUser.user.seen);
-    if(feed && feed[0]) {
-      return (
-        <div className="bandPreviewWrapper">
-                  {<Typography onClick={() => viewProfile(username)} className="preview">{username}</Typography>}
-                  {<Typography>{bandStatus}</Typography>}
-                  {<Typography onClick={() => viewBand(bandname)} className="preview">{bandname}</Typography>}
-                  <div className={checkStatus(bandname, currentUser)[0]}>
-                      <Typography onClick={() => handleWanted(bandname)} style={{color:"rgb(217, 224, 205)"}}>{statusText}</Typography>
-                      <div className="dropDown">
-                          <Typography onClick={() => handleWanted(bandname)} style={{color:"rgb(217, 224, 205)"}}>Want to see</Typography>
-                          <Typography onClick={() => handleSeen(bandname)} style={{color:"rgb(217, 224, 205)"}}>Seen</Typography>
-                      </div>           
-                </div>
-              </div>
-      )
-        
+const prepareWanted = async (band) => {
+    if(currentUser.isAuthenticated) {
+      const bandStatus = await handleWanted(band, currentUser);
+        setStatus(bandStatus[0])
+        setStatusText(bandStatus[1])
+    } else {
+        toast(`Sign in to save bands!`);
     }
   }
 
-  return (
+const prepareSeen = async (band) => {
+    if(currentUser.isAuthenticated) {
+    const bandStatus = await handleSeen(band, currentUser);
+        setStatus(bandStatus[0])
+        setStatusText(bandStatus[1])
+        } else {
+        toast(`Sign in to save bands!`);
+    }
+  }
+ 
+const displayFeed = (post) => {
+    let currentUserStatus
+    if(post && post.username && feed && feed[0] !== undefined && currentUser && currentUser !== undefined && currentUser.user) {
+      currentUserStatus = checkStatus(post.bandname, currentUser)
+    }
+
+const formatDate = (date) => {
+  const commentDate = new Date(date);
+  const currentDate = Date.now();
+  const milliSeconds = currentDate - commentDate;
+ 
+  if(Math.floor(milliSeconds/1000) < 60 ) {
+    return "Less than a minute ago"
+  }
+  else if (Math.floor(milliSeconds/1000 < 3600 )) {
+    const minutes = Math.floor((milliSeconds/1000)/60);
+    return `${minutes} minutes ago`
+  }
+  else if (Math.floor(milliSeconds/1000 < 86400 )) {
+    const hours = Math.floor((milliSeconds/1000)/60/60);
+    return `${hours} hours ago`
+  }
+  else if (Math.floor(milliSeconds/1000 > 86400)) {
+    const days = Math.floor((((milliSeconds/1000)/60)/60)/24);
+    return `${days} days ago`
+  }
+
+}
+
+const handleLike = (e) => {
+  e.preventDefault();
+
+  const data = {"_id":post._id, "userId":currentUser.user._id}
+  console.log('like data: ', data);
+  FeedService.toggleLike(data).then(data => {
+
+  })
+}
+
+const submitComment = (e) => {
+    e.preventDefault();
+    const data = {"text":newComment.text, "_id":post._id, "userId":currentUser.user._id}
+    FeedService.addComment(data).then(data => {
+    })
+  }
+    if(post) {
+      return (
+        <div className="bandPreviewWrapper">
+                {<Typography onClick={() => viewProfile(post.username)} className="preview">{post.username}</Typography>}
+                {<Typography>{post.bandStatus}</Typography>}
+                {<Typography onClick={() => viewBand(post.bandname)} className="preview">{post.bandname}</Typography>}
+                <div className={currentUser && currentUserStatus && currentUserStatus[0]} style={{marginLeft:"0vh"}}>
+                      <Typography>{currentUserStatus && currentUserStatus[1]}</Typography>
+                      <div className="dropDown">
+                          <Typography onClick={() => prepareWanted(post.bandname)}>Want to see</Typography>
+                          <Typography onClick={() => prepareSeen(post.bandname)}>Seen</Typography>
+                      </div>           
+                </div>
+                <Button size="small"
+                  color="primary"
+                  variant="contained"
+                  onClick={(event) => handleLike(event)}>Like</Button>
+                <Typography style={{display:"inline", marginLeft: "1vw"}}>Likes: {post.likes.length}</Typography>
+                <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
+                {post.comments && post.comments.map((comment) => 
+                  (<div className="commentDiv">
+                      <Typography>{comment.username}</Typography>
+                      <Typography> commented: </Typography>
+                      <Typography>{comment.text}</Typography>
+                      <Typography>{formatDate(comment.date)}</Typography>
+                    </div>)
+                   )}
+                  <form onSubmit={submitComment}>
+                    <TextField
+                      name="comment"
+                      variant="outlined"
+                      label="comment"
+                      color="secondary"
+                      style={{
+                          display:"block",
+                          fontSize: 14,
+                          marginBottom: "5vh",
+                          marginTop: "2vh",
+                        }}
+                        onChange={(event) => setNewComment({text:event.target.value, _id:post._id})}
+                />
+                <Button type="submit"
+                  color="primary"
+                  variant="contained">Comment</Button>
+                </form>
+              </div>
+      )
+    }
+}
+
+return (
     <div className="contentDiv">
       <Typography variant="h2">Latest updates</Typography>
           {feed.map((post) => 
             displayFeed(post))}
+            <ToastContainer/>
     </div>
   );
 };
-
-    // {bands.map((band) => (
-    //       <BandPreview
-    //         key={band.bandid}
-    //         name={band.name}
-    //         id={band.bandid}
-    //         genre={band.genre}
-    //       />
-    //     ))}
-
-    // <div className="itemsContainer">
-    //       {feed.map((post) => 
-    //         <div>{post.username} {post.bandStatus} {post.bandname}</div>
-    //       )}
-    //   </div>

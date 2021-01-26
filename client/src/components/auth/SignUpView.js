@@ -6,6 +6,8 @@ import AuthService from "../../shared/services/AuthService";
 import {Button, TextField, Typography, Grid,
 Card, CardContent, CardHeader} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import "../../forms/Forms.css";
 // import "../../profile/Profile.css";
 
@@ -13,7 +15,7 @@ const SignUpView = () => {
   const history = useHistory();
   const currentUser = useContext(UserContext);
   const [user, setUser] = useState({ username: "", email: "", password: "" });
-  const [message, setMessage] = useState(null);
+  // const [message, setMessage] = useState(null);
 
    const login = () => {
      AuthService.login(user).then((data) => {
@@ -24,6 +26,8 @@ const SignUpView = () => {
          currentUser.setIsAuthenticated(true);
          currentUser.setToken(token);
          history.push(RoutingPath.browseView);
+       } else {
+         toast(`Wrong credentials!`);
        }
      });
    };
@@ -34,10 +38,19 @@ const SignUpView = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     AuthService.register(user).then((data) => {
-      const { message } = data;
-      setMessage(message);
-      login()
+      console.log('data from service: ', data, data.message);
+      if(data) {
+         login()
+         return;
+      } else {
+         
+       }
+      // const { message } = data;
+      // setMessage(message);
+      
     });
+    console.log('let us get toastinfgg');
+    toast(`Username is already taken!`);
   };
   return (
     <div className="settingsWrapper">
@@ -65,7 +78,7 @@ const SignUpView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
@@ -83,7 +96,7 @@ const SignUpView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
@@ -101,7 +114,7 @@ const SignUpView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
@@ -119,7 +132,7 @@ const SignUpView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
@@ -131,7 +144,7 @@ const SignUpView = () => {
             className="formButton" 
             size="large" 
             style={{
-              fontSize: 14, //customize in px
+              fontSize: 14,
               marginBottom: "5vh",
                       marginTop: "2vh",
                       marginLeft: "4vw"
@@ -139,6 +152,7 @@ const SignUpView = () => {
             color="primary"
             variant="contained">Register</Button>
         </form>
+        <ToastContainer/>
         </CardContent>
         </Card>
       </Grid>

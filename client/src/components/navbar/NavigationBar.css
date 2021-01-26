@@ -4,7 +4,8 @@
     justify-content: center;
     grid-template-columns: repeat(5, 1fr);
     /* background-color: rgb(133, 108, 139); */
-    background-color: #4C594F;
+    /* background-color: #6d5ea5; */
+    background-color: #6643a1;
     border-radius: 5px;
 }
 
@@ -24,8 +25,9 @@
     grid-template-columns: repeat(3, 1fr);
     width: 70vh;
     /* background-color: rgb(67, 67, 121); */
-    background-color: #35403A;
-    color: rgb(247, 247, 247);
+    /* background-color: #2b1635; */
+    background-color: #3d216e;
+    color: rgb(255, 255, 255);
     cursor: pointer;
 }
 
@@ -73,8 +75,8 @@
     border-radius: 5px;
     min-width: 150px;
     padding: 12px 10px;
-    background-color: rgb(67, 67, 121);
-    color: rgb(247, 247, 247);
+    background-color: #2b1635;
+    color: rgb(255, 255, 255);
     z-index: 10;
     margin-top: 0vh;
 }

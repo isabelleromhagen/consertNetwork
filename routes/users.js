@@ -172,10 +172,6 @@ router.post("/update", async (req, res) => {
           username, password, bio, want, seen, ...rest
         } = req.body;
 
-        console.log('contains: ', req.body);
-        console.log('want is array in users.js: ', Array.isArray(want));
-        console.log('id: ', req.body._id);
-
         const fields = {
           username: username,
           bio: bio,

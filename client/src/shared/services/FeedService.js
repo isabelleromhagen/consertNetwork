@@ -12,6 +12,21 @@ export default {
         }).then((res) => {
             return res.json().then(data => data);
         })
+    },
+    addComment: (data) => {
+        return fetch("/feed/comment", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {"Content-Type":"application/json"},
+        }).then((res) => {
+            return res.json().then(data => data)
+        })
+    },
+    toggleLike: (data) => {
+        return fetch("feed/like", {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {"Content-Type": "application/json"},
+        })
     }
-
 }

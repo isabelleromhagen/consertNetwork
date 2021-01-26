@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const FeedSchema = new mongoose.Schema({
     username: {
@@ -6,15 +7,42 @@ const FeedSchema = new mongoose.Schema({
         required: true
     },
     bandStatus: {
-        type: String
+        type: String,
+        required: true
     },
     bandname: {
-        type: String
+        type: String,
+        required: true
     },
     date: {
     type: Date,
     default: Date.now,
     },
+    likes: [
+        {
+            user: {
+                type: Schema.Types.ObjectId,
+            }
+        }
+    ],
+    comments: [
+        {
+            user: {
+               type: Schema.Types.ObjectId,
+            },
+            text: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ]
 });
 
 module.exports = mongoose.model("feed", FeedSchema);

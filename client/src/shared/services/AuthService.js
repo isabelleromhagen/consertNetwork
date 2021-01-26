@@ -28,9 +28,18 @@ export default {
           method: "post",
           body: JSON.stringify(user),
           headers: { "Content-Type": "application/json" },
-        })
-          .then((res) => res.json())
-          .then((data) => data);
+        }).then((res) => {
+          if (res.status !== 400) {
+          return res.json().then((data) => data);
+          } else {
+            return {
+              isAuthenticated: false,
+              user: { id: null, username: "" },
+              message: { msgBody: "400", msgError: true },
+            };
+          }
+          
+          })
     },
     login: (user) => {
         return fetch(rootUrl + "/auth", {

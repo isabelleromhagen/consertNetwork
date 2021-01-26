@@ -73,7 +73,7 @@ const SettingsView = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
-        <Card style={{ padding:'10vh' }}>
+        <Card style={{ padding:'10vh', width: "70vw"}}>
           <CardContent>
           <CardHeader title="Settings"/>
           <form onSubmit={update}>

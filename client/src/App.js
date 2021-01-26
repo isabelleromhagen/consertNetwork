@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import { Routing } from "./routes/Routing";
 import { NavigationBar } from "./components/navbar/NavigationBar";
 import UserContext from './shared/UserContext';
-// import { Box } from "@material-ui/core";
 import "./shared/Global.css";
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { orange, green, deepPurple, blue,  } from '@material-ui/core/colors'
@@ -45,7 +44,7 @@ const theme = createMuiTheme({
   return (
     
       <ThemeProvider theme={theme}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Routing>
             <NavigationBar />
           </Routing>
