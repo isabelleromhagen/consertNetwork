@@ -13,8 +13,9 @@ const SettingsView = () => {
   const currentUser = useContext(UserContext);
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
-  const [info, setInfo] = useState({username: currentUser.user.username, bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState("");
+  const [info, setInfo] = useState({username: currentUser.user.username, bio: currentUser.user.bio, image_id: currentUser.user.image_id, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
+  
   const [caption, setCaption] = useState("");
   const [passwordToDelete, setPasswordToDelete] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -28,7 +29,7 @@ const SettingsView = () => {
 
   const update = (e) => {
     e.preventDefault();
-    
+    console.log('updating: ', info);
       UserService.updateCurrentUser(info).then(data => {
           currentUser.setUser(info);
           toast(`Updated info!`);
@@ -38,12 +39,16 @@ const SettingsView = () => {
   const uploadImage = (e) => {
     // e.preventDefault();
     let imageData = new FormData();
-    imageData.append('username', currentUser.user.username);
+    // imageData.append('username', currentUser.user.username);
     imageData.append('file', image);
     imageData.append('caption', caption);
     console.log('formdata: ', imageData);
     UserService.uploadImage(imageData).then(data => {
-      toast('Image uploaded!')
+      console.log('data: ', data);
+      console.log('file id: ', data.image._id);
+      toast('Image uploaded!');
+      
+      setInfo({...info, image_id: data.image._id});
     })
   }
 
@@ -121,6 +126,7 @@ const SettingsView = () => {
                     }} />
               <input
                 type="file"
+                name="file"
                 onChange={(event) => setImage(event.target.files[0])}
                 />
               <TextField 

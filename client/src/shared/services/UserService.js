@@ -24,7 +24,7 @@ export default {
           method: "POST",
           body: JSON.stringify(data),
           headers: { "Content-Type":"application/json"},
-        });
+        })
     },
     uploadImage: (imageData) => {
         console.log(imageData);
@@ -32,7 +32,10 @@ export default {
             method: "POST",
             body: imageData,
             // headers: { "Content-Type":"application/json"}
-        })
+        })//
+        .then((res) => {
+            return res.json().then((data) => data) 
+            }) //
     },
     updatePassword: (data) => {
         return fetch("/users/updatePassword", {

@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
-  imageFileName: {
+  fileId: {
     type: String,
   },
    want: {

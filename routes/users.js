@@ -166,14 +166,15 @@ router.post("/update", async (req, res) => {
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-
+        console.log('req.body: ', req.body);
         const {
-          username, password, bio, want, seen, ...rest
+          username, password, bio, image_id, want, seen, ...rest
         } = req.body;
 
         const fields = {
           username: username,
           bio: bio,
+          fileId: image_id,
           want: Array.isArray(want) ? want : want.split(",").map((wanted) => " " + wanted.trim()),
           seen: Array.isArray(seen) ? seen : seen.split(",").map((seen) => " " + seen.trim()),
           _id: req.body._id,

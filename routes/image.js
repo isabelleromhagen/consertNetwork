@@ -6,12 +6,15 @@ const connectDB = require('../config/db');
 const db = config.get("mongoURI");
 const Image = require("../models/Image");
 const multer = require('multer');
-const Grid = require('gridfs-stream')
+const Grid = require('gridfs-stream');
+const GridFsStorage = require('multer-gridfs-storage');
+const crypto = require('crypto');
+const path = require('path');
+const ObjectID = require('mongodb').ObjectID;
 
 module.exports = (upload) => {
-    // const url = config.mongoURI;
-    // console.log(db);
-    // const url = db;
+
+
 const connect = mongoose.createConnection(db, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -20,23 +23,40 @@ const connect = mongoose.createConnection(db, {
 let gfs;
 
 connect.once('open', () => {
-    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
-        bucketName: "uploads"
-    });
-    console.log('upload connected!');
+    gfs = Grid(connect.db, mongoose.mongo);
+    gfs.collection('uploads');
 });
+
+const storage = new GridFsStorage({
+    url: db,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if(err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+upload = multer({ storage })
+
+
 
 // @route    POST /image
 // @desc     Upload an image
 // @access   Private
-router.route('/')
-    .post(upload.single('file'), (req, res, next) => {
-        console.log('req.body: ',req.body);
-        console.log('req.file: ', req.file);
-
+// router.route('/')
+router.post('/', upload.single('file'), (req, res, next) => {
     Image.findOne({caption: req.body.caption})
         .then((image) => {
-            // console.log(image);
             if(image) {
                 return res.status(200).json({
                     success: false,
@@ -48,7 +68,6 @@ router.route('/')
                 fileName: req.file.filename,
                 fileId: req.file.id,
             });
-            console.log('new image: ', newImage);
             newImage.save()
             .then((image) => {
                 res.status(200).json({
@@ -64,78 +83,108 @@ router.route('/')
 // @route    GET /allImages
 // @desc     Get all images
 // @access   Public
-router.route('/files')
-    .get((req, res, next) => {
-        gfs.find().toArray((err, files) => {
+router.get('/', (req, res) => {
+     gfs.files.find().toArray((err, files) => {
             if(!files || files.length === 0) {
-                return res.status(200).json({
+                res.render('index', {files: false});
+            } else {
+                files.map(file => {
+                    if(file.contentType === 'image/jpeg'
+                    || file.contentType === 'image/png') {
+                        file.isImage = true;
+                    } else {
+                        file.isImage = false;
+                    }
+                });
+                res.render('index', {files: files});
+            }
+        });
+})
+
+// @route    GET /allImages
+// @desc     Get all images
+// @access   Public
+router.get('/files', (req, res) => {
+        gfs.files.find().toArray((err, files) => {
+            if(!files || files.length === 0) {
+                return res.status(404).json({
                     success: false,
                     message: 'No files available'
                 });
             }
-            files.map(file => {
-                if(file.contentType === 'image/jpeg'
-                || file.contentType === 'image/png'
-                || file.contentType === 'image/svg+xml') {
-                    file.isImage = true;
-                } else {
-                    file.isImage= false
-                }
-            });
-            console.log('success! sending: ', files);
-            res.status(200).json({
-                success: true,
-                files,
-            });
+           return res.json(files);
         });
-    });
+});
 
-
-// @route    GET /image
-// @desc     Get image by filename/username
+// @route    GET /files/:filename
+// @desc     Get image file by filename
 // @access   Public
-// router.route('/file/:filename')
-router.route('/file/:filename')
-    .get((req, res, next) => {
-        console.log('non-render');
-        console.log(req.params.filename);
-        gfs.find({ filename: req.params.filename })
-            .toArray((err, files) => {
-                console.log('files: ', files);
-                if(!files[0] || files.length === 0) {
-                    return res.status(200).json({
-                        success: false,
-                        message: 'No files available',
-                    });
-                }
-                res.status(200).json({
-                    success: true,
-                    file: files[0],
+// router.get('/files/:filename', (req, res) => {
+//         gfs.files.findOne({filename: req.params.filename}, (err, file) => {
+//              if(!file || file.length === 0) {
+//                 return res.status(404).json({
+//                     success: false,
+//                     message: 'No file exists...'
+//                 });
+//             }
+//             return res.json(file);
+//         })
+//     });
+
+router.get('/files/:id', (req, res) => {
+        gfs.files.findOne({fileId: req.params.fileId}, (err, file) => {
+             if(!file || file.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'No file exists...'
                 });
-            });
+            }
+            return res.json(file);
+        })
     });
 
 // @route    GET /image
 // @desc     Get image by filename
 // @access   Public
-router.route('/:filename')
-    .get((req, res, next) => {
-        console.log('non-render');
-        console.log(req.params.filename);
-        // const filename = "619182b49c92a971dff91eb9a60954b8.jpg";
-        gfs.find({ filename: req.params.filename })
-            .toArray((err, files) => {
-                if(!files[0] || files.length === 0) {
-                    return res.status(200).json({
+// router.get('/image/:filename', (req, res) => {
+//         gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+//                 if(!file || file.length === 0) {
+//                     return res.status(404).json({
+//                         success: false,
+//                         message: 'No files available to render',
+//                     });
+//                 }
+//                 if(file.contentType === 'image/jpeg'
+//                 || file.contentType === 'image/png'
+//                 || file.contentType === 'image/svg+xml') {
+
+//                     const readstream = gfs.createReadStream(file.filename);
+//                     readstream.pipe(res);
+//                 } else {
+//                     res.status(404).json({
+//                         err: 'Not an image',
+//                     });
+//                 }
+//             });
+//     });
+
+
+router.get('/image/:id', (req, res) => {
+        console.log('reg.params: ', req.params);
+        // const fileId = new ObjectID(req.params.fileId); 
+        gfs.files.findOne({ fileId: req.params.fileId }, (err, file) => {
+                if(!file || file.length === 0) {
+                    return res.status(404).json({
                         success: false,
                         message: 'No files available to render',
                     });
                 }
+                if(file.contentType === 'image/jpeg'
+                || file.contentType === 'image/png'
+                || file.contentType === 'image/svg+xml') {
 
-                if(files[0].contentType === 'image/jpeg'
-                || files[0].contentType === 'image/png'
-                || files[0].contentType === 'image/svg+xml') {
-                    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+                    const readstream = gfs.createReadStream(file.filename);
+                    readstream.pipe(res);
                 } else {
                     res.status(404).json({
                         err: 'Not an image',

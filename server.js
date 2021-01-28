@@ -8,44 +8,40 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const imageRouter = require("./routes/image");
 const app = express();
+var fs = require('fs');
 
 dotenv.config();
 connectDB();
 app.use(cors());
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 // app.use(bodyParser.json({limit: "50mb"}));
 // app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 // app.use(express.json());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
-app.use(methodOverride('_method'));
-
-// app.get('/', (req, res) => res.send('API running!'));
-
-app.use("/users", require("./routes/users"));
-app.use("/auth", require("./routes/auth"));
-app.use("/feed", require("./routes/feed"));
-
-
-
-// for GridFS
-
-mongoose.Promise = require('bluebird');
-
-const connect = mongoose.connect(db, {
+const connect = mongoose.createConnection(db, {
         useNewUrlParser: true,
         useUnifiedTopology: true
    });
 
-connect.then(() => {
-    console.log('Connected to db GridFS!');
-}, (err) => console.log(err));
+let gfs;
+
+connect.once('open', () => {
+    // gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+    //     bucketName: "uploads"
+    // });
+    gfs = Grid(connect.db, mongoose.mongo);
+    gfs.collection('uploads');
+    console.log('upload connected!');
+});
 
 const storage = new GridFsStorage({
     url: db,
@@ -67,6 +63,30 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 app.use("/", imageRouter(upload));
+
+
+// app.get('/', (req, res) => res.send('API running!'));
+
+app.use("/users", require("./routes/users"));
+app.use("/auth", require("./routes/auth"));
+app.use("/feed", require("./routes/feed"));
+
+
+
+// for GridFS
+
+// mongoose.Promise = require('bluebird');
+
+// const connect = mongoose.connect(db, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//    });
+
+// connect.then(() => {
+//     console.log('Connected to db GridFS!');
+// }, (err) => console.log(err));
+
+
 
 // end of GridFS
 
