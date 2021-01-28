@@ -5,7 +5,6 @@ const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-const normalize = require("normalize-url");
 const Feed = require("../models/Feed");
 const User = require("../models/User");
 
