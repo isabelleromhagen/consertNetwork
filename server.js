@@ -9,11 +9,12 @@ const methodOverride = require('method-override');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const crypto = require('crypto');
-
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-
 const imageRouter = require("./routes/image");
 const app = express();
+
+dotenv.config();
 connectDB();
 app.use(cors());
 // app.use(bodyParser.json());

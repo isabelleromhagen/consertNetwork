@@ -8,7 +8,6 @@
     "server": "nodemon server",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [
@@ -26,6 +25,7 @@
     "config": "^3.3.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "gridfs-stream": "^1.1.1",
