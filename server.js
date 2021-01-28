@@ -1,14 +1,53 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const config = require("config");
+const db = config.get("mongoURI");
 const cors = require('cors');
-
-// for GridFS
+const path = require('path')
+const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const crypto = require('crypto');
+
+const mongoose = require('mongoose');
+
+const imageRouter = require("./routes/image");
+const app = express();
+connectDB();
+app.use(cors());
+// app.use(bodyParser.json());
+// app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+// app.use(express.json());
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
+
+app.use(methodOverride('_method'));
+
+// app.get('/', (req, res) => res.send('API running!'));
+
+app.use("/users", require("./routes/users"));
+app.use("/auth", require("./routes/auth"));
+app.use("/feed", require("./routes/feed"));
+
+
+
+// for GridFS
+
+mongoose.Promise = require('bluebird');
+
+const connect = mongoose.connect(db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+   });
+
+connect.then(() => {
+    console.log('Connected to db GridFS!');
+}, (err) => console.log(err));
 
 const storage = new GridFsStorage({
-    url: config.mongoURI,
+    url: db,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buf) => {
@@ -25,22 +64,20 @@ const storage = new GridFsStorage({
         });
     }
 });
-
 const upload = multer({ storage });
+app.use("/", imageRouter(upload));
 
 // end of GridFS
 
-const app = express();
-connectDB();
+//Heroku
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
 
-app.use(express.json());
-app.use(cors());
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
-app.get('/', (req, res) => res.send('API running!'));
-
-app.use("/users", require("./routes/users"));
-app.use("/auth", require("./routes/auth"));
-app.use("/feed", require("./routes/feed"));
 
 const PORT = process.env.PORT || 8080;
 

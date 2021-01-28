@@ -1,8 +1,21 @@
-const url = config.mongoURI;
-const connect = mongoose.createConnection(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+const express = require("express");
+const mongoose = require("mongoose");
+const router = express.Router();
+const config = require("config");
+const connectDB = require('../config/db');
+const db = config.get("mongoURI");
+const Image = require("../models/Image");
+const multer = require('multer');
+const Grid = require('gridfs-stream')
+
+module.exports = (upload) => {
+    // const url = config.mongoURI;
+    // console.log(db);
+    // const url = db;
+const connect = mongoose.createConnection(db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+   });
 
 let gfs;
 
@@ -10,17 +23,20 @@ connect.once('open', () => {
     gfs = new mongoose.mongo.GridFSBucket(connect.db, {
         bucketName: "uploads"
     });
+    console.log('upload connected!');
 });
 
 // @route    POST /image
 // @desc     Upload an image
 // @access   Private
-imageRouter.route('/').post(upload.single('file'), (req, res, next) => {
-    console.log(req.body);
+router.route('/')
+    .post(upload.single('file'), (req, res, next) => {
+        console.log('req.body: ',req.body);
+        console.log('req.file: ', req.file);
 
     Image.findOne({caption: req.body.caption})
         .then((image) => {
-            console.log(image);
+            // console.log(image);
             if(image) {
                 return res.status(200).json({
                     success: false,
@@ -32,6 +48,7 @@ imageRouter.route('/').post(upload.single('file'), (req, res, next) => {
                 fileName: req.file.filename,
                 fileId: req.file.id,
             });
+            console.log('new image: ', newImage);
             newImage.save()
             .then((image) => {
                 res.status(200).json({
@@ -44,13 +61,47 @@ imageRouter.route('/').post(upload.single('file'), (req, res, next) => {
         .catch(err => res.status(500).json(err));
 })
 
-// @route    GET /image
-// @desc     Get image by filename
+// @route    GET /allImages
+// @desc     Get all images
 // @access   Public
-imageRouter.route('/file/:filename')
+router.route('/files')
     .get((req, res, next) => {
+        gfs.find().toArray((err, files) => {
+            if(!files || files.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'No files available'
+                });
+            }
+            files.map(file => {
+                if(file.contentType === 'image/jpeg'
+                || file.contentType === 'image/png'
+                || file.contentType === 'image/svg+xml') {
+                    file.isImage = true;
+                } else {
+                    file.isImage= false
+                }
+            });
+            console.log('success! sending: ', files);
+            res.status(200).json({
+                success: true,
+                files,
+            });
+        });
+    });
+
+
+// @route    GET /image
+// @desc     Get image by filename/username
+// @access   Public
+// router.route('/file/:filename')
+router.route('/file/:filename')
+    .get((req, res, next) => {
+        console.log('non-render');
+        console.log(req.params.filename);
         gfs.find({ filename: req.params.filename })
             .toArray((err, files) => {
+                console.log('files: ', files);
                 if(!files[0] || files.length === 0) {
                     return res.status(200).json({
                         success: false,
@@ -67,14 +118,17 @@ imageRouter.route('/file/:filename')
 // @route    GET /image
 // @desc     Get image by filename
 // @access   Public
-imageRouter.route('/image/:filename')
+router.route('/:filename')
     .get((req, res, next) => {
+        console.log('non-render');
+        console.log(req.params.filename);
+        // const filename = "619182b49c92a971dff91eb9a60954b8.jpg";
         gfs.find({ filename: req.params.filename })
             .toArray((err, files) => {
                 if(!files[0] || files.length === 0) {
                     return res.status(200).json({
                         success: false,
-                        message: 'No files available',
+                        message: 'No files available to render',
                     });
                 }
 
@@ -93,7 +147,7 @@ imageRouter.route('/image/:filename')
 // @route    DELETE /image
 // @desc     Delete image by id
 // @access   Private
-imageRouter.route('/file/del/:id')
+router.route('/file/del/:id')
     .post((req, res, next) => {
         console.log(re.params.id);
         gfs.delete(new mongoose.Types.ObjectId(req.params.id),
@@ -107,3 +161,7 @@ imageRouter.route('/file/del/:id')
                 });
             });
     });
+    return router;
+    // module.exports = router;
+}
+

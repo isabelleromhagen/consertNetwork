@@ -14,12 +14,25 @@ export default {
             return res.json().then((data) => data);
         })
     },
+    getImageByFilename: (filename) => {
+        return fetch(`http://localhost:8080/${filename}`).then((res) => {
+            return res.json().then((data) => data) 
+            })  
+    },
     updateCurrentUser: (data) => {
         return fetch("http://localhost:8080/users/update", {
           method: "POST",
           body: JSON.stringify(data),
           headers: { "Content-Type":"application/json"},
         });
+    },
+    uploadImage: (imageData) => {
+        console.log(imageData);
+        return fetch("http://localhost:8080/", {
+            method: "POST",
+            body: imageData,
+            // headers: { "Content-Type":"application/json"}
+        })
     },
     updatePassword: (data) => {
         return fetch("http://localhost:8080/users/updatePassword", {

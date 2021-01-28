@@ -3,19 +3,71 @@ import { useHistory } from "react-router-dom";
 import {UserContext} from '../../shared/UserContext';
 import UserService from '../../shared/services/UserService';
 import "./Profile.css";
-import ProfilePic from "../../shared/images/profilePic.jpg";
+// import ProfilePic from "../../shared/images/profilePic.jpg";
 import RoutingPath from "../../routes/RoutingPath";
 import { Card, Typography, Grid, CardContent, CardHeader } from "@material-ui/core";
 
 const ProfileView = (props) => {
   const currentUser = useContext(UserContext);
   const [profile, setProfile] = useState({});
+  const [profilePicture, setProfilePicture] = useState({});
+  const [images, setImages] = useState([]);
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
   const history = useHistory();
 
   const goToArtist = (artist) => {
       history.push(`/band/${artist}`);
+  }
+
+  const loadProfilePicture = () => {
+    
+    const filename = "619182b49c92a971dff91eb9a60954b8.jpg";
+    //  UserService.getImageByFilename(filename).then((data) => {
+    //     console.log('got back from db: ', data);
+    //     setProfilePicture(data);
+    // })
+
+//TODO_:::::::::: fizxxxxxxxxxxxxxx
+
+    fetch('http://localhost:8080/files')
+      .then(res => res.json())
+      .then(files => {
+        if (files.message) {
+          console.log('no files.......');
+        } else {
+          console.log('setting files: ', files.files[0]);
+          // setImages(files);
+
+          setProfilePicture(files.files[0])
+        }
+
+      })
+    // await fetch('http://localhost:8080/files')
+    //       .then(res => {
+    //           console.log(res);
+    //           console.log(res....);
+    //         if(res.data) {
+    //            console.log(res.data);
+    //            console.log('res.data.images: ', res.data.files);
+    //         setFiles(res.data.files);
+            
+    //         }
+            
+    //       }).catch(err => console.log(err));
+
+
+      //  fetch(`http://localhost:8080/${filename}`)
+      //   .then(res => res.json())
+      //   .then(files => {
+      //     if(files.message) {
+      //       console.log('no files...');
+            
+      //     } else {
+      //       setFiles(files)
+      //     }
+      // }); 
+      console.log(images);
   }
 
    useEffect(() => {
@@ -33,6 +85,7 @@ const ProfileView = (props) => {
           setProfile(currentUser.user);
           setWant(Array.from(currentUser.user.want));
           setSeen(Array.from(currentUser.user.seen));
+          loadProfilePicture();
     } else {
       history.push(RoutingPath.signInView);
     }
@@ -60,21 +113,23 @@ const ProfileView = (props) => {
         <Typography style={{ marginLeft: "1vw"}}>{profile.bio}</Typography>
       )}
   
-      <img
-        src={ProfilePic}
+      {images && <img
+        // src={ProfilePic}
+        src={profilePicture}
+        // src={`http://localhost:8080/image/'${images[0].filename}`}
         alt="profile pic"
         className="profilePic"
         width="200px"
         style={{
                 display:"block",
-                fontSize: 14, //customize in px
+                fontSize: 14, 
                 marginBottom: "5vh",
                 marginTop: "5vh",
                 marginLeft: "auto",
                 marginRight: "auto",
                 borderRadius: "5px"
           }}
-      />
+      />}
     
       <div className="listWrapper" id="wantWrapper">
         <Typography className="subHeading" variant="h6">Want to see</Typography>

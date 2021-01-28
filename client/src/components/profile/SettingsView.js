@@ -13,7 +13,9 @@ const SettingsView = () => {
   const currentUser = useContext(UserContext);
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
-  const [info, setInfo] = useState({username: currentUser.user.username, pictureUrl: "", bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
+  const [info, setInfo] = useState({username: currentUser.user.username, bio: currentUser.user.bio, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
+  const [image, setImage] = useState({});
+  const [caption, setCaption] = useState("");
   const [passwordToDelete, setPasswordToDelete] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword1, setNewPassword1] = useState("");
@@ -31,6 +33,18 @@ const SettingsView = () => {
           currentUser.setUser(info);
           toast(`Updated info!`);
       })
+  }
+
+  const uploadImage = (e) => {
+    // e.preventDefault();
+    let imageData = new FormData();
+    imageData.append('username', currentUser.user.username);
+    imageData.append('file', image);
+    imageData.append('caption', caption);
+    console.log('formdata: ', imageData);
+    UserService.uploadImage(imageData).then(data => {
+      toast('Image uploaded!')
+    })
   }
 
   const updatePassword = (e) => {
@@ -56,8 +70,6 @@ const SettingsView = () => {
       if(currentUser.user.want) {
         let wantArr = Array.from(currentUser.user.want);
         let seenArr = Array.from(currentUser.user.seen);
-        console.log('want array is arr: ', Array.isArray(wantArr), ' contains: ', wantArr);
-        console.log('id: ', currentUser.user._id);
         setInfo({username: currentUser.user.username, bio: currentUser.user.bio, want: wantArr, seen: seenArr, token: currentUser.token, _id: currentUser.user._id});
        
       }
@@ -87,26 +99,11 @@ const SettingsView = () => {
                 value={info.username}
                 style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
 
-                    }} />
-             
-              <Typography>Profile picture URL</Typography>
-              <TextField 
-                name="pictureUrl"
-                variant="outlined"
-                color="secondary"
-                label="Picture url"
-                onChange={onChange}
-                value={info.pictureUrl}
-                style={{
-                    display:"block",
-                      fontSize: 14, //customize in px
-                      marginBottom: "5vh",
-                      marginTop: "5vh"
                     }} />
               <Typography>Biography</Typography>
               <TextField 
@@ -118,21 +115,50 @@ const SettingsView = () => {
                 value={info.bio}
                 style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14,
+                      marginBottom: "5vh",
+                      marginTop: "5vh"
+                    }} />
+              <input
+                type="file"
+                onChange={(event) => setImage(event.target.files[0])}
+                />
+              <TextField 
+                name="caption"
+                variant="outlined"
+                color="secondary"
+                label="Caption"
+                onChange={(event) => setCaption(event.target.value)}
+                value={caption}
+                style={{
+                    display:"block",
+                      fontSize: 14,
                       marginBottom: "5vh",
                       marginTop: "5vh"
                     }} />
               <Button
-              size="large" 
-              style={{
-              fontSize: 14, //customize in px
-              marginBottom: "5vh",
-                      marginTop: "2vh",
-                      marginLeft: "4vw"
-            }}
-              color="primary"
-              variant="contained"
-               type="submit">Update</Button>
+                size="large" 
+                style={{
+                  fontSize: 14, 
+                  marginBottom: "5vh",
+                  marginTop: "2vh",
+                  marginLeft: "4vw"
+                  }}
+                color="primary"
+                variant="contained"
+                onClick={() => uploadImage()}
+              >Upload</Button>
+              <Button
+                size="large" 
+                style={{
+                  fontSize: 14, 
+                  marginBottom: "5vh",
+                  marginTop: "2vh",
+                  marginLeft: "4vw"
+                }}
+                color="primary"
+                variant="contained"
+                type="submit">Update</Button>
           </form>
           <ToastContainer />
    
@@ -151,7 +177,7 @@ const SettingsView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                     }}
@@ -168,7 +194,7 @@ const SettingsView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                     }}
@@ -185,7 +211,7 @@ const SettingsView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                     }}
@@ -193,7 +219,7 @@ const SettingsView = () => {
               <Button 
               size="large" 
               style={{
-              fontSize: 14, //customize in px
+              fontSize: 14, 
               marginBottom: "5vh",
                       marginTop: "2vh",
                       marginLeft: "2vw"
@@ -217,7 +243,7 @@ const SettingsView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
                     }}
@@ -225,7 +251,7 @@ const SettingsView = () => {
           <Button 
           size="large" 
               style={{
-              fontSize: 14, //customize in px
+              fontSize: 14, 
               marginBottom: "5vh",
                       marginTop: "2vh",
                       marginLeft: "4vw"
@@ -242,3 +268,19 @@ const SettingsView = () => {
 }
 
 export default SettingsView;
+
+
+              // <Typography>Profile picture URL</Typography>
+              // <TextField 
+              //   name="pictureUrl"
+              //   variant="outlined"
+              //   color="secondary"
+              //   label="Picture url"
+              //   onChange={onChange}
+              //   value={info.pictureUrl}
+              //   style={{
+              //       display:"block",
+              //         fontSize: 14,
+              //         marginBottom: "5vh",
+              //         marginTop: "5vh"
+              //       }} />
