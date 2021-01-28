@@ -5,22 +5,22 @@ export default {
         })
     },
     getUser: (userid) => {
-        return fetch(`http://localhost:8080/users/${userid}`).then((res) => {
+        return fetch(`/users/${userid}`).then((res) => {
           return res.json().then((data) => data);
         });
     },
     getUserByUsername: (username) => {
-        return fetch(`http://localhost:8080/users/user/${username}`).then((res) => {
+        return fetch(`/users/user/${username}`).then((res) => {
             return res.json().then((data) => data);
         })
     },
     getImageByFilename: (filename) => {
-        return fetch(`http://localhost:8080/${filename}`).then((res) => {
+        return fetch(`/${filename}`).then((res) => {
             return res.json().then((data) => data) 
             })  
     },
     updateCurrentUser: (data) => {
-        return fetch("http://localhost:8080/users/update", {
+        return fetch("/users/update", {
           method: "POST",
           body: JSON.stringify(data),
           headers: { "Content-Type":"application/json"},
@@ -28,21 +28,21 @@ export default {
     },
     uploadImage: (imageData) => {
         console.log(imageData);
-        return fetch("http://localhost:8080/", {
+        return fetch("/", {
             method: "POST",
             body: imageData,
             // headers: { "Content-Type":"application/json"}
         })
     },
     updatePassword: (data) => {
-        return fetch("http://localhost:8080/users/updatePassword", {
+        return fetch("/users/updatePassword", {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type":"application/json"}, 
         })
     },
     deleteUser: (data) => {
-        return fetch(`http://localhost:8080/users/${data._id}`, {
+        return fetch(`/users/${data._id}`, {
             method: "DELETE",
             body: JSON.stringify(data),
             headers: {"Content-Type":"application/json"},

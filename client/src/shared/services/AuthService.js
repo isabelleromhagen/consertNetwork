@@ -1,6 +1,6 @@
   import axios from 'axios';
 
-  const rootUrl = "http://localhost:8080";
+  // const rootUrl = "http://localhost:8080";
 
     const apiInstance = axios.create({
         baseURL: 'http://localhost:8080/',
@@ -24,7 +24,7 @@
 
 export default {
     register: (user) => {
-        return fetch(rootUrl + "/users", {
+        return fetch("/users", {
           method: "post",
           body: JSON.stringify(user),
           headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export default {
           })
     },
     login: (user) => {
-        return fetch(rootUrl + "/auth", {
+        return fetch("/auth", {
           method: "post",
           body: JSON.stringify(user),
           headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ export default {
     },
     //return current user if authenticated
     isAuthenticated: (token) => {
-          return fetch(rootUrl + "/users/me", {
+          return fetch("/users/me", {
             method: "post",
             body: JSON.stringify(token),
             headers: {"Content-Type": "x-auth-token"},
