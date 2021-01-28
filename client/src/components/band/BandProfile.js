@@ -33,7 +33,7 @@ useEffect(() => {
 
   const searchForBand = (search) => {
      const BandAPI = Axios.create({
-       baseURL: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=ffb559cf8f997faea46f5ea67c7d98de&format=json`,
+       baseURL: `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=ffb559cf8f997faea46f5ea67c7d98de&format=json`,
      });
      return BandAPI.get();
    };
