@@ -132,7 +132,11 @@ router.get('/files', (req, res) => {
 //     });
 
 router.get('/files/:id', (req, res) => {
-        gfs.files.findOne({fileId: req.params.fileId}, (err, file) => {
+    console.log('reg.params files: ', req.params);
+        console.log('id: ', req.params.id);
+        const fileId = new ObjectID(req.params.id); 
+        console.log('fileId: ',typeof fileId);
+        gfs.files.findOne({_id: fileId}, (err, file) => {
              if(!file || file.length === 0) {
                 return res.status(404).json({
                     success: false,
@@ -170,9 +174,11 @@ router.get('/files/:id', (req, res) => {
 
 
 router.get('/image/:id', (req, res) => {
-        console.log('reg.params: ', req.params);
-        // const fileId = new ObjectID(req.params.fileId); 
-        gfs.files.findOne({ fileId: req.params.fileId }, (err, file) => {
+        console.log('reg.params image: ', req.params);
+        console.log('id: ', req.params.id);
+        const fileId = new ObjectID(req.params.id); 
+        console.log('fileId: ',typeof fileId);
+        gfs.files.findOne({ _id: fileId }, (err, file) => {
                 if(!file || file.length === 0) {
                     return res.status(404).json({
                         success: false,

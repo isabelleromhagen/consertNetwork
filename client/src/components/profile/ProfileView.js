@@ -22,7 +22,7 @@ const ProfileView = (props) => {
 
   const loadProfilePicture = () => {
     console.log('profile: ', currentUser.user);
-    console.log('profile.image_id: ', currentUser.user.image_id);
+    console.log('profile.image_id: ', currentUser.user.fileId);
     // const filename = "619182b49c92a971dff91eb9a60954b8.jpg";
     //  UserService.getImageByFilename(filename).then((data) => {
     //     console.log('got back from db: ', data);
@@ -92,12 +92,12 @@ const ProfileView = (props) => {
         <Typography style={{ marginLeft: "1vw"}}>{profile.bio}</Typography>
       )}
   
-      {currentUser.user.image_id && <img
+      {currentUser && currentUser.user.fileId && <img
         // src={ProfilePic}
         // src={profilePicture}
         // src={`/image/${images[0].filename}`}
         // src={`/image/${profilePicture.filename}`}
-        src={`http://localhost:8080/image/${currentUser.user.image_id}`}
+        src={`http://localhost:8080/image/${currentUser.user.fileId}`}
         alt="profile pic"
         className="profilePic"
         width="200px"

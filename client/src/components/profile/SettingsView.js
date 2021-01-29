@@ -14,7 +14,7 @@ const SettingsView = () => {
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
   const [image, setImage] = useState("");
-  const [info, setInfo] = useState({username: currentUser.user.username, bio: currentUser.user.bio, image_id: currentUser.user.image_id, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
+  const [info, setInfo] = useState({username: currentUser.user.username, bio: currentUser.user.bio, fileId: currentUser.user.fileId, password: "", password2: "", want: want, seen: seen, token: "", _id: currentUser.user._id});
   
   const [caption, setCaption] = useState("");
   const [passwordToDelete, setPasswordToDelete] = useState("");
@@ -45,10 +45,10 @@ const SettingsView = () => {
     console.log('formdata: ', imageData);
     UserService.uploadImage(imageData).then(data => {
       console.log('data: ', data);
-      console.log('file id: ', data.image._id);
+      console.log('file id: ', data.image.fileId);
       toast('Image uploaded!');
       
-      setInfo({...info, image_id: data.image._id});
+      setInfo({...info, fileId: data.image.fileId});
     })
   }
 
