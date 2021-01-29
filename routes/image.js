@@ -83,23 +83,23 @@ router.post('/', upload.single('file'), (req, res, next) => {
 // @route    GET /allImages
 // @desc     Get all images
 // @access   Public
-router.get('/', (req, res) => {
-     gfs.files.find().toArray((err, files) => {
-            if(!files || files.length === 0) {
-                res.render('index', {files: false});
-            } else {
-                files.map(file => {
-                    if(file.contentType === 'image/jpeg'
-                    || file.contentType === 'image/png') {
-                        file.isImage = true;
-                    } else {
-                        file.isImage = false;
-                    }
-                });
-                res.render('index', {files: files});
-            }
-        });
-})
+// router.get('/', (req, res) => {
+//      gfs.files.find().toArray((err, files) => {
+//             if(!files || files.length === 0) {
+//                 res.render('index', {files: false});
+//             } else {
+//                 files.map(file => {
+//                     if(file.contentType === 'image/jpeg'
+//                     || file.contentType === 'image/png') {
+//                         file.isImage = true;
+//                     } else {
+//                         file.isImage = false;
+//                     }
+//                 });
+//                 res.render('index', {files: files});
+//             }
+//         });
+// })
 
 // @route    GET /allImages
 // @desc     Get all images
