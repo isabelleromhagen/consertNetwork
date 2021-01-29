@@ -128,7 +128,7 @@ useEffect(() => {
               color="secondary"
               style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14,
                       marginBottom: "5vh",
                       marginTop: "5vh",
                       
@@ -138,7 +138,7 @@ useEffect(() => {
             <Button 
             size="large" 
             style={{
-              fontSize: 14, //customize in px
+              fontSize: 14,
               marginBottom: "5vh",
               marginTop: "2vh",
               marginLeft: "3vw"

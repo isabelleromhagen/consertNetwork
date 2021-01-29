@@ -17,6 +17,7 @@ export const LatestAdded = () => {
   const [statusText, setStatusText] = useState("Not listed");
   const [newComment, setNewComment] = useState({text: "", _id:""});
   const [post, setPost] = useState({comments: [], _id:""});
+  const [liked, setLiked] = useState(false);
 
 const viewProfile = (id) => {
         history.push(`/profile/${id}`);
@@ -90,13 +91,15 @@ const formatDate = (date) => {
   }
 
 }
-
+//TODO: display like immedeately. async await like seen/want to
 const handleLike = (e) => {
   e.preventDefault();
 
   const data = {"_id":post._id, "userId":currentUser.user._id}
   console.log('like data: ', data);
   FeedService.toggleLike(data).then(data => {
+      console.log('like data: ', data);
+      setLiked(true);
 
   })
 }
@@ -123,7 +126,7 @@ const submitComment = (e) => {
                 <Button size="small"
                   color="primary"
                   variant="contained"
-                  onClick={(event) => handleLike(event)}>Like</Button>
+                  onClick={(e) => handleLike(e)}>Like</Button>
                 <Typography style={{display:"inline", marginLeft: "1vw"}}>Likes: {post.likes.length}</Typography>
                 <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
                 {post.comments && post.comments.map((comment) => 
