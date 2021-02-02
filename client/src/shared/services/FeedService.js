@@ -4,6 +4,11 @@ export default {
             return res.json().then(data => data);
         })
     },
+    getPostById: (id) => {
+        return fetch(`/feed/${id}`).then(res => {
+            return res.json().then(data => data);
+        })
+    },
     addToFeed: (data) => {
         return fetch("/feed", {
             method: "POST",
@@ -29,7 +34,8 @@ export default {
             headers: {"Content-Type": "application/json"},
         })
         .then((res) => {
-            return res.json().then(data => data)
+            return res.json()
+            .then(data => data)
         })
     }
 }

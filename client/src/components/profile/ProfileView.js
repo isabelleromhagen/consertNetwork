@@ -46,6 +46,7 @@ const ProfileView = (props) => {
 
       })
   }
+  
 
    useEffect(() => {
     //if an id has been given, fetch that user from db. else show current user. if there's none, go to login.

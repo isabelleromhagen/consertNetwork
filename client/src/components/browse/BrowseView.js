@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-import { LatestAdded } from "./LatestAdded";
+import { LatestUpdates } from "./LatestUpdates";
 import {checkStatus, handleWanted, handleSeen} from "../../utils/BandStatus";
 import { UserContext } from "../../shared/UserContext";
 import {Button, TextField, Typography, Grid,
@@ -68,7 +68,7 @@ useEffect(() => {
 
   const searchForBand = (search) => {
     const BandAPI = Axios.create({
-      baseURL: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=ffb559cf8f997faea46f5ea67c7d98de&format=json`,
+      baseURL: `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=ffb559cf8f997faea46f5ea67c7d98de&format=json`,
     });
     return BandAPI.get();
   };
@@ -147,7 +147,7 @@ useEffect(() => {
             variant="contained"
             onClick={() => fetchData()}>Find artist</Button>
       
-          {data.artist !== undefined ? displayData() : <LatestAdded />}   
+          {data.artist !== undefined ? displayData() : <LatestUpdates />}   
           </CardContent>
         </Card>
         </Grid>
