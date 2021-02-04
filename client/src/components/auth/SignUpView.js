@@ -3,24 +3,21 @@ import {useHistory} from 'react-router-dom';
 import {UserContext} from '../../shared/UserContext';
 import RoutingPath from "../../routes/RoutingPath";
 import AuthService from "../../shared/services/AuthService";
-import {Button, TextField, Typography, Grid,
+import {Button, TextField, Grid,
 Card, CardContent, CardHeader} from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+// import { useTheme } from '@material-ui/core/styles';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import "../../forms/Forms.css";
-// import "../../profile/Profile.css";
 
 const SignUpView = () => {
   const history = useHistory();
   const currentUser = useContext(UserContext);
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
-  // const [message, setMessage] = useState(null);
+  const [user, setUser] = useState({ username: "", email: "", password: "", repeatedPassword: "", fileId: "noImage" });
 
    const login = () => {
      AuthService.login(user).then((data) => {
        const { token, user } = data;
-       //if the authservice returned a token it is valid, meaning the user can be authenticated.
+
        if (token) {
          currentUser.setUser(user);
          currentUser.setIsAuthenticated(true);
@@ -37,20 +34,21 @@ const SignUpView = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    AuthService.register(user).then((data) => {
-      console.log('data from service: ', data, data.message);
+    if(user.password.length < 6) {
+      toast(`Passwords must be at least 6 characters!`);
+      return;
+    }
+    if(user.password !== user.repeatedPassword) {
+        toast(`Passwords must match!`);
+        return;
+    }
+    console.log('user to register: ', user)
+      AuthService.register(user).then((data) => {
       if(data) {
          login()
          return;
-      } else {
-         
-       }
-      // const { message } = data;
-      // setMessage(message);
-      
+      } 
     });
-    console.log('let us get toastinfgg');
-    toast(`Username is already taken!`);
   };
   return (
     <div className="settingsWrapper">
@@ -81,8 +79,6 @@ const SignUpView = () => {
                       fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
-                      
-
                     }}
                 />
           <TextField
@@ -99,8 +95,6 @@ const SignUpView = () => {
                       fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
-                      
-
                     }}
                 />
           <TextField
@@ -117,26 +111,22 @@ const SignUpView = () => {
                       fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
-                      
-
                     }}
                 />
           <TextField
-              name="password"
+              name="repeatedPassword"
               variant="outlined"
               color="secondary"
               type="password"
               label="Repeat password"
               onChange={onChange}
-              value={user.password}
+              value={user.repeatedPassword}
               required
               style={{
                     display:"block",
                       fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
-                      
-
                     }}
                 />
           <Button 

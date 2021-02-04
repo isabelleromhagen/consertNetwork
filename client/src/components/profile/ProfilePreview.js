@@ -24,7 +24,7 @@ export const ProfilePreview = ({id, name, user}) => {
                 variant="contained" 
                 style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14,
                       marginBottom: "5vh",
                       marginTop: "2vh",
                       marginLeft: "2vw"

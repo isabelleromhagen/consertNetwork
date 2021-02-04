@@ -19,6 +19,11 @@ export default {
             return res.json().then((data) => data) 
             })  
     },
+    getImageByFileId: (fileId) => {
+        return fetch(`/image/${fileId}`).then((res) => {
+            return res.json().then((data) => data)
+        })
+    },
     updateCurrentUser: (data) => {
         return fetch("/users/update", {
           method: "POST",
@@ -27,15 +32,20 @@ export default {
         })
     },
     uploadImage: (imageData) => {
-        console.log(imageData);
         return fetch("/", {
             method: "POST",
             body: imageData,
-            // headers: { "Content-Type":"application/json"}
-        })//
+        })
         .then((res) => {
             return res.json().then((data) => data) 
-            }) //
+            }) 
+    },
+    deleteImage: (id) => {
+        return fetch(`http://localhost:8080/files/${id}`, {
+        method: "DELETE",
+        body: id,
+        // headers: {"Content-Type":"application/json"},
+        });
     },
     updatePassword: (data) => {
         return fetch("/users/updatePassword", {

@@ -6,6 +6,9 @@ const FeedSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    userId: {
+        type: String
+    },
     bandStatus: {
         type: String,
         required: true

@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const ObjectId = require('mongodb').ObjectID;
 
 const ImageSchema = new mongoose.Schema({
-    caption: {
-        required:true,
-        type: String
-        },
     filename: {
             type: String
         },

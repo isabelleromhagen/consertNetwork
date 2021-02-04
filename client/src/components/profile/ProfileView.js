@@ -3,72 +3,50 @@ import { useHistory } from "react-router-dom";
 import {UserContext} from '../../shared/UserContext';
 import UserService from '../../shared/services/UserService';
 import "./Profile.css";
-// import ProfilePic from "../../shared/images/profilePic.jpg";
+import PlaceholderPic from "../../shared/images/user.svg";
 import RoutingPath from "../../routes/RoutingPath";
 import { Card, Typography, Grid, CardContent, CardHeader } from "@material-ui/core";
+import Loader from 'react-loader-spinner';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const ProfileView = (props) => {
   const currentUser = useContext(UserContext);
   const [profile, setProfile] = useState({});
-  const [profilePicture, setProfilePicture] = useState('');
-  const [images, setImages] = useState([]);
+  const [fileId, setFileId] = useState("");
   const [want, setWant] = useState([]);
   const [seen, setSeen] = useState([]);
+  const [showSpinner, setShowSpinner] = useState(false);
   const history = useHistory();
 
   const goToArtist = (artist) => {
       history.push(`/band/${artist}`);
   }
 
-  const loadProfilePicture = () => {
-    console.log('profile: ', currentUser.user);
-    console.log('profile.image_id: ', currentUser.user.fileId);
-    // const filename = "619182b49c92a971dff91eb9a60954b8.jpg";
-    //  UserService.getImageByFilename(filename).then((data) => {
-    //     console.log('got back from db: ', data);
-    //     setProfilePicture(data);
-    // })
-
-//TODO_:::::::::: fizxxxxxxxxxxxxxx
-
-    // fetch('/image/619182b49c92a971dff91eb9a60954b8.jpg')
-    fetch('http://localhost:8080/files')
-      .then(res => res.json())
-      .then(files => {
-        if (files.message) {
-          console.log('no files.......');
-        } else {
-          console.log('setting files: ', files[0]);
-          // setImages(files);
-
-          // setProfilePicture(files[0]);
-        }
-
-      })
-  }
-  
-
    useEffect(() => {
-    //if an id has been given, fetch that user from db. else show current user. if there's none, go to login.
+     
     if(props.match.params.userid !== "" && props.match.params.userid !== ":userid") {
       const userid = props.match.params.userid;
+      
       UserService.getUser(userid).then(data => {
-        if(data) {
+        
+        if(data) {  
+          setShowSpinner(true);
           setProfile(data);
           setWant(data.want);
           setSeen(data.seen);
-          //set profile picture filename
+          setFileId(data.fileId);
         }        
       })
     } else if (currentUser.isAuthenticated) {
+          setShowSpinner(true);
           setProfile(currentUser.user);
           setWant(Array.from(currentUser.user.want));
           setSeen(Array.from(currentUser.user.seen));
-          setProfilePicture(currentUser.user.image_id);
-          loadProfilePicture();
+          setFileId(currentUser.user.fileId);
     } else {
       history.push(RoutingPath.signInView);
     }
+    setShowSpinner(false);
    }, []);
 
   return (
@@ -83,36 +61,48 @@ const ProfileView = (props) => {
       >
     <Card style={{ padding:'10vh', width: "70vw"}}>
       <CardContent>
-   
-   
       {profile && (
-     
         <CardHeader title={profile.username} style={{ marginLeft: "4vw"}}/>
       )}
       {profile && (
         <Typography style={{ marginLeft: "1vw"}}>{profile.bio}</Typography>
       )}
-  
-      {currentUser && currentUser.user.fileId && <img
-        // src={ProfilePic}
-        // src={profilePicture}
-        // src={`/image/${images[0].filename}`}
-        // src={`/image/${profilePicture.filename}`}
-        src={`http://localhost:8080/image/${currentUser.user.fileId}`}
-        alt="profile pic"
-        className="profilePic"
-        width="200px"
-        style={{
+     { fileId && <div style={{display:"flex", justifyContent: "center", alignItems: "center"}}>
+        { showSpinner &&  
+            (<Loader type="Puff"
+              color="#757575"
+              height={100}
+              width={100}
+              timeout={3000}
+              />)}
+          {fileId === 'noImage' ? 
+            (<img src={PlaceholderPic} alt="" style={{
+                width:"20vh", 
                 display:"block",
                 fontSize: 14, 
                 marginBottom: "5vh",
                 marginTop: "5vh",
                 marginLeft: "auto",
                 marginRight: "auto",
-                borderRadius: "5px"
-          }}
-      />}
-    
+                borderRadius: "5px"}}/>
+              ):(
+            <img
+              src={`/image/${fileId}`}
+              alt="profile pic"
+              className="profilePic"
+              width="200px"
+              style={{
+                      display:"block",
+                      fontSize: 14, 
+                      marginBottom: "5vh",
+                      marginTop: "5vh",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      borderRadius: "5px"
+                }}
+            />)
+      }
+      </div>}
       <div className="listWrapper" id="wantWrapper">
         <Typography className="subHeading" variant="h6">Want to see</Typography>
         {want && (

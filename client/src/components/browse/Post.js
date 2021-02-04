@@ -107,7 +107,7 @@ export const Post = (post) => {
     }
     return (
         <div className="bandPreviewWrapper">
-                {<Typography onClick={() => viewProfile(post.post.username)} className="preview">{post.post.username}</Typography>}
+                {<Typography onClick={() => viewProfile(post.post.userId)} className="preview">{post.post.username}</Typography>}
                 {<Typography>{post.post.bandStatus}</Typography>}
                 {<Typography onClick={() => viewBand(post.post.bandname)} className="preview">{post.post.bandname}</Typography>}
                 <div className={currentUser && status} style={{marginLeft:"0vh"}}>
@@ -127,7 +127,7 @@ export const Post = (post) => {
                 <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
                 {comments && comments.map((comment) => 
                   (<div className="commentDiv">
-                      <Typography>{comment.username}</Typography>
+                      <Typography onClick={() => viewProfile(post.post.userId)}>{comment.username}</Typography>
                       <Typography> commented: </Typography>
                       <Typography>{comment.text}</Typography>
                       <Typography>{formatDate(comment.date)}</Typography>

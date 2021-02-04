@@ -14,8 +14,8 @@ const BandProfile = (props) => {
   const bandname = props.match.params;
   const [search, setSearch] = useState(bandname.bandid);
   const [data, setData] = useState([]);
-  const [status, setStatus] = useState("");
-  const [statusText, setStatusText] = useState("");
+  const [status, setStatus] = useState("none");
+  const [statusText, setStatusText] = useState("Not listed");
  
 useEffect(() => { 
 
@@ -25,9 +25,12 @@ useEffect(() => {
       if (currentUser && currentUser.user && !currentUser.user.seen) {
         currentUser.user.seen = [];
       }
+      if(currentUser && currentUser.user) {
          let stat = checkStatus(bandname.bandid, currentUser)
          setStatus(stat[0])
          setStatusText(stat[1])
+      }
+        
     fetchData()
   }, []);
 

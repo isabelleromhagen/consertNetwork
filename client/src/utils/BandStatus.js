@@ -61,12 +61,12 @@ export const handleSeen = async (band, currentUser) => {
         }
         currentUser.user.seen.push(band);
       }
-      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, want: currentUser.user.want, seen: currentUser.user.seen})
+      let data = ({_id:currentUser.user._id, username: currentUser.user.username, bio: currentUser.user.bio, fileId: currentUser.user.fileId, want: currentUser.user.want, seen: currentUser.user.seen})
       let status
       await UserService.updateCurrentUser(data).then(data => {
           status = checkStatus(band, currentUser)
         });
-        const update = ({username:currentUser.user.username, bandStatus:"has seen", bandname:band});
+        const update = ({username:currentUser.user.username, userId:currentUser.user._id, bandStatus:"has seen", bandname:band});
         FeedService.addToFeed(update);
         return status;
     };

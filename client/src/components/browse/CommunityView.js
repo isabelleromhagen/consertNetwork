@@ -66,8 +66,7 @@ const CommunityView = () => {
                 marginBottom: "5vh",
                 marginTop: "5vh",
                 marginLeft: "3vw",
-                fontSize: 14 //customize in px
-   
+                fontSize: 14
               }}
               color="primary"
               variant="contained"

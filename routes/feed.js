@@ -52,11 +52,12 @@ router.post("/", async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-      const { username, bandStatus, bandname } = req.body;
+      const { username, userId, bandStatus, bandname } = req.body;
 
     try {
         post = new Feed({
         username,
+        userId,
         bandStatus,
         bandname
       });
@@ -107,20 +108,18 @@ router.post("/comment", async (req, res) => {
 
 router.put("/like", async (req,res) => {
   try {
-    console.log('req.body: ', req.body);
+
     const post = await Feed.findById(req.body._id);
-    console.log('likes on this post: ', post.likes);
+
     if(post.likes.some((like) => like.user.toString() === req.body.userId)) {
-      //unlike instead!
-      console.log('already liked, unliking!');
+      
       post.likes = post.likes.filter(({user}) => user.toString() !== req.body.userId);
+
     } else {
-      console.log('not liked, liking!');
       post.likes.unshift({user: req.body.userId});
     }
 
     await post.save();
-    console.log('post.like: ', post);
     return res.json(post.likes);
 
   } catch (error) {

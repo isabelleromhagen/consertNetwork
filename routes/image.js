@@ -55,14 +55,6 @@ upload = multer({ storage })
 // @access   Private
 // router.route('/')
 router.post('/', upload.single('file'), (req, res, next) => {
-    Image.findOne({caption: req.body.caption})
-        .then((image) => {
-            if(image) {
-                return res.status(200).json({
-                    success: false,
-                    message: 'Image already exists',
-                });
-            }
             let newImage = new Image({
                 caption: req.body.caption,
                 fileName: req.file.filename,
@@ -76,30 +68,8 @@ router.post('/', upload.single('file'), (req, res, next) => {
                 });
             })
             .catch(err => res.status(500).json(err));
-        })
-        .catch(err => res.status(500).json(err));
 })
 
-// @route    GET /allImages
-// @desc     Get all images
-// @access   Public
-// router.get('/', (req, res) => {
-//      gfs.files.find().toArray((err, files) => {
-//             if(!files || files.length === 0) {
-//                 res.render('index', {files: false});
-//             } else {
-//                 files.map(file => {
-//                     if(file.contentType === 'image/jpeg'
-//                     || file.contentType === 'image/png') {
-//                         file.isImage = true;
-//                     } else {
-//                         file.isImage = false;
-//                     }
-//                 });
-//                 res.render('index', {files: files});
-//             }
-//         });
-// })
 
 // @route    GET /allImages
 // @desc     Get all images
@@ -116,21 +86,6 @@ router.get('/files', (req, res) => {
         });
 });
 
-// @route    GET /files/:filename
-// @desc     Get image file by filename
-// @access   Public
-// router.get('/files/:filename', (req, res) => {
-//         gfs.files.findOne({filename: req.params.filename}, (err, file) => {
-//              if(!file || file.length === 0) {
-//                 return res.status(404).json({
-//                     success: false,
-//                     message: 'No file exists...'
-//                 });
-//             }
-//             return res.json(file);
-//         })
-//     });
-
 router.get('/files/:id', (req, res) => {
     console.log('reg.params files: ', req.params);
         console.log('id: ', req.params.id);
@@ -146,32 +101,6 @@ router.get('/files/:id', (req, res) => {
             return res.json(file);
         })
     });
-
-// @route    GET /image
-// @desc     Get image by filename
-// @access   Public
-// router.get('/image/:filename', (req, res) => {
-//         gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-//                 if(!file || file.length === 0) {
-//                     return res.status(404).json({
-//                         success: false,
-//                         message: 'No files available to render',
-//                     });
-//                 }
-//                 if(file.contentType === 'image/jpeg'
-//                 || file.contentType === 'image/png'
-//                 || file.contentType === 'image/svg+xml') {
-
-//                     const readstream = gfs.createReadStream(file.filename);
-//                     readstream.pipe(res);
-//                 } else {
-//                     res.status(404).json({
-//                         err: 'Not an image',
-//                     });
-//                 }
-//             });
-//     });
-
 
 router.get('/image/:id', (req, res) => {
         console.log('reg.params image: ', req.params);
@@ -202,11 +131,12 @@ router.get('/image/:id', (req, res) => {
 // @route    DELETE /image
 // @desc     Delete image by id
 // @access   Private
-router.route('/file/del/:id')
-    .post((req, res, next) => {
-        console.log(re.params.id);
-        gfs.delete(new mongoose.Types.ObjectId(req.params.id),
-            (err, data) => {
+router.delete('/files/:id', async (req, res) => {
+        const fileId = new ObjectID(req.params.id);
+        const deletedImage = await Image.findOneAndDelete({fileId:fileId});
+
+        gfs.remove({ _id: req.params.id, root: 'uploads' },
+            (err, gridStore) => {
                 if(err) {
                     return res.status(404).json({ err: err});
                 }
@@ -216,7 +146,6 @@ router.route('/file/del/:id')
                 });
             });
     });
-    return router;
-    // module.exports = router;
-}
 
+    return router;
+}
