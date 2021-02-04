@@ -60,6 +60,8 @@
 /* } */
 
 .bandPreviewWrapper {
+    display: grid;
+    justify-content: center;
     border: 1px solid rgb(206, 202, 202);
     border-radius: 8px;
     padding: 5vw;
@@ -112,4 +114,9 @@
     border-radius: 8px;
     border: 1px solid #2b1635;
     background-color: #eee8f0;
+}
+
+.commentForm {
+    border: none;
+    padding: 2vh;
 }

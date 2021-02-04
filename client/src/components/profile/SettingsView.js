@@ -144,11 +144,18 @@ const SettingsView = () => {
                       marginBottom: "5vh",
                       marginTop: "5vh"
                     }} />
-              <input
+                  
+                  <input
                 type="file"
                 name="file"
+                style={{
+                  width:"25vw",
+                  fontFamily:"fontsource-roboto",
+                  fontSize:"large"
+                }}
                 onChange={(event) => setImage(event.target.files[0])}
                 />
+              
               { showSpinner &&  
                 (<Loader type="Puff"
                   color="#757575"
@@ -162,7 +169,8 @@ const SettingsView = () => {
                   fontSize: 14, 
                   marginBottom: "5vh",
                   marginTop: "2vh",
-                  marginLeft: "4vw"
+                  width: "10vw",
+                  marginLeft: "7vw"
                   }}
                 color="primary"
                 variant="contained"
@@ -171,10 +179,12 @@ const SettingsView = () => {
               <Button
                 size="large" 
                 style={{
+                  display:"block",
                   fontSize: 14, 
                   marginBottom: "5vh",
                   marginTop: "2vh",
-                  marginLeft: "4vw"
+                  width: "15vw",
+                  marginLeft: "5vw"
                   }}
                 color="primary"
                 variant="contained"
@@ -184,13 +194,14 @@ const SettingsView = () => {
                 size="large" 
                 style={{
                   fontSize: 14, 
-                  marginBottom: "5vh",
-                  marginTop: "2vh",
-                  marginLeft: "4vw"
+                  // marginBottom: "5vh",
+                  marginTop: "12vh",
+                 
+                  // marginLeft: "4vw"
                 }}
-                color="primary"
+                color="secondary"
                 variant="contained"
-                type="submit">Update</Button>
+                type="submit">Save changes</Button>
           </form>
           <ToastContainer />
    
@@ -254,18 +265,18 @@ const SettingsView = () => {
               fontSize: 14, 
               marginBottom: "5vh",
                       marginTop: "2vh",
-                      marginLeft: "2vw"
+                      marginLeft: "1vw",
+                      width: "15vw"
             }}
               color="primary"
               variant="contained"
               type="submit">Update Password</Button>
           </form>
         </div>
-        <div>
+        <form>
           <Typography variant="h2">Delete account</Typography>
           <Typography>Enter password</Typography> <br />
-          <TextField
-              
+          <TextField     
               variant="outlined"
               color="secondary"
               type="password"
@@ -285,13 +296,12 @@ const SettingsView = () => {
               style={{
               fontSize: 14, 
               marginBottom: "5vh",
-                      marginTop: "2vh",
-                      marginLeft: "4vw"
+              marginTop: "2vh",
             }}
               color="primary"
               variant="contained"
               onClick={deleteUser}>Delete</Button>
-        </div>
+        </form>
         </CardContent>
         </Card>
       </Grid>
@@ -300,3 +310,4 @@ const SettingsView = () => {
 }
 
 export default SettingsView;
+

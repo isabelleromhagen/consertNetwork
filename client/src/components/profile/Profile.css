@@ -97,6 +97,15 @@ h3 {
     width: 10vw;
 }
 
+form {
+    border: 1px solid #2b1635;
+    border-radius: 5px;
+    padding: 10vw;
+    margin-top: 5vh;
+    display: grid;
+    justify-content: center;
+}
+
 .inputSpan {
     padding: 1vh;
     display: block

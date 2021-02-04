@@ -117,13 +117,17 @@ export const Post = (post) => {
                           <Typography onClick={() => prepareSeen(post.post.bandname)}>Seen</Typography>
                       </div>           
                 </div>
-                  <Button 
+                <div>
+                    <Button 
                   type="submit"
                   size="small"
                   color="primary"
                   variant="contained"
+                  style={{width:"5vw", marginLeft:"2vw", display:"inline"}}
                   onClick={() => handleLike()}>Like</Button>
-                <Typography style={{display:"inline", marginLeft: "1vw"}}>Likes: {likes}</Typography>
+                <Typography style={{display:"inline", marginLeft: "1vw", marginBottom:"3vh", }}>Likes: {likes}</Typography>
+                </div>
+                  
                 <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
                 {comments && comments.map((comment) => 
                   (<div className="commentDiv">
@@ -133,7 +137,7 @@ export const Post = (post) => {
                       <Typography>{formatDate(comment.date)}</Typography>
                     </div>)
                    )}
-                  <form onSubmit={submitComment}>
+                  <form onSubmit={submitComment} className="commentForm">
                     <TextField
                       name="comment"
                       variant="outlined"
@@ -150,7 +154,9 @@ export const Post = (post) => {
                 />
                 <Button type="submit"
                   color="primary"
-                  variant="contained">Comment</Button>
+                  variant="contained"
+                  style={{width:"10vw", marginLeft:"3vw"}}
+                  >Comment</Button>
                 </form>
                 <ToastContainer/>
               </div>
