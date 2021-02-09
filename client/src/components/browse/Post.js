@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Typography, TextField, Button } from "@material-ui/core";
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import CommentIcon from '@material-ui/icons/Comment';
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
 import FeedService from '../../shared/services/FeedService';
@@ -34,6 +36,9 @@ export const Post = (post) => {
     }, [])
 
     const viewProfile = (id) => {
+        console.log('profile id: ', id);
+        console.log('post user id: ', post);
+        currentUser.setProfile({});
         history.push(`/profile/${id}`);
     }
     const viewBand = (name) => {
@@ -101,6 +106,7 @@ export const Post = (post) => {
             const commentData = {"text":newComment, "_id":post.post._id, "userId":currentUser.user._id};
             const updatedComments = await FeedService.addComment(commentData);
             setComments(updatedComments);
+            setNewComment('')
         } else {
             toast(`Sign in to comment!`);
         }
@@ -119,19 +125,20 @@ export const Post = (post) => {
                 </div>
                 <div>
                     <Button 
+                  
                   type="submit"
                   size="small"
                   color="primary"
                   variant="contained"
-                  style={{width:"5vw", marginLeft:"2vw", display:"inline"}}
-                  onClick={() => handleLike()}>Like</Button>
+                  style={{width:"7vw", height:"7vh", marginLeft:"2vw", display:"inline"}}
+                  onClick={() => handleLike()}>{<ThumbUpIcon/>}</Button>
                 <Typography style={{display:"inline", marginLeft: "1vw", marginBottom:"3vh", }}>Likes: {likes}</Typography>
                 </div>
                   
                 <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
                 {comments && comments.map((comment) => 
                   (<div className="commentDiv">
-                      <Typography onClick={() => viewProfile(post.post.userId)}>{comment.username}</Typography>
+                      <Typography onClick={() => viewProfile(comment.userId)} className="preview">{comment.username}</Typography>
                       <Typography> commented: </Typography>
                       <Typography>{comment.text}</Typography>
                       <Typography>{formatDate(comment.date)}</Typography>
@@ -152,11 +159,13 @@ export const Post = (post) => {
                         }}
                         onChange={e => setNewComment(e.target.value)}
                 />
-                <Button type="submit"
+                <Button 
+                //   startIcon={}
+                  type="submit"
                   color="primary"
                   variant="contained"
                   style={{width:"10vw", marginLeft:"3vw"}}
-                  >Comment</Button>
+                  >{<CommentIcon/>}</Button>
                 </form>
                 <ToastContainer/>
               </div>

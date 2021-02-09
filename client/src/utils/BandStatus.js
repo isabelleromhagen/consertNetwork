@@ -40,7 +40,7 @@ export const handleWanted = async (band, currentUser) => {
       await UserService.updateCurrentUser(data).then(data => {
          status = checkStatus(band, currentUser)
         });
-        const update = ({username:currentUser.user.username, bandStatus:"wants to see", bandname:band});
+        const update = ({username:currentUser.user.username, userId:currentUser.user._id, bandStatus:"wants to see", bandname:band});
         FeedService.addToFeed(update);
         return status;
     };

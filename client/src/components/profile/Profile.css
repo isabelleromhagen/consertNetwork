@@ -139,6 +139,17 @@ form {
 }
 
 .signinForm {
-    /* margin-left: 20vw;
-    margin-right: auto; */
+    /* border: 1px solid #2b1635; */
+    border: none;
+    border-radius: 5px;
+    padding: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    display: grid;
+    justify-content: center;
+}
+
+.clickToSignUp {
+    display: grid;
+    justify-content: center;
 }

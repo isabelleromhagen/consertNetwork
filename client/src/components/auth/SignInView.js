@@ -59,11 +59,8 @@ const SignInView = () => {
                       value={user.email}
                       style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14,
                       marginBottom: "5vh",
-                      marginTop: "5vh",
-                      
-
                     }}
                         />
               <TextField
@@ -76,7 +73,7 @@ const SignInView = () => {
                       value={user.password}
                       style={{
                         display:"block",
-                        fontSize: 14, //customize in px
+                        fontSize: 14,
                         marginBottom: "5vh",
                         marginTop: "5vh"
                       }}
@@ -88,10 +85,11 @@ const SignInView = () => {
                   size="large" 
                   style={{
                     display:"block",
-                      fontSize: 14, //customize in px
+                      fontSize: 14,
                       marginBottom: "5vh",
                       marginTop: "2vh",
-                      marginLeft: "4vw"
+                      marginLeft: "3vw",
+                      width: "10vw"
                     }}
                   color="primary"
                   variant="contained">
@@ -100,16 +98,13 @@ const SignInView = () => {
               </form>
             <ToastContainer />
             <div className="clickToSignUp">
-              <Typography className="noAccount" style={{
-                    marginLeft: "4vw"
-                  }}>No account?</Typography>
+              <Typography>No account?</Typography>
               <Button
                 className="formButton"
                 size="large" 
                 style={{
-                    fontSize: 14, //customize in px
+                    fontSize: 14,
                     marginTop: "2vh",
-                    marginLeft: "4vw"
                   }}
                 color="primary"
                 variant="contained"

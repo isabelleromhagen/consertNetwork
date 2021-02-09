@@ -4,6 +4,8 @@ import {UserContext} from '../../shared/UserContext';
 import UserService from '../../shared/services/UserService';
 import RoutingPath from "../../routes/RoutingPath";
 import { Card, CardContent, CardHeader, Typography, Button, TextField, Grid } from "@material-ui/core";
+import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from 'react-loader-spinner';
@@ -64,7 +66,7 @@ const SettingsView = () => {
     UserService.uploadImage(imageData).then(data => {
       setShowSpinner(false);
       toast('Image uploaded!');
-      toast('Hit update to save');
+      toast("Don't forget to save your changes!");
       setInfo({...info, fileId: data.image.fileId});
     })
   }
@@ -113,8 +115,12 @@ const SettingsView = () => {
         <Card style={{ padding:'10vh', width: "70vw"}}>
           <CardContent>
           <CardHeader title="Settings"/>
-          <form onSubmit={update}>
-              <Typography>Username</Typography>
+          <form onSubmit={update} >
+              <Typography style={{
+                    
+                      marginLeft: "5vw"
+
+                    }}>Username</Typography>
               <TextField 
                 name="username"
                 variant="outlined"
@@ -127,10 +133,14 @@ const SettingsView = () => {
                       fontSize: 14, 
                       marginBottom: "5vh",
                       marginTop: "5vh",
-                      
+                      marginLeft: "5vw"
 
                     }} />
-              <Typography>Biography</Typography>
+              <Typography style={{
+                    
+                      marginLeft: "5vw"
+
+                    }}>Biography</Typography>
               <TextField 
                 name="bio"
                 variant="outlined"
@@ -142,7 +152,8 @@ const SettingsView = () => {
                     display:"block",
                       fontSize: 14,
                       marginBottom: "5vh",
-                      marginTop: "5vh"
+                      marginTop: "5vh",
+                      marginLeft: "5vw"
                     }} />
                   
                   <input
@@ -151,7 +162,8 @@ const SettingsView = () => {
                 style={{
                   width:"25vw",
                   fontFamily:"fontsource-roboto",
-                  fontSize:"large"
+                  fontSize:"large",
+                  marginLeft: "5vw"
                 }}
                 onChange={(event) => setImage(event.target.files[0])}
                 />
@@ -168,18 +180,18 @@ const SettingsView = () => {
                 style={{
                   fontSize: 14, 
                   marginBottom: "5vh",
-                  marginTop: "2vh",
-                  width: "10vw",
-                  marginLeft: "7vw"
+                  marginTop: "5vh",
+                  width: "15vw",
+                  marginLeft: "5vw"
                   }}
                 color="primary"
                 variant="contained"
                 onClick={(e) => uploadImage(e)}
-              >Upload</Button>
+              >Upload image</Button>
               <Button
                 size="large" 
+                endIcon={<DeleteIcon/>}
                 style={{
-                  display:"block",
                   fontSize: 14, 
                   marginBottom: "5vh",
                   marginTop: "2vh",
@@ -192,6 +204,7 @@ const SettingsView = () => {
               >Delete image</Button>
               <Button
                 size="large" 
+                endIcon={<SaveIcon/>}
                 style={{
                   fontSize: 14, 
                   // marginBottom: "5vh",
@@ -293,6 +306,7 @@ const SettingsView = () => {
                 />
           <Button 
           size="large" 
+          endIcon={<DeleteIcon/>}
               style={{
               fontSize: 14, 
               marginBottom: "5vh",

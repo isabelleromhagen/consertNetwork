@@ -18,7 +18,6 @@ const BandProfile = (props) => {
   const [data, setData] = useState([]);
   const [status, setStatus] = useState("none");
   const [statusText, setStatusText] = useState("Not listed");
-  const [mbid, setMbid] = useState('');
   const [image, setImage] = useState(null);
  
 useEffect(() => { 
@@ -35,7 +34,7 @@ useEffect(() => {
          setStatusText(stat[1])
       }
         
-    fetchData()
+    fetchData(search)
   }, []);
 
   const searchForBand = (search) => {
@@ -45,14 +44,26 @@ useEffect(() => {
      return BandAPI.get();
    };
 
-  const fetchData = () => {
+  const fetchData = (search) => {
      if (search) {
        searchForBand(search)
          .then((response) => {
            setData(response.data)
-           getImage(response.data.artist.mbid)
+           getImage(response.data.artist.mbid);
           })
          .catch((error) => console.log(error));
+
+         if (currentUser && currentUser.user && !currentUser.user.want) {
+        currentUser.user.want = [];
+      }
+      if (currentUser && currentUser.user && !currentUser.user.seen) {
+        currentUser.user.seen = [];
+      }
+      if(currentUser && currentUser.user) {
+         let stat = checkStatus(search, currentUser)
+         setStatus(stat[0])
+         setStatusText(stat[1])
+      }
      }
    };
 
@@ -74,9 +85,9 @@ useEffect(() => {
                                 return image_url;
                             }
                         }
+                        setImage(null);
                     })
-                    .catch(err => { throw console.log(err) });
-            
+                    .catch(err => { throw console.log(err) });        
    }
 
   const prepareWanted = async (band) => {
@@ -100,7 +111,10 @@ useEffect(() => {
   }
 
   const viewBand = (name) => {
+    setSearch(name);
+    fetchData(name)
     history.push(`/band/${name}`);
+    
   };
 
   const displayData = () => {
@@ -137,7 +151,7 @@ useEffect(() => {
              />) :
               (<img
                src={img}
-               alt="profile pic"
+               alt="placeholder"
                className="profilePic"
                width="200px"
              />)}
@@ -156,7 +170,7 @@ useEffect(() => {
               <Typography variant="h5"
               style={{marginBottom:"2vh", marginTop:"2vh"}}>Related artists</Typography>
               {data.artist.similar.artist.map((artist) => 
-                <Typography style={{marginLeft:"2vw"}} onClick={() => viewBand(artist.name)}>{artist.name}</Typography> 
+                <Typography style={{marginLeft:"2vw"}} onClick={() => viewBand(artist.name)} className="preview">{artist.name}</Typography> 
                 )}
              </div>
              <ToastContainer/>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
 import { ProfileOptions } from "../profile/ProfileOptions";
@@ -10,6 +10,11 @@ import "./NavigationBar.css";
 export const NavigationBar = () => {
   const history = useHistory();
   const currentUser = useContext(UserContext);
+
+  const goToFeed = () => {
+      currentUser.setShowFeed(true);
+      history.push(RoutingPath.browseView);
+    }
 
   const displayIfAuth = () => {
     return (
@@ -25,24 +30,18 @@ export const NavigationBar = () => {
   return (
     <div className="navWrapper">
           <img
-            onClick={() => history.push(RoutingPath.browseView)}
+            onClick={() => goToFeed()}
             src={Icon}
             alt="music icon"
             className="musicIcon"
           />
           <div className="tabs">
+              
               <Typography
-                onClick={() => history.push(RoutingPath.profileView)}
-                value="Profile"
+                onClick={() => goToFeed()}
                 className="navTab"
                 >
-                Profile
-              </Typography>
-              <Typography
-                onClick={() => history.push(RoutingPath.browseView)}
-                className="navTab"
-                >
-                Browse
+                Feed
               </Typography>
               <Typography
                 onClick={() => history.push(RoutingPath.communityView)}
@@ -55,3 +54,11 @@ export const NavigationBar = () => {
     </div>
   );
 };
+
+// <Typography
+//                 onClick={() => history.push(RoutingPath.profileView)}
+//                 value="Profile"
+//                 className="navTab"
+//                 >
+//                 Profile
+//               </Typography>

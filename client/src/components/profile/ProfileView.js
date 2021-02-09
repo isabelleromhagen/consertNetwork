@@ -17,6 +17,7 @@ const ProfileView = (props) => {
   const [seen, setSeen] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const history = useHistory();
+  const [profileView, setProfileView] = useState({});
 
   const goToArtist = (artist) => {
       history.push(`/band/${artist}`);
@@ -26,27 +27,34 @@ const ProfileView = (props) => {
      
     if(props.match.params.userid !== "" && props.match.params.userid !== ":userid") {
       const userid = props.match.params.userid;
-      
+      console.log('current profile: ', currentUser.profile);
       UserService.getUser(userid).then(data => {
         
         if(data) {  
+           console.log('current profile: ', currentUser.profile);
           setShowSpinner(true);
           setProfile(data);
           setWant(data.want);
           setSeen(data.seen);
           setFileId(data.fileId);
+          currentUser.setProfile(data);
+          setShowSpinner(false);
         }        
       })
     } else if (currentUser.isAuthenticated) {
+       console.log('current profile: ', currentUser.profile);
           setShowSpinner(true);
           setProfile(currentUser.user);
           setWant(Array.from(currentUser.user.want));
           setSeen(Array.from(currentUser.user.seen));
           setFileId(currentUser.user.fileId);
+          currentUser.setProfile(currentUser.user);
+          setShowSpinner(false);
     } else {
       history.push(RoutingPath.signInView);
     }
-    setShowSpinner(false);
+    
+    // setShowSpinner(false);
    }, []);
 
   return (
@@ -62,12 +70,12 @@ const ProfileView = (props) => {
     <Card style={{ padding:'10vh', width: "70vw"}}>
       <CardContent>
       {profile && (
-        <CardHeader title={profile.username} style={{ marginLeft: "4vw"}}/>
+        <CardHeader title={currentUser.profile.username} style={{ marginLeft: "4vw"}}/>
       )}
       {profile && (
-        <Typography style={{ marginLeft: "1vw"}}>{profile.bio}</Typography>
+        <Typography style={{ marginLeft: "1vw"}}>{currentUser.profile.bio}</Typography>
       )}
-     { fileId && <div style={{display:"flex", justifyContent: "center", alignItems: "center"}}>
+     { currentUser.profile.fileId && <div style={{display:"flex", justifyContent: "center", alignItems: "center"}}>
         { showSpinner &&  
             (<Loader type="Puff"
               color="#757575"
@@ -75,7 +83,7 @@ const ProfileView = (props) => {
               width={100}
               timeout={3000}
               />)}
-          {fileId === 'noImage' ? 
+          {currentUser.profile.fileId === 'noImage' ? 
             (<img src={PlaceholderPic} alt="" style={{
                 width:"20vh", 
                 display:"block",
@@ -87,7 +95,7 @@ const ProfileView = (props) => {
                 borderRadius: "5px"}}/>
               ):(
             <img
-              src={`/image/${fileId}`}
+              src={`/image/${currentUser.profile.fileId}`}
               alt="profile pic"
               className="profilePic"
               width="200px"
@@ -105,10 +113,10 @@ const ProfileView = (props) => {
       </div>}
       <div className="listWrapper" id="wantWrapper">
         <Typography className="subHeading" variant="h6">Want to see</Typography>
-        {want && (
+        {currentUser.profile.want && (
           <div>
-            {want.map((band) => (
-              <Typography key={band} onClick={() => goToArtist(band.trim())}>
+            {currentUser.profile.want.map((band) => (
+              <Typography key={band} className="preview" onClick={() => goToArtist(band.trim())}>
                 {band}
               </Typography>
             ))}
@@ -117,10 +125,10 @@ const ProfileView = (props) => {
       </div>      
       <div className="listWrapper" id="seenWrapper">
         <Typography className="subHeading" variant="h6">Seen</Typography>
-        {seen && (
+        {currentUser.profile.seen && (
           <div>
-              {seen.map((band) => (
-                <Typography key={band} onClick={() => goToArtist(band.trim())}>
+              {currentUser.profile.seen.map((band) => (
+                <Typography key={band} className="preview" onClick={() => goToArtist(band.trim())}>
               {band}
               </Typography>
             ))}

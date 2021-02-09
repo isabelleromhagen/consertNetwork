@@ -8,6 +8,8 @@ export default ({children}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [showFeed, setShowFeed] = useState(true);
 
     useEffect(() => {
         AuthService.isAuthenticated().then((data) => {
@@ -15,6 +17,8 @@ export default ({children}) => {
             setIsAuthenticated(data.isAuthenticated);
             setToken(data.token);
             setIsLoaded(true);
+            setShowFeed(true);
+            setProfile({})
         });
     }, []);
 
@@ -22,7 +26,7 @@ export default ({children}) => {
       <div>
         {isLoaded ? (
           <UserContext.Provider
-            value={{ user, setUser, isAuthenticated, setIsAuthenticated, token, setToken }}
+            value={{ user, setUser, isAuthenticated, setIsAuthenticated, token, setToken, profile, setProfile, showFeed, setShowFeed }}
           >
             {children}
           </UserContext.Provider>

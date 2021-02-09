@@ -6,6 +6,7 @@ import {checkStatus, handleWanted, handleSeen} from "../../utils/BandStatus";
 import { UserContext } from "../../shared/UserContext";
 import {Button, TextField, Typography, Grid,
 Card, CardContent, CardHeader} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./BrowseView.css";
@@ -15,9 +16,10 @@ const BrowseView = () => {
   const history = useHistory();
   const currentUser = useContext(UserContext);
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("Cher");
+  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("none");
   const [statusText, setStatusText] = useState("Not listed");
+  const [showFeed, setShowFeed] = useState(true);
 
 
 useEffect(() => {
@@ -29,8 +31,10 @@ useEffect(() => {
         currentUser.user.seen = [];
       }
     }
+
+    setSearch("");
     
-    }, []);
+  }, []);
 
   useEffect(() => {
         if (data && data.artist !== undefined && currentUser && currentUser !== undefined && currentUser.user) {
@@ -75,11 +79,19 @@ useEffect(() => {
 
   const fetchData = () => {
      if (search) {
+      setShowFeed(false);
+      currentUser.setShowFeed(false);
       searchForBand(search)
         .then((response) => setData(response.data))
         .catch((error) => console.log(error));
     }
    };
+
+   const handleGoBack = () => {
+     setShowFeed(true);
+     setSearch('');
+     currentUser.setShowFeed(true);
+   }
 
   const displayData = () => {
     if (data && data.artist !== undefined) {
@@ -92,6 +104,7 @@ useEffect(() => {
           alignItems="center"
           justify="center"
           style={{ minHeight: '40vh', }}>
+                    <Typography>Showing results for: {search}</Typography>
                     <Typography onClick={() => viewBand(data.artist.name)} className="preview">{data.artist.name}</Typography>
                     {data.artist.tags.tag[0] &&<Typography onClick={() => viewBand(data.artist.name)}>{data.artist.tags.tag[0].name}</Typography>}
                     <div className={status}>
@@ -99,8 +112,13 @@ useEffect(() => {
                         <div className="dropDown">
                             <Typography onClick={() => prepareWanted(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Want to see</Typography>
                             <Typography onClick={() => prepareSeen(data.artist.name)} style={{color:"rgb(217, 224, 205)"}}>Seen</Typography>
-                        </div>           
+                        </div>       
                     </div>
+                    <Button 
+                    color="primary"
+                    variant="contained"  
+                    onClick={() => handleGoBack()}
+                    >Back to feed</Button>   
                   <ToastContainer/>
           </Grid>
         </div>
@@ -121,33 +139,43 @@ useEffect(() => {
       >
         <Card style={{ padding:'10vh', width: "70vw" }}>
         <CardContent>
-      
-          <CardHeader title="Search: "/>
-          <TextField
-              variant="outlined"
-              color="secondary"
-              style={{
-                    display:"block",
-                      fontSize: 14,
-                      marginBottom: "5vh",
-                      marginTop: "5vh",
-                      
-                    }}
-              onChange={(event) => setSearch(event.target.value)}
-                />
-            <Button 
-            size="large" 
-            style={{
-              fontSize: 14,
-              marginBottom: "5vh",
-              marginTop: "2vh",
-              marginLeft: "3vw"
-            }}
-            color="primary"
-            variant="contained"
-            onClick={() => fetchData()}>Find artist</Button>
-      
-          {data.artist !== undefined ? displayData() : <LatestUpdates />}   
+            <div className="searchDiv">
+                <Typography variant="h6" style={{
+                          display:"inline",
+                            // fontSize: 14,
+                            marginBottom: "5vh",
+                            marginTop: "3vh",
+                            marginLeft: "5vw",
+                            marginRight: "5vw"
+                           
+                          }}>Find artist</Typography>
+                <TextField
+                    variant="outlined"
+                    color="secondary"
+                    style={{
+                          display:"inline",
+                            // fontSize: 10,
+                            marginBottom: "5vh",
+                            marginTop: "5vh",
+                            height: "5vh"
+                            
+                          }}
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                      />
+                  <Button 
+                  size="large" 
+                  style={{
+                    fontSize: 14,
+                    marginBottom: "5vh",
+                    marginTop: "2vh",
+                    marginLeft: "3vw"
+                  }}
+                  color="primary"
+                  variant="contained"
+                  onClick={() => fetchData()}><SearchIcon/></Button>
+            </div>
+          {data.artist !== undefined && !showFeed && !currentUser.showFeed ? displayData() : <LatestUpdates />}   
           </CardContent>
         </Card>
         </Grid>

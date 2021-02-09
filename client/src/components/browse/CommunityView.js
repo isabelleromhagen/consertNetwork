@@ -6,6 +6,7 @@ import {
   Card, Grid, CardHeader, CardContent,
   Button, TextField, Typography
 } from "@material-ui/core";
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const CommunityView = () => {
@@ -62,15 +63,15 @@ const CommunityView = () => {
               <Button 
               size="large" 
               style={{
-                display: "block",
+                display: "inline",
                 marginBottom: "5vh",
-                marginTop: "5vh",
+                marginTop: "1vh",
                 marginLeft: "3vw",
                 fontSize: 14
               }}
               color="primary"
               variant="contained"
-              onClick={() => fetchData()}>Find user</Button>        
+              onClick={() => fetchData()}>{<SearchIcon/>}</Button>        
              <div className="contentDiv">{displayData()}</div>
           </CardContent>
           <div className="contentDiv">

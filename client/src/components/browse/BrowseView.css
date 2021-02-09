@@ -30,11 +30,13 @@
     /* padding: 2vh; */
 }
 
-/* .searchDiv {
-    border: 1px solid blue;
-    padding: 10px;
-    text-align: center;
-} */
+.searchDiv {
+    display: inline;
+  
+    /* border: 1px solid blue; */
+    /* padding: 10px; */
+    /* text-align: center; */
+}
 
 /* .contentDiv {
     border: 1px solid green;
@@ -105,6 +107,12 @@
 
 .previewContainer {
     margin:3vh;
+}
+
+.preview {
+    /* color:#c37ae2; */
+    color:#6643a1;
+    cursor: pointer;
 }
 
 .commentDiv {

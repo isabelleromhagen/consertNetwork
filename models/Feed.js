@@ -40,6 +40,9 @@ const FeedSchema = new mongoose.Schema({
             username: {
                 type: String
             },
+            userId: {
+                type: String
+            },
             date: {
                 type: Date,
                 default: Date.now

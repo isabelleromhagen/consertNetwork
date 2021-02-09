@@ -89,6 +89,7 @@ router.post("/comment", async (req, res) => {
         const newComment = {
           text: req.body.text,
           username: user.username,
+          userId: req.body.userId,
           user: req.body.userId
         }
 

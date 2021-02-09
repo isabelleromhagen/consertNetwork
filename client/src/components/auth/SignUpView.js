@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import {UserContext} from '../../shared/UserContext';
 import RoutingPath from "../../routes/RoutingPath";
 import AuthService from "../../shared/services/AuthService";
-import {Button, TextField, Grid,
+import {Button, TextField, Grid, Typography,
 Card, CardContent, CardHeader} from '@material-ui/core';
 // import { useTheme } from '@material-ui/core/styles';
 import { ToastContainer, toast } from "react-toastify";
@@ -64,7 +64,7 @@ const SignUpView = () => {
           <CardContent>
           <CardHeader title="Sign up"/>
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="signinForm">
           <TextField
               name="email"
               variant="outlined"
@@ -76,9 +76,8 @@ const SignUpView = () => {
               required
               style={{
                     display:"block",
-                      fontSize: 14, 
-                      marginBottom: "5vh",
-                      marginTop: "5vh",
+                    fontSize: 14, 
+                    marginBottom: "5vh",
                     }}
                 />
           <TextField
@@ -123,11 +122,11 @@ const SignUpView = () => {
               value={user.repeatedPassword}
               required
               style={{
-                    display:"block",
-                      fontSize: 14, 
-                      marginBottom: "5vh",
-                      marginTop: "5vh",
-                    }}
+                  display:"block",
+                  fontSize: 14, 
+                  marginBottom: "5vh",
+                  marginTop: "5vh",
+                  }}
                 />
           <Button 
             type="submit" 
@@ -136,13 +135,33 @@ const SignUpView = () => {
             style={{
               fontSize: 14,
               marginBottom: "5vh",
-                      marginTop: "2vh",
-                      marginLeft: "4vw"
+              marginTop: "2vh",
+              marginLeft: "3vw",
+              width: "10vw"
             }}
             color="primary"
             variant="contained">Register</Button>
         </form>
         <ToastContainer/>
+        <div className="clickToSignUp">
+              <Typography>Have an account already?</Typography>
+              <Button
+                className="formButton"
+                size="large" 
+                style={{
+                    fontSize: 14,
+                    marginTop: "2vh",
+                    marginLeft: "2vw",
+                    width: "10vw"
+                  }}
+                color="primary"
+                variant="contained"
+                onClick={() => history.push(RoutingPath.signInView)
+                }
+              >
+                Sign in
+              </Button>
+            </div>
         </CardContent>
         </Card>
       </Grid>
