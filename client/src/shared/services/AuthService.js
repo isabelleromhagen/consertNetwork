@@ -10,7 +10,6 @@
     });
 
     const setAuthToken = token => {
-        console.log('in set auth');
         if(token) {
             apiInstance.defaults.headers.common['x-auth-token'] = token
             localStorage.setItem('token', token);
@@ -66,7 +65,6 @@ export default {
           })
           .then((res) => {
             if(res.status !== 401) { 
-              console.log("got to is auth, token not valid");
               return res.json().then((data) => data);
             } else {
               return {

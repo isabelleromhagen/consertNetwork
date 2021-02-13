@@ -44,7 +44,6 @@ export default {
         return fetch(`http://localhost:8080/files/${id}`, {
         method: "DELETE",
         body: id,
-        // headers: {"Content-Type":"application/json"},
         });
     },
     updatePassword: (data) => {

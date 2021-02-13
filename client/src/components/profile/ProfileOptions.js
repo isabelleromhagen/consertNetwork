@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import {useHistory} from "react-router-dom"
 import {UserContext} from "../../shared/UserContext"
 import RoutingPath from '../../routes/RoutingPath'
@@ -6,8 +6,6 @@ import UserIcon from "../../shared/images/user.svg";
 import {Typography} from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
-// import "./Profile.css"
-// import "../navbar/NavigationBar.css"
 
 export const ProfileOptions = () => {
     const history = useHistory()
@@ -17,13 +15,13 @@ export const ProfileOptions = () => {
         currentUser.setUser(null)
         currentUser.setIsAuthenticated(false)
         currentUser.setToken(null)
-        sessionStorage.removeItem('session'); // ending session
+        sessionStorage.removeItem('session')
         history.push(RoutingPath.signInView)
     }
 
     const goToProfile = () => {
       currentUser.setProfile(currentUser.user)
-      history.push(RoutingPath.profileView);
+      history.push(RoutingPath.profileView)
     }
 
     return (

@@ -56,8 +56,6 @@ router.post(
       username,
      email, password, fileId } = req.body;
 
-     console.log('reg.body: ', req.body);
-
     try {
       let user = await User.findOne({ email });
 
@@ -69,8 +67,6 @@ router.post(
 
       const _id = new ObjectID();
 
-      console.log('generated id: ', _id);
-
       user = new User({
         username,
         email,
@@ -79,14 +75,9 @@ router.post(
         fileId
       });
 
-      console.log('user: ', user);
-
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
-
-      
-
       await user.save();
 
       const payload = {
@@ -148,13 +139,9 @@ router.get("/:user_id", async ({ params: { user_id } }, res) => {
 // @access   Public
   router.get("/user/:username", async ( { params: { username } }, res) => {
     try {
-      console.log('in get by un, usernem:', username);
-        // if(mongoose.isValidObjectId(user_id)) {
             const user = await User.findOne({"username":username}).populate("user", ["username"]);
-            console.log('user found: ', user);
             if (!user) return res.status(400).json({ msg: "User not found" });
             return res.json(user);
-        // }
     } catch (err) {
       console.error(err.message);
       return res.status(500).json({ msg: "Server error" });
@@ -171,7 +158,6 @@ router.post("/update", async (req, res) => {
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-        console.log('req.body: ', req.body);
         const {
           username, password, bio, image_id, want, seen, ...rest
         } = req.body;
@@ -213,8 +199,6 @@ router.post("/updatePassword", async (req, res) => {
         const {
           _id, currentPassword, newPassword1, newPassword2
         } = req.body;
-
-        console.log('haul from client: ', _id, currentPassword, newPassword1, newPassword2);
 
         try {
 
@@ -278,8 +262,6 @@ router.delete("/:user_id", async (req, res) => {
           .json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
-      console.log('backend, user to delete: ', user);
-
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -288,8 +270,6 @@ router.delete("/:user_id", async (req, res) => {
         .json({ errors: [{ msg: "Invalid Credentials" }] });
     }
     const deletedUser = await User.findByIdAndRemove(_id);
-
-    console.log('deleted user: ', deletedUser);
 
     res.json({msg: "User deleted"});
   } catch (error) {

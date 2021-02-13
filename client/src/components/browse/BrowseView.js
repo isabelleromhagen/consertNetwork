@@ -5,7 +5,7 @@ import { LatestUpdates } from "./LatestUpdates";
 import {checkStatus, handleWanted, handleSeen} from "../../utils/BandStatus";
 import { UserContext } from "../../shared/UserContext";
 import {Button, TextField, Typography, Grid,
-Card, CardContent, CardHeader} from '@material-ui/core';
+Card, CardContent} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,8 +31,6 @@ useEffect(() => {
         currentUser.user.seen = [];
       }
     }
-
-    console.log('currentUser.user: ', currentUser.user);
 
     setSearch("");
     
@@ -144,7 +142,6 @@ useEffect(() => {
             <div className="searchDiv">
                 <Typography variant="h6" style={{
                           display:"inline",
-                            // fontSize: 14,
                             marginBottom: "5vh",
                             marginTop: "3vh",
                             marginLeft: "5vw",
@@ -156,7 +153,6 @@ useEffect(() => {
                     color="secondary"
                     style={{
                           display:"inline",
-                            // fontSize: 10,
                             marginBottom: "5vh",
                             marginTop: "5vh",
                             height: "5vh"

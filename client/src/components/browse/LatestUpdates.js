@@ -9,7 +9,6 @@ export const LatestUpdates = () => {
 
 useEffect(() => {
     FeedService.getFeed().then(data => {
-      console.log('feed: ', data);
       setFeed(data);
     }) 
   }, []);

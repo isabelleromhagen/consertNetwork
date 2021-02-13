@@ -8,10 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {Button, TextField, Typography, Grid,
 Card, CardContent, CardHeader} from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 
 const SignInView = () => {
-  const theme = useTheme();
   const currentUser = useContext(UserContext);
   const history = useHistory();
   const [user, setUser] = useState({email: "", password: ""});
@@ -23,19 +21,12 @@ const SignInView = () => {
   const login = (e) => {
     e.preventDefault();
     AuthService.login(user).then(data => {
-      console.log('data in login: ', data);
       const {token, user} = data;
       if(data.isAuthenticated) {
         currentUser.setUser(user);
         currentUser.setIsAuthenticated(true);
         currentUser.setToken(token);
-
-        // currentUser.setLocalUser(user);
-
-        // localStorage.setItem('user', user);
         sessionStorage.setItem('session', JSON.stringify(data));
-
-        console.log('user:', user);
         history.push(RoutingPath.browseView);
       } else {
         toast(`Wrong credentials!`);

@@ -18,9 +18,7 @@ export default ({children}) => {
            const session = sessionStorage.getItem('session');
            
                     if (session) {
-                      console.log('session: ', session);
                       const sessionData = JSON.parse(session);
-                      console.log('sessionData: ', sessionData);
                           setUser(sessionData.user);
                           setIsAuthenticated(sessionData.isAuthenticated);
                           setToken(sessionData.token);
@@ -31,7 +29,6 @@ export default ({children}) => {
 
                     else {
                       AuthService.isAuthenticated().then((data) => {
-                          console.log('data from auth: ', data);
                   
                               if(data.user) {
 

@@ -5,7 +5,6 @@ import RoutingPath from "../../routes/RoutingPath";
 import AuthService from "../../shared/services/AuthService";
 import {Button, TextField, Grid, Typography,
 Card, CardContent, CardHeader} from '@material-ui/core';
-// import { useTheme } from '@material-ui/core/styles';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,7 +41,6 @@ const SignUpView = () => {
         toast(`Passwords must match!`);
         return;
     }
-    console.log('user to register: ', user)
       AuthService.register(user).then((data) => {
       if(data) {
          login()

@@ -17,7 +17,6 @@ const ProfileView = (props) => {
   const [seen, setSeen] = useState([]);
   const [showSpinner, setShowSpinner] = useState(false);
   const history = useHistory();
-  const [profileView, setProfileView] = useState({});
 
   const goToArtist = (artist) => {
       history.push(`/band/${artist}`);
@@ -27,11 +26,9 @@ const ProfileView = (props) => {
      
     if(props.match.params.userid !== "" && props.match.params.userid !== ":userid") {
       const userid = props.match.params.userid;
-      console.log('current profile: ', currentUser.profile);
       UserService.getUser(userid).then(data => {
         
         if(data) {  
-           console.log('current profile: ', currentUser.profile);
           setShowSpinner(true);
           setProfile(data);
           setWant(data.want);
@@ -42,7 +39,6 @@ const ProfileView = (props) => {
         }        
       })
     } else if (currentUser.isAuthenticated) {
-       console.log('current profile: ', currentUser.profile);
           setShowSpinner(true);
           setProfile(currentUser.user);
           setWant(Array.from(currentUser.user.want));

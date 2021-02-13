@@ -12,7 +12,7 @@ const crypto = require('crypto');
 const path = require('path');
 const ObjectID = require('mongodb').ObjectID;
 
-module.exports = (upload) => {
+module.exports = () => {
 
 
 const connect = mongoose.createConnection(db, {
@@ -25,6 +25,8 @@ let gfs;
 connect.once('open', () => {
     gfs = Grid(connect.db, mongoose.mongo);
     gfs.collection('uploads');
+    // gfs = new mongoose.mongo.GridFSBucket(connect.db, {bucketName: 'uploads'});
+    
 });
 
 const storage = new GridFsStorage({
@@ -46,7 +48,7 @@ const storage = new GridFsStorage({
     }
 });
 
-upload = multer({ storage })
+const upload = multer({ storage })
 
 
 
@@ -71,8 +73,8 @@ router.post('/', upload.single('file'), (req, res, next) => {
 })
 
 
-// @route    GET /allImages
-// @desc     Get all images
+// @route    GET /files
+// @desc     Get all files
 // @access   Public
 router.get('/files', (req, res) => {
         gfs.files.find().toArray((err, files) => {
@@ -86,11 +88,11 @@ router.get('/files', (req, res) => {
         });
 });
 
+// @route    GET /files/:id
+// @desc     Get file by id
+// @access   Public
 router.get('/files/:id', (req, res) => {
-    console.log('reg.params files: ', req.params);
-        console.log('id: ', req.params.id);
         const fileId = new ObjectID(req.params.id); 
-        console.log('fileId: ',typeof fileId);
         gfs.files.findOne({_id: fileId}, (err, file) => {
              if(!file || file.length === 0) {
                 return res.status(404).json({
@@ -102,11 +104,12 @@ router.get('/files/:id', (req, res) => {
         })
     });
 
+
+// @route    GET /image:id
+// @desc     Get image by id
+// @access   Public
 router.get('/image/:id', (req, res) => {
-        console.log('reg.params image: ', req.params);
-        console.log('id: ', req.params.id);
         const fileId = new ObjectID(req.params.id); 
-        console.log('fileId: ',typeof fileId);
         gfs.files.findOne({ _id: fileId }, (err, file) => {
                 if(!file || file.length === 0) {
                     return res.status(404).json({
@@ -128,8 +131,8 @@ router.get('/image/:id', (req, res) => {
             });
     });
 
-// @route    DELETE /image
-// @desc     Delete image by id
+// @route    DELETE /files/:id
+// @desc     Delete file by id
 // @access   Private
 router.delete('/files/:id', async (req, res) => {
         const fileId = new ObjectID(req.params.id);

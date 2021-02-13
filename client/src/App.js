@@ -1,24 +1,12 @@
-import React, {useContext} from "react";
+import React from "react";
 import { Routing } from "./routes/Routing";
 import { NavigationBar } from "./components/navbar/NavigationBar";
-import UserContext from './shared/UserContext';
 import "./shared/Global.css";
-import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { orange, green, deepPurple, blue,  } from '@material-ui/core/colors'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { green, deepPurple } from '@material-ui/core/colors'
 import { Container } from '@material-ui/core'
 
 function App() {
-
-  const useStyles = makeStyles({
-  root: {
-    background: 'linear-gradient(45deg, #333, #999)',
-    border: 0,
-    marginBottom: 15,
-    borderRadius: 15,
-    color: 'white',
-    padding: '5px 30px'
-  }
-})
 
 const theme = createMuiTheme({
   background: '#333333',
@@ -38,8 +26,6 @@ const theme = createMuiTheme({
   }
 
 })
-
-  const userContext = useContext(UserContext);
 
   return (
     

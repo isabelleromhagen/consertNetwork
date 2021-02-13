@@ -43,10 +43,7 @@ const SettingsView = () => {
   const deleteImage = (e) => {
     e.preventDefault();
       setShowSpinner(true);
-      console.log('fileId: ', currentUser.user.fileId);
     UserService.deleteImage(currentUser.user.fileId).then(data => {
-      console.log('data: ', data);
-      console.log('done deleting');
       setShowSpinner(false);
       const noImage = "noImage"
       setInfo({...info, fileId: noImage});
@@ -93,12 +90,10 @@ const SettingsView = () => {
   }
 
   useEffect(() => {
-      console.log('current user: ', currentUser);
       if(currentUser.user.want) {
         let wantArr = Array.from(currentUser.user.want);
         let seenArr = Array.from(currentUser.user.seen);
         setInfo({username: currentUser.user.username, bio: currentUser.user.bio, want: wantArr, seen: seenArr, token: currentUser.token, _id: currentUser.user._id});
-       
       }
      
   }, []);
@@ -207,10 +202,7 @@ const SettingsView = () => {
                 endIcon={<SaveIcon/>}
                 style={{
                   fontSize: 14, 
-                  // marginBottom: "5vh",
                   marginTop: "12vh",
-                 
-                  // marginLeft: "4vw"
                 }}
                 color="secondary"
                 variant="contained"

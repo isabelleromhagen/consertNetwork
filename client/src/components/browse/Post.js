@@ -36,8 +36,6 @@ export const Post = (post) => {
     }, [])
 
     const viewProfile = (id) => {
-        console.log('profile id: ', id);
-        console.log('post user id: ', post);
         currentUser.setProfile({});
         history.push(`/profile/${id}`);
     }
@@ -46,8 +44,7 @@ export const Post = (post) => {
     };
 
     const prepareWanted = async (band) => {
-        if(currentUser.user
-            // currentUser.isAuthenticated
+        if(currentUser.isAuthenticated
             ) {
             const bandStatus = await handleWanted(band, currentUser);
                 setStatus(bandStatus[0])
@@ -58,8 +55,7 @@ export const Post = (post) => {
         }
 
     const prepareSeen = async (band) => {
-        if(currentUser.user
-            // currentUser.isAuthenticated
+        if(currentUser.isAuthenticated
             ) {
         const bandStatus = await handleSeen(band, currentUser);
             setStatus(bandStatus[0])
