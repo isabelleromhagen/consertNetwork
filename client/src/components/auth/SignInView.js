@@ -23,11 +23,19 @@ const SignInView = () => {
   const login = (e) => {
     e.preventDefault();
     AuthService.login(user).then(data => {
+      console.log('data in login: ', data);
       const {token, user} = data;
-      if(token) {
+      if(data.isAuthenticated) {
         currentUser.setUser(user);
         currentUser.setIsAuthenticated(true);
         currentUser.setToken(token);
+
+        // currentUser.setLocalUser(user);
+
+        // localStorage.setItem('user', user);
+        sessionStorage.setItem('session', JSON.stringify(data));
+
+        console.log('user:', user);
         history.push(RoutingPath.browseView);
       } else {
         toast(`Wrong credentials!`);

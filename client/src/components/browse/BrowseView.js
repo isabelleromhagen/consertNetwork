@@ -32,6 +32,8 @@ useEffect(() => {
       }
     }
 
+    console.log('currentUser.user: ', currentUser.user);
+
     setSearch("");
     
   }, []);

@@ -58,7 +58,6 @@ export default {
           }
         });
     },
-    //return current user if authenticated
     isAuthenticated: (token) => {
           return fetch("/users/me", {
             method: "post",
@@ -66,7 +65,7 @@ export default {
             headers: {"Content-Type": "x-auth-token"},
           })
           .then((res) => {
-            if(res.status !== 401) {
+            if(res.status !== 401) { 
               console.log("got to is auth, token not valid");
               return res.json().then((data) => data);
             } else {

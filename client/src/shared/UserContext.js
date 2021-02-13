@@ -4,7 +4,8 @@ import AuthService from './services/AuthService';
 export const UserContext = createContext();
 
 export default ({children}) => {
-  const [user, setUser] = useState(null);
+
+  const [user, setUser] = useState(sessionStorage.getItem('session') ? sessionStorage.getItem('session').user : null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -12,14 +13,37 @@ export default ({children}) => {
   const [showFeed, setShowFeed] = useState(true);
 
     useEffect(() => {
-        AuthService.isAuthenticated().then((data) => {
-            setUser(data.user);
-            setIsAuthenticated(data.isAuthenticated);
-            setToken(data.token);
-            setIsLoaded(true);
-            setShowFeed(true);
-            setProfile({})
-        });
+
+ 
+           const session = sessionStorage.getItem('session');
+           
+                    if (session) {
+                      console.log('session: ', session);
+                      const sessionData = JSON.parse(session);
+                      console.log('sessionData: ', sessionData);
+                          setUser(sessionData.user);
+                          setIsAuthenticated(sessionData.isAuthenticated);
+                          setToken(sessionData.token);
+                          setIsLoaded(true);
+                          setShowFeed(true);
+                          setProfile({});
+                    } 
+
+                    else {
+                      AuthService.isAuthenticated().then((data) => {
+                          console.log('data from auth: ', data);
+                  
+                              if(data.user) {
+
+                                    setUser(data.user);
+                                    setIsAuthenticated(data.isAuthenticated);
+                                    setToken(data.token);
+                                    setIsLoaded(true);
+                                    setShowFeed(true);
+                                    setProfile({})
+                                }
+                          });
+            }     
     }, []);
 
      return (
@@ -36,47 +60,3 @@ export default ({children}) => {
       </div>
     );
 };
-
-
-// const UserContextProvider = (props) => {
-//     const [user, setUser] = useState(null);
-//     const [isAuthenticated, setIsAuthenticated] = useState(false);
-//     const [token, setToken] = useState(null);
-//     const [isLoaded, setIsLoaded] = useState(false);
- 
-//     useEffect(() => {
-//         AuthService.isAuthenticated(token).then((data) => {
-//             setUser(data.user);
-//             setIsAuthenticated(data.isAuthenticated);
-//             setToken(data.token);
-//             setIsLoaded(true);
-//         })
-//         .catch(console.error())
-//     }, []);
-
-    // const handleAuthData = (token) => {
-    //   AuthService.isAuthenticated(token).then((data) => {
-    //         setUser(data.user);
-    //         setIsAuthenticated(data.isAuthenticated);
-    //         setToken(data.token);
-    //         setIsLoaded(true);
-    //     })
-    //     .catch(console.error())
-    // }
-
-//     return (
-//       <div>
-//         {isLoaded ? (
-//           <UserContext.Provider
-//             value={{ user, setUser, isAuthenticated, setIsAuthenticated, token, setToken }}
-//           >
-//             {props.children}
-//           </UserContext.Provider>
-//         ) : (
-//           <h1>Loading...</h1>
-//         )}
-//       </div>
-//     );
-// }
-
-// export default UserContextProvider;

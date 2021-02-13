@@ -15,11 +15,15 @@ export const Routing = (props) => {
     const currentUser = useContext(UserContext);
 
     const blockIfAuth = (navigateToView) => {
-        return currentUser && currentUser.isAuthenticated ? BrowseView : navigateToView
+        return currentUser && 
+        currentUser.isAuthenticated
+         ? BrowseView : navigateToView
     }
 
     const blockIfNotAuth = (navigateToView) => {
-        return currentUser && currentUser.isAuthenticated ? navigateToView : SignInView
+        return currentUser && 
+        currentUser.isAuthenticated
+         ? navigateToView : SignInView
     }
 
     return (

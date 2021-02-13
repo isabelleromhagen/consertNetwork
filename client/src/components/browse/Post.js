@@ -46,7 +46,9 @@ export const Post = (post) => {
     };
 
     const prepareWanted = async (band) => {
-        if(currentUser.isAuthenticated) {
+        if(currentUser.user
+            // currentUser.isAuthenticated
+            ) {
             const bandStatus = await handleWanted(band, currentUser);
                 setStatus(bandStatus[0])
                 setStatusText(bandStatus[1])
@@ -56,7 +58,9 @@ export const Post = (post) => {
         }
 
     const prepareSeen = async (band) => {
-        if(currentUser.isAuthenticated) {
+        if(currentUser.user
+            // currentUser.isAuthenticated
+            ) {
         const bandStatus = await handleSeen(band, currentUser);
             setStatus(bandStatus[0])
             setStatusText(bandStatus[1])
@@ -137,7 +141,7 @@ export const Post = (post) => {
                   
                 <Typography style={{marginTop: "3vh"}}>Comments:</Typography>
                 {comments && comments.map((comment) => 
-                  (<div className="commentDiv">
+                  (<div className="commentDiv" key={comment._id}>
                       <Typography onClick={() => viewProfile(comment.userId)} className="preview">{comment.username}</Typography>
                       <Typography> commented: </Typography>
                       <Typography>{comment.text}</Typography>
@@ -160,7 +164,6 @@ export const Post = (post) => {
                         onChange={e => setNewComment(e.target.value)}
                 />
                 <Button 
-                //   startIcon={}
                   type="submit"
                   color="primary"
                   variant="contained"

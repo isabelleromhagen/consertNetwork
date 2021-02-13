@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
 import { ProfileOptions } from "../profile/ProfileOptions";
@@ -54,11 +54,3 @@ export const NavigationBar = () => {
     </div>
   );
 };
-
-// <Typography
-//                 onClick={() => history.push(RoutingPath.profileView)}
-//                 value="Profile"
-//                 className="navTab"
-//                 >
-//                 Profile
-//               </Typography>

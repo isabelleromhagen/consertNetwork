@@ -53,8 +53,6 @@ const ProfileView = (props) => {
     } else {
       history.push(RoutingPath.signInView);
     }
-    
-    // setShowSpinner(false);
    }, []);
 
   return (

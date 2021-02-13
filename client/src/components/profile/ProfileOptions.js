@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {useHistory} from "react-router-dom"
 import {UserContext} from "../../shared/UserContext"
 import RoutingPath from '../../routes/RoutingPath'
@@ -17,6 +17,7 @@ export const ProfileOptions = () => {
         currentUser.setUser(null)
         currentUser.setIsAuthenticated(false)
         currentUser.setToken(null)
+        sessionStorage.removeItem('session'); // ending session
         history.push(RoutingPath.signInView)
     }
 
@@ -34,19 +35,13 @@ export const ProfileOptions = () => {
           className="userIcon"
         />
         <div className="dropDownProfile">
-            {currentUser && currentUser.user.username !== "" && <Typography onClick={() => goToProfile()}>{currentUser.user.username}</Typography>}
-           
+            {currentUser && currentUser.user &&
+            currentUser.user.username !== ""
+             && <Typography onClick={() => goToProfile()}>{currentUser.user.username}</Typography>}
             <SettingsIcon onClick={()=> history.push(RoutingPath.settingsView)}/>
-            
-            <hr/>
-            
+            <hr/> 
             <ExitToAppIcon style={{display:"inline"}} onClick={()=>logout()}/>
         </div>
       </div>
     );
-
 }
-
-// <Typography style={{display:"inline", marginRight:"2vw"}} onClick={()=>logout()}>Log out</Typography>
-//  <Typography onClick={()=> history.push(RoutingPath.settingsView)}>Settings</Typography>
-// <Typography onClick={()=> history.push(RoutingPath.profileView)}>Profile</Typography>
