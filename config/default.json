@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://bells123:bells123@cluster0.lbket.mongodb.net/bandCollector?retryWrites=true&w=majority",
-    "jwtSecret" : "mysecrettoken"
-}

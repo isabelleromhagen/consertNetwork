@@ -1,9 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const config = require("config");
-const connectDB = require('../config/db');
-const db = config.get("mongoURI");
 const Image = require("../models/Image");
 const multer = require('multer');
 const Grid = require('gridfs-stream');
@@ -11,11 +8,14 @@ const GridFsStorage = require('multer-gridfs-storage');
 const crypto = require('crypto');
 const path = require('path');
 const ObjectID = require('mongodb').ObjectID;
+// const dotenv = require('dotenv');
+
+
 
 module.exports = () => {
 
-
-const connect = mongoose.createConnection(db, {
+// dotenv.config()
+const connect = mongoose.createConnection(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
    });
@@ -25,12 +25,10 @@ let gfs;
 connect.once('open', () => {
     gfs = Grid(connect.db, mongoose.mongo);
     gfs.collection('uploads');
-    // gfs = new mongoose.mongo.GridFSBucket(connect.db, {bucketName: 'uploads'});
-    
 });
 
 const storage = new GridFsStorage({
-    url: db,
+    url: process.env.MONGO_URL,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buf) => {
@@ -55,7 +53,6 @@ const upload = multer({ storage })
 // @route    POST /image
 // @desc     Upload an image
 // @access   Private
-// router.route('/')
 router.post('/', upload.single('file'), (req, res, next) => {
             let newImage = new Image({
                 caption: req.body.caption,

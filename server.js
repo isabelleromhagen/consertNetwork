@@ -1,15 +1,12 @@
 const express = require('express');
-const connectDB = require('./config/db');
-const config = require("config");
+const connectDB = require('./mongo/db');
 const cors = require('cors');
 const path = require('path')
 const methodOverride = require('method-override');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const imageRouter = require("./routes/image");
 const app = express();
 
-dotenv.config();
 connectDB();
 app.use(cors());
 app.use(methodOverride('_method'));

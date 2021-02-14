@@ -4,7 +4,6 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("config");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const ObjectID = require('mongodb').ObjectID;
@@ -88,7 +87,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        process.env.jwtSecret,
         { expiresIn: 368888 },
         (err, token) => {
           if (err) throw err;
