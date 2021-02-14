@@ -28,6 +28,7 @@
     "config": "^3.3.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "gridfs-stream": "^1.1.1",
@@ -43,7 +44,6 @@
   "devDependencies": {
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
-    "dotenv": "^8.2.0",
     "eslint": "^7.14.0",
     "nodemon": "^2.0.6"
   }
