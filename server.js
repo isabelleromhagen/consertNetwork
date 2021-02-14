@@ -6,6 +6,9 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const imageRouter = require("./routes/image");
 const app = express();
+const dotenv = require('dotenv');
+
+dotenv.config()
 
 connectDB();
 app.use(cors());
