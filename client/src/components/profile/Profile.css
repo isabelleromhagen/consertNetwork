@@ -1,11 +1,6 @@
 
 
 .profileViewWrapper {
-    /* border: 1px solid red; */
-    /* margin-left: 10vw;
-    margin-right: 10vw;
-    margin-top: 5vh;
-    height: 50vh; */
     display: block;
     margin-top: 10vh;
     margin-right: auto;
@@ -16,8 +11,6 @@
     color: rgb(85, 71, 61);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: x-large;
-    /* margin-top: 15vh;
-    margin-left: 5vw; */
     margin-bottom: 15vh;
     grid-column: 2/10;
 }
@@ -30,25 +23,10 @@
     margin: 5vh;
 }
 
-.profileText {
-    
-}
-
 .profileBio {
     display: block;
     margin-top: 5vh;
     width: 20vw;
-}
-
-.profilePic {
-    /* float: right; */
-    /* grid-column: 4/10;
-    border-radius: 5px; */
-}
-
-.listWrapper {
-    /* border: 1px solid blue; */
-    
 }
 
 .bandPic {
@@ -65,7 +43,6 @@
 }
 
 #wantWrapper {
-    /* border: 1px solid black; */
     margin: 10vh;
     margin-top: 20vh;
     text-align: center;
@@ -123,7 +100,6 @@ form {
 
 .updateWrapper {
     margin-right: 40vw;
-    /* text-align: end; */
 }
 
 .deleteWrapper {
@@ -134,12 +110,8 @@ form {
 
 
 /* Sign in */
-.signinCard {
-
-}
 
 .signinForm {
-    /* border: 1px solid #2b1635; */
     border: none;
     border-radius: 5px;
     padding: 5vw;

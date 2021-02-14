@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Typography, TextField, Button } from "@material-ui/core";
+import { Typography, TextField, Button, Grid } from "@material-ui/core";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import CommentIcon from '@material-ui/icons/Comment';
 import { useHistory } from "react-router-dom";
@@ -113,10 +113,17 @@ export const Post = (post) => {
     }
     return (
         <div className="bandPreviewWrapper">
+         <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+      >
                 {<Typography onClick={() => viewProfile(post.post.userId)} className="preview">{post.post.username}</Typography>}
                 {<Typography>{post.post.bandStatus}</Typography>}
                 {<Typography onClick={() => viewBand(post.post.bandname)} className="preview">{post.post.bandname}</Typography>}
-                <div className={currentUser && status} style={{marginLeft:"0vh"}}>
+                <div className={currentUser && status} style={{marginLeft:"10vh"}}>
                       <Typography>{statusText}</Typography>
                       <div className="dropDown">
                           <Typography onClick={() => prepareWanted(post.post.bandname)}>Want to see</Typography>
@@ -130,7 +137,6 @@ export const Post = (post) => {
                   size="small"
                   color="primary"
                   variant="contained"
-                  style={{width:"7vw", height:"7vh", marginLeft:"2vw", display:"inline"}}
                   onClick={() => handleLike()}>{<ThumbUpIcon/>}</Button>
                 <Typography style={{display:"inline", marginLeft: "1vw", marginBottom:"3vh", }}>Likes: {likes}</Typography>
                 </div>
@@ -163,10 +169,10 @@ export const Post = (post) => {
                   type="submit"
                   color="primary"
                   variant="contained"
-                  style={{width:"10vw", marginLeft:"3vw"}}
                   >{<CommentIcon/>}</Button>
                 </form>
                 <ToastContainer/>
+                </Grid>
               </div>
       )
 }

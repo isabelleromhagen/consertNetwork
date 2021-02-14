@@ -5,15 +5,6 @@
     height: 50vh;
 }
 
-/* .bandname {
-    color: rgb(85, 71, 61);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: x-large;
-    margin-top: 15vh;
-    margin-left: 5vw;
-    
-} */
-
 .bandPic {
     float: right;
     border-radius: 5px;
@@ -61,7 +52,6 @@
     width: 100px;
     margin: 10vh;
     border-radius: 8px;
-    /* background-color: rgb(71, 85, 80); */
     color: rgb(255, 255, 255);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     cursor: pointer;
@@ -84,21 +74,8 @@
     width: 100px;
     margin: 10vh;
     border-radius: 8px;
-    /* background-color: rgb(71, 85, 80); */
     color: rgb(255, 255, 255);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     cursor: pointer;
     background-color: rgb(64, 111, 182);
 }
-
-/* .description {
-    margin: 10vh;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: medium;
-} */
-
-/* .genre {
-    margin-left: 10vh;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
-} */

@@ -2,12 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    /* background-color: rgb(243, 241, 239); */
-    /* background-color: #a6be8a; */
-
-    /* background-color: #6fbf73;  */
-
-    /* background-color: #A4A69C; */
-
     background-color: #2b1635;
+    display: grid;
+    align-items: center;
 }

@@ -1,65 +1,14 @@
-/* span {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: rgb(27, 29, 29);
-    color: #252626;
-    font-weight: 450;
-} */
-
-/* h1 {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-} */
-
-/* button {
-    margin: 1vh;
-    padding: 1vh;
-    background-color: rgb(71, 85, 80);
-    color: rgb(217, 224, 205);
-    border-radius: 8px;
-    border: none;
-} */
 
 .wrapper {
-    display: block;
+    display: grid;
+    align-items: center;
     margin-top: 10vh;
-    margin-right: auto;
-    align-content: center;
-    /* margin-left: 10vw;
-    margin-right: 10vw;
-    margin-top: 5vh;
-    height: 50vh; */
-    /* padding: 2vh; */
+    
 }
 
 .searchDiv {
     display: inline;
-  
-    /* border: 1px solid blue; */
-    /* padding: 10px; */
-    /* text-align: center; */
 }
-
-/* .contentDiv {
-    border: 1px solid green;
-    padding-top: 10px;
-    padding-left: 50px;
-    text-align: center;
-} */
-
-/* .latestAddedWrapper {
-     margin-top: 15px;
-    margin-bottom: auto;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
-/* .bandPreviewWrapper { */
-    /* display: grid;
-    align-items: center;
-    justify-content: center;
-    grid-template-columns: repeat(5, 1fr); */
-    /* padding-left: 10vw; */
-    /* width: 80vw; */
-/* } */
 
 .bandPreviewWrapper {
     display: grid;
@@ -110,7 +59,6 @@
 }
 
 .preview {
-    /* color:#c37ae2; */
     color:#6643a1;
     cursor: pointer;
 }

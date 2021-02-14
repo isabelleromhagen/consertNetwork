@@ -42,7 +42,6 @@ useEffect(() => {
 
   const searchForBand = (search) => {
    
-    console.log('process.env key: ', lastfm.API_KEY);
      const BandAPI = Axios.create({
        baseURL: `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${search}&api_key=${lastfm.API_KEY}&format=json`,
      });

@@ -30,7 +30,7 @@ const theme = createMuiTheme({
   return (
     
       <ThemeProvider theme={theme}>
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Routing>
             <NavigationBar />
           </Routing>

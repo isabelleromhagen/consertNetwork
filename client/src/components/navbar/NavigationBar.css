@@ -3,8 +3,6 @@
     align-items: center;
     justify-content: center;
     grid-template-columns: repeat(5, 1fr);
-    /* background-color: rgb(133, 108, 139); */
-    /* background-color: #6d5ea5; */
     background-color: #6643a1;
     border-radius: 5px;
 }
@@ -24,8 +22,6 @@
     grid-column: 3/5;
     grid-template-columns: repeat(3, 1fr);
     width: 45vh;
-    /* background-color: rgb(67, 67, 121); */
-    /* background-color: #2b1635; */
     background-color: #3d216e;
     color: rgb(255, 255, 255);
     cursor: pointer;
@@ -59,14 +55,10 @@
     display: grid;
     grid-column: 9/10;
     width: 8vh;
-    /* padding-top: 3vh; */
-    /* grid-row: 1/5; */
 }
 
 .userIcon {
-    /* width: 10vw; */
     height: 8vh;
-    /* grid-column: 1/5; */
 }
 
 .dropDownProfile {

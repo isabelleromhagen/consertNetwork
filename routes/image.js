@@ -8,13 +8,11 @@ const GridFsStorage = require('multer-gridfs-storage');
 const crypto = require('crypto');
 const path = require('path');
 const ObjectID = require('mongodb').ObjectID;
-// const dotenv = require('dotenv');
 
 
 
 module.exports = () => {
 
-// dotenv.config()
 const connect = mongoose.createConnection(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
